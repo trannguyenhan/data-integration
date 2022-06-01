@@ -8,7 +8,8 @@ class Database:
 
     try:
         con.execute('CREATE TABLE projects (project_id INTEGER PRIMARY KEY AUTOINCREMENT, \
-                                                    project_name text NOT NULL)')
+                                                    project_name text NOT NULL, \
+                                                    destination text NOT NULL)')
 
         print("Database initialized")
     except sqlite3.OperationalError:
