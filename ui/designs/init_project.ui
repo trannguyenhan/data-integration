@@ -26,7 +26,7 @@
     <string>Connection</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="connectionLabel">
    <property name="geometry">
     <rect>
      <x>100</x>

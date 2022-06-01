@@ -10,3 +10,10 @@ def get_project_list():
 def add_new_project(name, destination):
     db.con.execute(f"INSERT INTO projects (project_name, destination) VALUES (?, ?)", (name, destination))
     db.con.commit()
+
+def set_is_initialized_to_true(project_id):
+    db.con.execute(f"UPDATE projects SET is_initialized = 1 WHERE project_id=?", (project_id,))
+    db.con.commit()
+
+def get_project_by_id(id):
+    return db.con.execute(f"SELECT * FROM projects WHERE project_id=?", (id,)).fetchone()

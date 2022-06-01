@@ -12,7 +12,7 @@ class NewProject(QMainWindow):
     def ok_btn_clicked(self):
         name = self.uic.lineEdit.text()
         if (name != ""):
-            destination = self.uic.destinationCbx.currentText()
-            project_dao.add_new_project(name, destination)
+            dest_type = self.uic.destinationCbx.currentText()
+            project_dao.add_new_project(name, dest_type)
             self.parent().load_projects()
         self.close()

@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_NewProject(object):
     def setupUi(self, NewProject):
         NewProject.setObjectName("NewProject")
-        NewProject.resize(400, 283)
+        NewProject.resize(400, 318)
         self.label = QtWidgets.QLabel(NewProject)
         self.label.setGeometry(QtCore.QRect(30, 40, 81, 16))
         self.label.setObjectName("label")
