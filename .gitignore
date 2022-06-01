@@ -1,8 +1,1 @@
-target/
-!.mvn/wrapper/maven-wrapper.jar
-tmp/
-### STS ###
-.classpath
-.project
-.settings
-
+__pycache__/
