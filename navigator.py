@@ -1,5 +1,5 @@
-from init_project import InitProject
-from project_management import ProjectManagement
+from widgets.init_project import InitProject
+from widgets.project_management import ProjectManagement
 
 class Navigator:
     def __init__(self):
