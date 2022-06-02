@@ -64,7 +64,7 @@
       </column>
       <column>
        <property name="text">
-        <string>New Column</string>
+        <string>Project Name</string>
        </property>
       </column>
       <column>

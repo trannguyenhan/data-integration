@@ -17,3 +17,7 @@ def set_is_initialized_to_true(project_id):
 
 def get_project_by_id(id):
     return db.con.execute(f"SELECT * FROM projects WHERE project_id=?", (id,)).fetchone()
+
+def set_connection_str(id, conn_str):
+    db.con.execute(f"UPDATE projects SET connection_str = ? WHERE project_id = ?", (conn_str, id))
+    db.con.commit()

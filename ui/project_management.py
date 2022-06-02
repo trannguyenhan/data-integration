@@ -63,7 +63,7 @@ class Ui_ProjectManagement(object):
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("ProjectManagement", "ID"))
         item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("ProjectManagement", "New Column"))
+        item.setText(_translate("ProjectManagement", "Project Name"))
         item = self.tableWidget.horizontalHeaderItem(2)
         item.setText(_translate("ProjectManagement", "Destination type"))
         self.open_btn.setText(_translate("ProjectManagement", "Open"))
