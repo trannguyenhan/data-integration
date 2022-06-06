@@ -48,6 +48,7 @@ class InitProject(QWidget):
         '''
         row = self.uic.tableWidget.currentRow()
         self.uic.tableWidget.removeRow(row)
+        self.navigator.open_config_file()
     
     def next(self):
         if not self.check_connection():

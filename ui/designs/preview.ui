@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Preview</class>
+ <widget class="QWidget" name="Preview">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>657</width>
+    <height>470</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Preview</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>40</y>
+     <width>571</width>
+     <height>311</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>Row1</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Row2</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Row3</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Row4</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Row5</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Row6</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Row7</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Row8</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Row9</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Row10</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>Column1</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Column2</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Column3</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Column4</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Column5</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="okButton">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>370</y>
+     <width>151</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
