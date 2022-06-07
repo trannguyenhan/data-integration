@@ -1,0 +1,36 @@
+[
+    {
+        "Project name": "My first project",
+        "Destination type": "CSV",
+        "Destination schema" : {
+            "ID": "integer",
+            "Name": "string"
+        },
+        "Data sources:" : [
+            {
+                "type": "SQL Server",
+                "connection string": "host=...;user=...;pwd=...;db=...;table=...",
+                "schema": {
+                    "id": "string",
+                    "ten": "string"
+                },
+                "mapping": {
+                    "id": "ID",
+                    "ten": "Name"
+                }
+            },
+            {
+                "type": "Xml",
+                "connection string": "C:\\User\\hoang\\desktop\\testfile.xml",
+                "schema": {
+                    "id": "string",
+                    "ten": "string"
+                },
+                "mapping": {
+                    "id": "ID",
+                    "ten": "Name"
+                }
+            }
+        ]
+    }
+]
