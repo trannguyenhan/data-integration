@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'new_workbench.ui'
+# Form implementation generated from reading ui file 'workbench.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -17,63 +17,50 @@ class Ui_Workbench(object):
         Workbench.resize(1066, 742)
         self.gridLayout = QtWidgets.QGridLayout(Workbench)
         self.gridLayout.setObjectName("gridLayout")
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem, 2, 2, 1, 1)
+        spacerItem = QtWidgets.QSpacerItem(200, 1, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem, 5, 3, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(250, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem1, 5, 1, 1, 1)
         self.btn_run = QtWidgets.QPushButton(Workbench)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btn_run.sizePolicy().hasHeightForWidth())
         self.btn_run.setSizePolicy(sizePolicy)
+        self.btn_run.setMaximumSize(QtCore.QSize(250, 16777215))
         self.btn_run.setObjectName("btn_run")
-        self.gridLayout.addWidget(self.btn_run, 5, 1, 1, 1)
+        self.gridLayout.addWidget(self.btn_run, 5, 2, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 67, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout.addItem(spacerItem2, 5, 6, 1, 1)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 564, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout.addItem(spacerItem3, 2, 2, 3, 1)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem4, 2, 6, 1, 1)
         self.scrollArea = QtWidgets.QScrollArea(Workbench)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 408, 628))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 310, 671))
+        self.scrollAreaWidgetContents.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout.setContentsMargins(30, -1, 30, -1)
+        self.verticalLayout.setSpacing(15)
         self.verticalLayout.setObjectName("verticalLayout")
-
         self.btn_add = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.btn_add.setObjectName("btn_add")
         self.verticalLayout.addWidget(self.btn_add)
-
-        menu = QtWidgets.QMenu()
-        menu.triggered.connect(Workbench.add_input_source)
-        self.btn_add.setMenu(menu)
-        self.add_menu(Workbench.type_inputs, menu)
-
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.gridLayout.addWidget(self.scrollArea, 2, 0, 3, 1)
-        self.btn_save = QtWidgets.QPushButton(Workbench)
-        self.btn_save.setObjectName("btn_save")
-        self.gridLayout.addWidget(self.btn_save, 5, 0, 1, 1)
-        self.btn_destination = QtWidgets.QPushButton(Workbench)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.btn_destination.sizePolicy().hasHeightForWidth())
-        self.btn_destination.setSizePolicy(sizePolicy)
-        self.btn_destination.setBaseSize(QtCore.QSize(0, 0))
-        self.btn_destination.setObjectName("btn_destination")
-        self.gridLayout.addWidget(self.btn_destination, 3, 2, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(500, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem1, 2, 1, 3, 1)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 126, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem2, 4, 2, 1, 1)
+        self.gridLayout.addWidget(self.scrollArea, 2, 0, 4, 1)
         self.label = QtWidgets.QLabel(Workbench)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
         self.label.setSizePolicy(sizePolicy)
-
         self.label.setText("")
         self.label.setObjectName("label")
-
-        self.gridLayout.addWidget(self.label, 0, 1, 1, 2)
+        self.gridLayout.addWidget(self.label, 0, 1, 1, 6)
         self.btn_back = QtWidgets.QPushButton(Workbench)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -82,51 +69,25 @@ class Ui_Workbench(object):
         self.btn_back.setSizePolicy(sizePolicy)
         self.btn_back.setObjectName("btn_back")
         self.gridLayout.addWidget(self.btn_back, 0, 0, 1, 1)
-
-
-        self.renderInputList(Workbench)
+        self.btn_destination = QtWidgets.QPushButton(Workbench)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_destination.sizePolicy().hasHeightForWidth())
+        self.btn_destination.setSizePolicy(sizePolicy)
+        self.btn_destination.setBaseSize(QtCore.QSize(0, 0))
+        self.btn_destination.setObjectName("btn_destination")
+        self.gridLayout.addWidget(self.btn_destination, 3, 6, 1, 1)
+        spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem5, 4, 6, 1, 1)
 
         self.retranslateUi(Workbench)
         QtCore.QMetaObject.connectSlotsByName(Workbench)
 
     def retranslateUi(self, Workbench):
         _translate = QtCore.QCoreApplication.translate
-        Workbench.setWindowTitle(_translate("Workbench", "Workbench"))
+        Workbench.setWindowTitle(_translate("Workbench", "Form"))
         self.btn_run.setText(_translate("Workbench", "Run"))
         self.btn_add.setText(_translate("Workbench", "Add"))
-        self.btn_save.setText(_translate("Workbench", "save"))
-        self.btn_destination.setText(_translate("Workbench", "Destination"))
         self.btn_back.setText(_translate("Workbench", "back"))
-
-    def renderInputList(self,Workbench):
-        _translate = QtCore.QCoreApplication.translate
-        for  idx, x in enumerate(Workbench.listInputSource):
-            if(hasattr(self,"btn_input_source_"+str(idx))):
-                continue
-            setattr(self,"btn_input_source_"+str(idx), QtWidgets.QPushButton(self.scrollAreaWidgetContents))
-            getattr(self,"btn_input_source_"+str(idx)).setObjectName("input_source_"+str(idx))
-            self.verticalLayout.addWidget(getattr(self,"btn_input_source_"+str(idx)))
-
-            sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-            sizePolicy.setHorizontalStretch(0)
-            sizePolicy.setVerticalStretch(0)
-            getattr(self,"btn_input_source_"+str(idx)).setSizePolicy(sizePolicy)
-            getattr(self,"btn_input_source_"+str(idx)).setMaximumSize(QtCore.QSize(16777215, 135))
-
-            getattr(self,"btn_input_source_"+str(idx)).setText(_translate("MainWindow", "Source "+str(idx)+": "+x))
-            getattr(self,"btn_input_source_"+str(idx)).installEventFilter(Workbench)
-            # setattr(Workbench,"source_"+str(idx)+"_point", getattr(self,"btn_input_source_"+str(idx)).pos())
-
-    def add_menu(self, data, menu_obj):
-        if isinstance(data, dict):
-            for k, v in data.items():
-                sub_menu = QtWidgets.QMenu(k, menu_obj)
-                menu_obj.addMenu(sub_menu)
-                self.add_menu(v, sub_menu)
-        elif isinstance(data, list):
-            for element in data:
-                self.add_menu(element, menu_obj)
-        else:
-            action = menu_obj.addAction(data)
-            action.setIconVisibleInMenu(False)
-
+        self.btn_destination.setText(_translate("Workbench", "Destination"))

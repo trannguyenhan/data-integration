@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow,QFileDialog
 from ui.config_file import Ui_ConfigFile
 from dal import project_dao
-
+from PyQt5.QtGui import QCloseEvent
 class ConfigFile(QMainWindow):
     def __init__(self, navigator):
         super().__init__()
@@ -24,3 +24,7 @@ class ConfigFile(QMainWindow):
 
     def preview(self):
         self.navigator.open_preview()
+
+    def closeEvent(self, a0: QCloseEvent) -> None:
+        self.navigator.open_workbench()
+        return super().closeEvent(a0)

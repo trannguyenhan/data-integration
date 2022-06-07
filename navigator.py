@@ -1,5 +1,6 @@
 from widgets import *
 
+
 class Navigator:
     '''
     Navigate windows
@@ -23,8 +24,8 @@ class Navigator:
         self.project_management.hide()
         self.workbench.show()
 
-    def open_config_file(self):
-        self.project_management.hide()
+    def open_config_file(self, data):
+        self.workbench.hide()
         self.config_file.show()
 
     def open_preview(self):
