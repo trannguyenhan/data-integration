@@ -32,20 +32,46 @@
       <property name="text">
        <string>Project list</string>
       </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
      </widget>
     </item>
     <item>
-     <widget class="QListWidget" name="listWidget">
-      <item>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderStretchLastSection">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <column>
        <property name="text">
-        <string>Project 1</string>
+        <string>ID</string>
        </property>
-      </item>
-      <item>
+      </column>
+      <column>
        <property name="text">
-        <string>Project 2</string>
+        <string>Project Name</string>
        </property>
-      </item>
+      </column>
+      <column>
+       <property name="text">
+        <string>Destination type</string>
+       </property>
+      </column>
      </widget>
     </item>
     <item>

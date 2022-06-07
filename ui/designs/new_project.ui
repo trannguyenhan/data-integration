@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>318</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,11 +36,11 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="okBtn">
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>250</y>
+     <y>240</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -48,6 +48,59 @@
    <property name="text">
     <string>OK</string>
    </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>80</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Destination</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="destinationCbx">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>80</y>
+     <width>251</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Flatfile</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Excel</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Xml</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Json</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SQL Server</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MySQL</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>

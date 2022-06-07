@@ -6,3 +6,7 @@ Project is designed as 3 tier architecture (Presentation Layer, Bussiness Layer,
 
 - `dal` folder: Data access layer
 - `ui` folder: Presentation layer
+- `widget` folder: Bussiness layer
+
+### Tools
+- run powershell script `compile_ui.ps1` to compile `.ui` file automatically.

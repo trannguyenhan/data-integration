@@ -6,10 +6,11 @@ class Database:
 
     con = sqlite3.connect('data/data.db')
 
+    # Check if database is existed or not. If not, initialize it by execute script in `init_db.sql` 
     try:
-        con.execute('CREATE TABLE projects (project_id INTEGER PRIMARY KEY AUTOINCREMENT, \
-                                                    project_name text NOT NULL)')
-
+        sql_file = open("init_db.sql")
+        sql_as_string = sql_file.read()
+        con.executescript(sql_as_string)
         print("Database initialized")
     except sqlite3.OperationalError:
         print("Database connected")

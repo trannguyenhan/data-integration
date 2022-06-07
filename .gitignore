@@ -4,3 +4,4 @@ __pycache__/
 .project
 target/
 .idea/
+data/data.db

@@ -1,5 +1,4 @@
 from PyQt5.QtWidgets import QMainWindow
-from matplotlib.pyplot import close
 from ui.new_project import Ui_NewProject
 from dal import project_dao
 
@@ -8,10 +7,12 @@ class NewProject(QMainWindow):
         super(NewProject, self).__init__(parent)
         self.uic = Ui_NewProject()
         self.uic.setupUi(self)
-        self.uic.pushButton.clicked.connect(self.add_new_project)
+        self.uic.okBtn.clicked.connect(self.ok_btn_clicked)
 
-    def add_new_project(self):
+    def ok_btn_clicked(self):
         name = self.uic.lineEdit.text()
-        project_dao.add_new_project(name)
-        self.parent().load_projects()
+        if (name != ""):
+            dest_type = self.uic.destinationCbx.currentText()
+            project_dao.add_new_project(name, dest_type)
+            self.parent().load_projects()
         self.close()
