@@ -10,3 +10,10 @@ Project is designed as 3 tier architecture (Presentation Layer, Bussiness Layer,
 
 ### Tools
 - run powershell script `compile_ui.ps1` to compile `.ui` file automatically.
+
+
+## Update requirements.txt
+
+```
+pip freeze > requirements.txt
+```

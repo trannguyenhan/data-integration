@@ -1,10 +1,8 @@
 from helpers import fill_none_value_header
-import pandas as pd
 
 class EngineInterface():
-    def __init__(self, path_file, is_header = True):
+    def __init__(self, path_file):
         self.path_file = path_file
-        self.is_header = is_header
         self.data_sample = {}
         self.file = None
         self.header = []
@@ -18,6 +16,8 @@ class EngineInterface():
             print("Error when load file from source!")
             return None
 
+    # extract header and add data sample to self.header
+    # data sample is suggest data type of header
     def extract_header(self):
         self.header = fill_none_value_header(self.header)
         return self.header

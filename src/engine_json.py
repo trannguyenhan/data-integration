@@ -1,8 +1,6 @@
 from tkinter import E
 from engine import EngineInterface
 import json
-import pandas as pd
-
 
 class EngineJson(EngineInterface):
     def extract_header(self):
