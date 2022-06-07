@@ -1,6 +1,5 @@
 import csv
 from engine import EngineInterface
-import pandas as pd
 
 class EngineCsv(EngineInterface): 
 
@@ -17,30 +16,21 @@ class EngineCsv(EngineInterface):
                 for it in range(0, len(tmp)): 
                     self.header.append(None)
 
+            sample = next(reader)
+            while len(sample) != len(self.header) or sample == None: 
+                sample = next(reader)
+            
+            self.header = super().extract_header()
+            for it in range(0, len(self.header)): 
+                if self.header[it] not in self.data_sample: 
+                    self.data_sample[self.header[it]] = sample[it]
+
         return super().extract_header()
-        
-
-    # return dictionary map name with data type 
-    def extract_schema(self):
-        if len(self.header) == 0: 
-            self.extract_header()
-        
-        schema = {}
-        data = pd.read_csv(self.file, header=None).dtypes.to_list()
-        
-        lens = len(self.header)
-        for item in range(0,lens): 
-            name = self.header[item]
-            datatype = data[item]
-            schema[name] = str(datatype)
-
-        return schema
-    
-    
 
     def dump_data_to_warehouse():
         pass
 
 if __name__ == "__main__": 
     engine = EngineCsv("/home/trannguyenhan/dataset/ign.csv", True)
-    engine.extract_schema()
+    schema = engine.extract_schema()
+    print(schema)
