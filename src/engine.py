@@ -1,4 +1,4 @@
-from helpers import fill_none_value_header
+from helpers import fill_none_value_header, standardization_data_type
 
 class EngineInterface():
     def __init__(self, path_file):
@@ -22,7 +22,7 @@ class EngineInterface():
         self.header = fill_none_value_header(self.header)
         return self.header
 
-    # return dictionary map name with data type 
+    # return dictionary map field name with data type 
     def extract_schema(self):
         if len(self.header) == 0: 
             self.extract_header()
@@ -30,6 +30,6 @@ class EngineInterface():
         schema = {}
         for k in self.data_sample: 
             v = self.data_sample[k]
-            schema[k] = type(v).__name__
+            schema[k] = standardization_data_type(type(v).__name__)
 
         return schema

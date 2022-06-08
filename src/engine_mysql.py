@@ -20,9 +20,6 @@ class EngineMysql(EngineInterface):
             database = self.database
         )
 
-        self.tableName = self.tableName
-
-
     def extract_header(self):
         self.load_data_source()
 

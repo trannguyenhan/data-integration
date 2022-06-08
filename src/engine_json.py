@@ -20,7 +20,7 @@ class EngineJson(EngineInterface):
 
     
 if __name__ == "__main__": 
-    engine = EngineJson("/home/trannguyenhan/dataset/alonhadat/house_price_prediction.json", True)
+    engine = EngineJson("/home/trannguyenhan/dataset/alonhadat/house_price_prediction.json")
     schema = engine.extract_schema()
     
     print(schema)

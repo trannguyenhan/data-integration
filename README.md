@@ -31,3 +31,16 @@ pip freeze > requirements.txt
 - Quang Huy: Tiếp tục phát triển các Engine
 - Deadline: 1 tuần (tối t4 tuần sau)
 
+### Issue
+
+if fail when install `pyodbc` in ubuntu, install package with command: 
+
+```bash
+sudo apt-get install unixodbc-dev
+```
+
+after install, install `pyodbc` with `pip`: 
+
+```bash
+pip isntall pyodbc
+```

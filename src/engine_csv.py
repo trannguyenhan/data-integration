@@ -31,6 +31,6 @@ class EngineCsv(EngineInterface):
         pass
 
 if __name__ == "__main__": 
-    engine = EngineCsv("/home/trannguyenhan/dataset/ign.csv", True)
+    engine = EngineCsv("/home/trannguyenhan/dataset/ign.csv")
     schema = engine.extract_schema()
     print(schema)
