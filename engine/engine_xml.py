@@ -1,4 +1,4 @@
-from engine import EngineInterface
+from engine.engine import EngineInterface
 
 class EngineXml(EngineInterface): 
 

@@ -1,5 +1,5 @@
 from tkinter import E
-from engine import EngineInterface
+from engine.engine import EngineInterface
 import json
 
 class EngineJson(EngineInterface):

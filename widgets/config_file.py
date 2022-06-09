@@ -1,7 +1,9 @@
-from PyQt5.QtWidgets import QMainWindow,QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QFileDialog
 from ui.config_file import Ui_ConfigFile
-from dal import project_dao
+from database import project_dao
 from PyQt5.QtGui import QCloseEvent
+
+
 class ConfigFile(QMainWindow):
     def __init__(self, navigator):
         super().__init__()

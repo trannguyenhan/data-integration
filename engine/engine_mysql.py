@@ -1,4 +1,4 @@
-from engine import EngineInterface
+from engine.engine import EngineInterface
 import mysql.connector
 
 class EngineMysql(EngineInterface): 

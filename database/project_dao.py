@@ -2,7 +2,7 @@
 Project "data access object"
 '''
 
-from db import db
+from database import db
 
 def get_project_list():
     return db.getAll()
@@ -23,7 +23,7 @@ def add_new_project(prj_name, destination_type):
         "connection string": None,
         "is initialized": False,
         "destination schema": None,
-        "data sources:": []
+        "data sources": []
     })
 
 

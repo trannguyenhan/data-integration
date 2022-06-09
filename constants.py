@@ -1,13 +1,12 @@
+class DataType: 
+    OBJ = "object"
+    INT = "integer"
+    STR = "string"
+    DATE = "date"
+    FLOAT = "float"
+    BOOL = "boolean"
 
-DATA_TYPE = [
-    "object",
-    "integer",
-    "string",
-    "date",
-    "float",
-    "boolean"
-]
-
+    ALL = [OBJ, INT, STR, DATE, FLOAT, BOOL]
 
 
 class SourceType:

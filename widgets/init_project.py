@@ -1,13 +1,13 @@
 from PyQt5.QtWidgets import QWidget, QMessageBox, QFileDialog
 from ui.init_project import Ui_InitProject
 from PyQt5 import QtGui, QtWidgets
-from dal import project_dao
+from database import project_dao
 import os
 import re
 import pyodbc
 import mysql
 import mysql.connector
-from src.constants import SourceType, DATA_TYPE
+from constants import DataType, SourceType
 
 class InitProject(QWidget):
     def __init__(self, navigator, project):
@@ -41,7 +41,7 @@ class InitProject(QWidget):
         rowcount = self.uic.tableWidget.rowCount()
         self.uic.tableWidget.setRowCount(rowcount + 1)
         cbx = QtWidgets.QComboBox()
-        cbx.addItems(DATA_TYPE)
+        cbx.addItems(DataType.ALL)
         self.uic.tableWidget.setCellWidget(rowcount, 1, cbx)
 
     def remove(self):
@@ -50,34 +50,31 @@ class InitProject(QWidget):
         '''
         row = self.uic.tableWidget.currentRow()
         self.uic.tableWidget.removeRow(row)
-        self.navigator.open_config_file()
     
     def next(self):
         if not self.check_connection():
-            msg = QMessageBox(self)
-            msg.setWindowTitle("Info")
-            msg.setText("Failed to connect to destination")
-            msg.show()
+            self.showError("Failed to connect to destination")
             return
         if self.uic.tableWidget.rowCount() == 0:
-            msg = QMessageBox(self)
-            msg.setWindowTitle("Error")
-            msg.setText("Columns list cannot be empty")
-            msg.show()
+            self.showError("Columns list cannot be empty")
             return
         
-        # Mark project is initialized
-        project_dao.update_is_initialized(self.project["project name"], True)
+        try:
+            # Mark project is initialized
+            project_dao.update_is_initialized(self.project["project name"], True)
 
-        # Set connection string for project
-        project_dao.set_connection_str(self.project["project name"], self.uic.connectionLabel.text())
+            # Set connection string for project
+            project_dao.set_connection_str(self.project["project name"], self.uic.connectionLabel.text())
 
-        # Save project's destination schema
-        self.save_destination_schema()
+            # Save project's destination schema
+            self.save_destination_schema()
 
-        # Open workbench
-        self.hide()
-        self.navigator.open_workbench()
+            # Open workbench
+            self.hide()
+            self.navigator.open_workbench()
+
+        except Exception as e:
+            self.showError(str(e))
 
     def save_destination_schema(self):
         # Get list of columns and their data type from the table
@@ -154,3 +151,9 @@ class InitProject(QWidget):
     def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
         self.navigator.open_project_management_window()
         return super().closeEvent(a0)
+
+    def showError(self, str):
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Error")
+        msg.setText(str)
+        msg.show()

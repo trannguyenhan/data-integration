@@ -1,5 +1,5 @@
 import csv
-from engine import EngineInterface
+from engine.engine import EngineInterface
 
 class EngineCsv(EngineInterface): 
 

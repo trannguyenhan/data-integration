@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
 from ui.project_management import Ui_ProjectManagement
 from widgets.new_project import NewProject
-from dal import project_dao
+from database import project_dao
 
 
 class ProjectManagement(QMainWindow):

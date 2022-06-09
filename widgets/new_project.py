@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QErrorMessage
 from ui.new_project import Ui_NewProject
-from dal import project_dao
+from database import project_dao
 
 class NewProject(QMainWindow):
     def __init__(self, parent=None):
@@ -16,6 +16,7 @@ class NewProject(QMainWindow):
             try:
                 project_dao.add_new_project(name, dest_type)
                 self.parent().load_projects()
+                self.close()
             except Exception as e:
                 msg = QErrorMessage(self)
                 msg.showMessage(str(e))

@@ -1,4 +1,4 @@
-from constants import DATA_TYPE
+from constants import DataType
 
 def fill_none_value_header(header):
     cnt = 1
@@ -17,7 +17,7 @@ def fill_none_value_header(header):
 # convert data type from everything to list data type standardization
 # include: object, string, integer, float, date, boolean
 def standardization_data_type(data_type):
-    if data_type in DATA_TYPE: 
+    if data_type in DataType.ALL: 
         return data_type
 
     return data_type

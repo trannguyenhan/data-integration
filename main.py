@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication
 import sys
 from navigator import Navigator
-import db # Init class Database
+import database # Init class Database for connecting
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
