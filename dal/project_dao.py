@@ -14,6 +14,9 @@ def get_by_name(prj_name):
     return matches[0]
 
 def add_new_project(prj_name, destination_type):
+    if len(db.getBy({"project name": prj_name})) > 0:
+        raise Exception("Duplicate project name")
+
     db.add({
         "project name": prj_name, 
         "destination type": destination_type,
@@ -32,3 +35,7 @@ def set_connection_str(prj_name, conn_str):
 
 def set_destination_schema(prj_name, dest_schema):
     db.update({"project name": prj_name}, {"destination schema": dest_schema})
+
+def delete(prj_name):
+    project = get_by_name(prj_name)
+    db.deleteById(project['id'])

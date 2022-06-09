@@ -42,6 +42,9 @@ class Ui_ProjectManagement(object):
         self.open_btn = QtWidgets.QPushButton(self.centralwidget)
         self.open_btn.setObjectName("open_btn")
         self.horizontalLayout.addWidget(self.open_btn)
+        self.deleteBtn = QtWidgets.QPushButton(self.centralwidget)
+        self.deleteBtn.setObjectName("deleteBtn")
+        self.horizontalLayout.addWidget(self.deleteBtn)
         self.newproject_btn = QtWidgets.QPushButton(self.centralwidget)
         self.newproject_btn.setObjectName("newproject_btn")
         self.horizontalLayout.addWidget(self.newproject_btn)
@@ -63,5 +66,6 @@ class Ui_ProjectManagement(object):
         item = self.tableWidget.horizontalHeaderItem(1)
         item.setText(_translate("ProjectManagement", "Destination type"))
         self.open_btn.setText(_translate("ProjectManagement", "Open"))
+        self.deleteBtn.setText(_translate("ProjectManagement", "Delete"))
         self.newproject_btn.setText(_translate("ProjectManagement", "New project"))
 

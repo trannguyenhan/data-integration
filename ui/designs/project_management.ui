@@ -79,6 +79,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="deleteBtn">
+        <property name="text">
+         <string>Delete</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="newproject_btn">
         <property name="text">
          <string>New project</string>

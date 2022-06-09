@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QMessageBox
+from PyQt5.QtWidgets import QWidget, QMessageBox, QFileDialog
 from ui.init_project import Ui_InitProject
 from PyQt5 import QtGui, QtWidgets
 from dal import project_dao
@@ -146,7 +146,10 @@ class InitProject(QWidget):
                 return False
 
     def browse(self):
-        print("Comming soon")
+        filename = QFileDialog.getOpenFileName()
+        if len(filename) > 0:
+            path = filename[0]
+            self.uic.connectionLabel.setText(path)
 
     def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
         self.navigator.open_project_management_window()

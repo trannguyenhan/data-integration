@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QErrorMessage
 from ui.new_project import Ui_NewProject
 from dal import project_dao
 
@@ -13,6 +13,11 @@ class NewProject(QMainWindow):
         name = self.uic.lineEdit.text()
         if (name != ""):
             dest_type = self.uic.destinationCbx.currentText()
-            project_dao.add_new_project(name, dest_type)
-            self.parent().load_projects()
-        self.close()
+            try:
+                project_dao.add_new_project(name, dest_type)
+                self.parent().load_projects()
+            except Exception as e:
+                msg = QErrorMessage(self)
+                msg.showMessage(str(e))
+        else:
+            QErrorMessage(self).showMessage("Project name can not be empty")

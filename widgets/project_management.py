@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
+from PyQt5.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
 from ui.project_management import Ui_ProjectManagement
 from widgets.new_project import NewProject
 from dal import project_dao
@@ -12,6 +12,7 @@ class ProjectManagement(QMainWindow):
         self.uic.setupUi(self)
         self.uic.newproject_btn.clicked.connect(self.show_new_project_window)
         self.uic.open_btn.clicked.connect(self.open_project)
+        self.uic.deleteBtn.clicked.connect(self.delete_project)
         self.load_projects()
 
     def load_projects(self):
@@ -35,12 +36,7 @@ class ProjectManagement(QMainWindow):
         win.show()
 
     def open_project(self):
-        # Get selected project
-        selected_items = self.uic.tableWidget.selectedItems()
-        if len(selected_items) == 0:
-            return
-        prj_name = selected_items[0].text()
-        project = project_dao.get_by_name(prj_name)
+        project = self._get_selected_proj()
 
         # Check if project is not init, open init window, else, open workbench
         is_initialized = project["is initialized"]
@@ -48,3 +44,29 @@ class ProjectManagement(QMainWindow):
             self.navigator.open_workbench()
         else:
             self.navigator.open_init_project_window(project)
+
+    def delete_project(self):
+        project = self._get_selected_proj()
+
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Delete project")
+        msg.setText(f"Are you sure to delete '{project['project name']}'")
+        msg.setIcon(QMessageBox.Warning)
+        msg.setStandardButtons(QMessageBox.Yes| QMessageBox.No)
+        msg.buttonClicked.connect(self._delete)
+        msg.show()
+
+    def _delete(self, btn):
+        project = self._get_selected_proj()
+        if btn.text() == "&Yes":
+            project_dao.delete(project['project name'])
+            self.load_projects()
+
+    def _get_selected_proj(self):
+        '''Get selected project'''
+        selected_items = self.uic.tableWidget.selectedItems()
+        if len(selected_items) == 0:
+            return
+        prj_name = selected_items[0].text()
+        project = project_dao.get_by_name(prj_name)
+        return project
