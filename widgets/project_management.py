@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
 from ui.project_management import Ui_ProjectManagement
 from widgets.new_project import NewProject
 from database import project_dao
+from utils import Context
 
 
 class ProjectManagement(QMainWindow):
@@ -37,16 +38,21 @@ class ProjectManagement(QMainWindow):
 
     def open_project(self):
         project = self._get_selected_proj()
+        if project == None:
+            return
 
         # Check if project is not init, open init window, else, open workbench
+        Context.project = project
         is_initialized = project["is initialized"]
         if (is_initialized):
             self.navigator.open_workbench()
         else:
-            self.navigator.open_init_project_window(project)
+            self.navigator.open_init_project_window()
 
     def delete_project(self):
         project = self._get_selected_proj()
+        if project == None:
+            return
 
         msg = QMessageBox(self)
         msg.setWindowTitle("Delete project")

@@ -7,7 +7,7 @@ import re
 import pyodbc
 import mysql
 import mysql.connector
-from constants import DataType, SourceType
+from utils.constants import DataType, SourceType
 
 class InitProject(QWidget):
     def __init__(self, navigator, project):

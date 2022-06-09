@@ -3,7 +3,8 @@ from PyQt5.QtCore import QCoreApplication, QEvent
 from PyQt5.QtGui import QCloseEvent, QPainter
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from ui.workbench import Ui_Workbench
-from constants import SourceType
+from utils.constants import SourceType
+from utils import Context
 
 
 class Drawer:
@@ -27,11 +28,15 @@ class Workbench(QWidget, Drawer):
         self.list_input_source = []
         self.type_inputs = SourceType.ALL
         self.uic.setupUi(self)
+        self.setWindowTitle(f"Project \'{Context.project['project name']}\' - Workbench")
         self.uic.list_btn_source = []
         self.setup_menu_type()
         self.renderInputList()
         self.uic.btn_back.clicked.connect(self.back)
         self.uic.btn_run.clicked.connect(self.remove_input_source)
+
+        # TODO: Render components corresponding to current project
+        # Current project: Context.project
 
     def eventFilter(self, o, e):
         if e.type() == QEvent.Move:

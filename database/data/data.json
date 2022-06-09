@@ -1,1 +1,15 @@
-{"data": []}
+{
+   "data": [
+      {
+         "project name": "Converting to text file",
+         "destination type": "TXT",
+         "connection string": "C:/Users/dranh/Desktop/Log.txt",
+         "is initialized": true,
+         "destination schema": {
+            "AAA": "integer"
+         },
+         "data sources": [],
+         "id": 702532011787352013
+      }
+   ]
+}

@@ -1,5 +1,5 @@
 from widgets import *
-
+from .context import Context
 
 class Navigator:
     '''
@@ -8,12 +8,12 @@ class Navigator:
     def __init__(self):
         self.init_project = None
         self.project_management = ProjectManagement(self)
-        self.workbench = Workbench(self)
+        self.workbench = None
         self.config_file = ConfigFile(self)
         self.preview = Preview(self)
 
-    def open_init_project_window(self, project):
-        self.init_project = InitProject(self, project)
+    def open_init_project_window(self):
+        self.init_project = InitProject(self, Context.project)
         self.init_project.show()
         self.project_management.hide()
 
@@ -22,10 +22,10 @@ class Navigator:
 
     def open_workbench(self):
         self.project_management.hide()
+        self.workbench = Workbench(self)
         self.workbench.show()
 
     def open_config_file(self, data):
-        self.workbench.hide()
         self.config_file.show()
 
     def open_preview(self):

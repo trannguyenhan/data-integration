@@ -15,18 +15,16 @@ class ConfigFile(QMainWindow):
         self.uic.previewButton.clicked.connect(self.preview)
 
     def ok_btn_clicked(self):
-        self.navigator.open_workbench()
         self.navigator.config_file.hide()
 
     def browse_file(self):
         filename = QFileDialog.getOpenFileName()
-        path = filename[0]
-        with open(path, "r") as f:
-            print(f.readline())
+        try:
+            path = filename[0]
+            with open(path, "r") as f:
+                print(f.readline())
+        except Exception as e:
+            print(str(e))
 
     def preview(self):
         self.navigator.open_preview()
-
-    def closeEvent(self, a0: QCloseEvent) -> None:
-        self.navigator.open_workbench()
-        return super().closeEvent(a0)
