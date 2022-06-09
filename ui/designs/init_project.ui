@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>525</width>
+    <width>530</width>
     <height>374</height>
    </rect>
   </property>
@@ -31,7 +31,7 @@
     <rect>
      <x>100</x>
      <y>60</y>
-     <width>331</width>
+     <width>291</width>
      <height>22</height>
     </rect>
    </property>
@@ -150,6 +150,19 @@
    </property>
    <property name="text">
     <string>Remove</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="browseBtn">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>60</y>
+     <width>51</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Browse</string>
    </property>
   </widget>
  </widget>

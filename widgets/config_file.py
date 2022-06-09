@@ -13,7 +13,7 @@ class ConfigFile(QMainWindow):
         self.uic.previewButton.clicked.connect(self.preview)
 
     def ok_btn_clicked(self):
-        # self.navigator.open_project_management_window()
+        self.navigator.open_workbench()
         self.navigator.config_file.hide()
 
     def browse_file(self):

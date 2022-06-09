@@ -24,6 +24,13 @@ pip freeze > requirements.txt
 - date
 - float
 
+### Source/Destination type
+- Flatfile
+- XML
+- CSV
+- JSON
+- MySQL
+- SQL Server
 
 ### Công việc tuần tới
 - Anh Hoàng: sqlite3 -> json, tìm cách query file json, support ae

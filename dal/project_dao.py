@@ -2,22 +2,33 @@
 Project "data access object"
 '''
 
-from db import Database as db
+from db import db
 
 def get_project_list():
-    return db.con.execute("SELECT * FROM projects").fetchall()
+    return db.getAll()
 
-def add_new_project(name, destination):
-    db.con.execute(f"INSERT INTO projects (project_name, destination) VALUES (?, ?)", (name, destination))
-    db.con.commit()
+def get_by_name(prj_name):
+    matches = db.getBy({"project name": prj_name})
+    if len(matches) == 0:
+        raise Exception("Not found any project with name" + prj_name)
+    return matches[0]
 
-def set_is_initialized_to_true(project_id):
-    db.con.execute(f"UPDATE projects SET is_initialized = 1 WHERE project_id=?", (project_id,))
-    db.con.commit()
+def add_new_project(prj_name, destination_type):
+    db.add({
+        "project name": prj_name, 
+        "destination type": destination_type,
+        "connection string": None,
+        "is initialized": False,
+        "destination schema": None,
+        "data sources:": []
+    })
 
-def get_project_by_id(id):
-    return db.con.execute(f"SELECT * FROM projects WHERE project_id=?", (id,)).fetchone()
 
-def set_connection_str(id, conn_str):
-    db.con.execute(f"UPDATE projects SET connection_str = ? WHERE project_id = ?", (conn_str, id))
-    db.con.commit()
+def update_is_initialized(prj_name, bool):
+    db.update({"project name": prj_name}, {"is initialized": bool})
+
+def set_connection_str(prj_name, conn_str):
+    db.update({"project name": prj_name}, {"connection string": conn_str})
+
+def set_destination_schema(prj_name, dest_schema):
+    db.update({"project name": prj_name}, {"destination schema": dest_schema})

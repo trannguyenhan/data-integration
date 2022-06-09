@@ -11,12 +11,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_InitProject(object):
     def setupUi(self, InitProject):
         InitProject.setObjectName("InitProject")
-        InitProject.resize(525, 374)
+        InitProject.resize(530, 374)
         self.label = QtWidgets.QLabel(InitProject)
         self.label.setGeometry(QtCore.QRect(20, 60, 71, 16))
         self.label.setObjectName("label")
         self.connectionLabel = QtWidgets.QLineEdit(InitProject)
-        self.connectionLabel.setGeometry(QtCore.QRect(100, 60, 331, 22))
+        self.connectionLabel.setGeometry(QtCore.QRect(100, 60, 291, 22))
         self.connectionLabel.setObjectName("connectionLabel")
         self.label_2 = QtWidgets.QLabel(InitProject)
         self.label_2.setGeometry(QtCore.QRect(10, 20, 511, 16))
@@ -51,6 +51,9 @@ class Ui_InitProject(object):
         self.removeBtn = QtWidgets.QPushButton(InitProject)
         self.removeBtn.setGeometry(QtCore.QRect(210, 330, 93, 28))
         self.removeBtn.setObjectName("removeBtn")
+        self.browseBtn = QtWidgets.QPushButton(InitProject)
+        self.browseBtn.setGeometry(QtCore.QRect(400, 60, 51, 28))
+        self.browseBtn.setObjectName("browseBtn")
 
         self.retranslateUi(InitProject)
         QtCore.QMetaObject.connectSlotsByName(InitProject)
@@ -69,4 +72,5 @@ class Ui_InitProject(object):
         self.nextBtn.setText(_translate("InitProject", "Next"))
         self.addBtn.setText(_translate("InitProject", "Add"))
         self.removeBtn.setText(_translate("InitProject", "Remove"))
+        self.browseBtn.setText(_translate("InitProject", "Browse"))
 

@@ -3,7 +3,7 @@ from PyQt5.QtCore import QCoreApplication, QEvent
 from PyQt5.QtGui import QCloseEvent, QPainter
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from ui.workbench import Ui_Workbench
-
+from src.constants import SourceType
 
 class Drawer:
     def paintEvent(self, event):
@@ -23,13 +23,7 @@ class Workbench(QWidget,Drawer):
         self.navigator = navigator
         self.uic = Ui_Workbench()
         self.list_input_source = []
-        self.type_inputs = [
-            'CSV',
-            'JSON',
-            "XML",
-            "Flat File",
-            "MySQL"
-        ]
+        self.type_inputs = SourceType.ALL
         self.uic.setupUi(self)
         self.uic.list_btn_source = []
         self.setup_menu_type()

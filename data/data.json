@@ -1,36 +1,31 @@
-[
-    {
-        "Project name": "My first project",
-        "Destination type": "CSV",
-        "Destination schema" : {
-            "ID": "integer",
-            "Name": "string"
-        },
-        "Data sources:" : [
-            {
-                "type": "SQL Server",
-                "connection string": "host=...;user=...;pwd=...;db=...;table=...",
-                "schema": {
-                    "id": "string",
-                    "ten": "string"
-                },
-                "mapping": {
-                    "id": "ID",
-                    "ten": "Name"
-                }
-            },
-            {
-                "type": "Xml",
-                "connection string": "C:\\User\\hoang\\desktop\\testfile.xml",
-                "schema": {
-                    "id": "string",
-                    "ten": "string"
-                },
-                "mapping": {
-                    "id": "ID",
-                    "ten": "Name"
-                }
-            }
-        ]
-    }
-]
+{
+   "data": [
+      {
+         "project name": "Test Txt",
+         "destination type": "TXT",
+         "connection string": "C:\\Users\\dranh\\Desktop\\AA.txt",
+         "is initialized": true,
+         "destination schema": {
+            "strong": "string"
+         },
+         "data sources:": [],
+         "id": 268160202633529893
+      },
+      {
+         "project name": "Test XML",
+         "destination type": "XML",
+         "connection string": "C:\\Users\\dranh\\Desktop\\AA.xml",
+         "is initialized": true,
+         "destination schema": {
+            "AAA": "object",
+            "B": "integer",
+            "C": "string",
+            "D": "date",
+            "E": "float",
+            "F": "boolean"
+         },
+         "data sources:": [],
+         "id": 288398904940145861
+      }
+   ]
+}

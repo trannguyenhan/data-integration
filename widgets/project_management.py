@@ -22,15 +22,12 @@ class ProjectManagement(QMainWindow):
         # Fill into table
         self.uic.tableWidget.setRowCount(len(projects))
         for i, project in enumerate(projects):
-            id = project[0]
-            name = project[1]
-            type = project[2]
-            item = QTableWidgetItem(str(id))
-            self.uic.tableWidget.setItem(i, 0, item)
+            name = project["project name"]
+            type = project["destination type"]
             item = QTableWidgetItem(name)
-            self.uic.tableWidget.setItem(i, 1, item)
+            self.uic.tableWidget.setItem(i, 0, item)
             item = QTableWidgetItem(type)
-            self.uic.tableWidget.setItem(i, 2, item)
+            self.uic.tableWidget.setItem(i, 1, item)
 
 
     def show_new_project_window(self):
@@ -42,12 +39,12 @@ class ProjectManagement(QMainWindow):
         selected_items = self.uic.tableWidget.selectedItems()
         if len(selected_items) == 0:
             return
-        id = selected_items[0].text()
-        project = project_dao.get_project_by_id(id)
+        prj_name = selected_items[0].text()
+        project = project_dao.get_by_name(prj_name)
 
         # Check if project is not init, open init window, else, open workbench
-        is_initialized = project[3]
-        if (is_initialized == 1):
+        is_initialized = project["is initialized"]
+        if (is_initialized):
             self.navigator.open_workbench()
         else:
             self.navigator.open_init_project_window(project)

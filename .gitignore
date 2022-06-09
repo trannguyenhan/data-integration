@@ -5,3 +5,4 @@ __pycache__/
 target/
 .idea/
 data/data.db
+test.ipynb

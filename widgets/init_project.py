@@ -1,14 +1,13 @@
 from PyQt5.QtWidgets import QWidget, QMessageBox
 from ui.init_project import Ui_InitProject
 from PyQt5 import QtGui, QtWidgets
-from dal.project_dao import set_is_initialized_to_true, set_connection_str
-from dal.utils_dao import create_table
-from db import Database
+from dal import project_dao
 import os
 import re
 import pyodbc
 import mysql
 import mysql.connector
+from src.constants import SourceType, DATA_TYPE
 
 class InitProject(QWidget):
     def __init__(self, navigator, project):
@@ -21,15 +20,18 @@ class InitProject(QWidget):
         self.uic.addBtn.clicked.connect(self.add)
         self.uic.removeBtn.clicked.connect(self.remove)
         self.uic.nextBtn.clicked.connect(self.next)
+        self.uic.browseBtn.clicked.connect(self.browse)
 
         # Set hint text
-        dest_type = project[2]
-        if dest_type in ["Flatfile", "Xml", "Json", "Excel"]:
+        dest_type = project["destination type"]
+        if dest_type in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON, SourceType.EXCEL]:
             hint = f"Path to destination {dest_type} file"
-        elif dest_type == "MySQL":
+        elif dest_type == SourceType.MySQL:
             hint = "host=localhost; user=root; password=1234"
-        else:
+        elif dest_type == SourceType.MSSQL:
             hint = "SERVER=localhost;DATABASE=testdb;UID=sa;PWD=1234"
+        else:
+            raise Exception("Invalid destination type " + dest_type)
         self.uic.connectionLabel.setText(hint)
 
     def add(self):
@@ -39,7 +41,7 @@ class InitProject(QWidget):
         rowcount = self.uic.tableWidget.rowCount()
         self.uic.tableWidget.setRowCount(rowcount + 1)
         cbx = QtWidgets.QComboBox()
-        cbx.addItems(["string", "integer", "float", "date"])
+        cbx.addItems(DATA_TYPE)
         self.uic.tableWidget.setCellWidget(rowcount, 1, cbx)
 
     def remove(self):
@@ -63,27 +65,32 @@ class InitProject(QWidget):
             msg.setText("Columns list cannot be empty")
             msg.show()
             return
-        set_is_initialized_to_true(self.project[0])
-        set_connection_str(self.project[0], self.uic.connectionLabel.text())
-        self.create_table()
+        
+        # Mark project is initialized
+        project_dao.update_is_initialized(self.project["project name"], True)
+
+        # Set connection string for project
+        project_dao.set_connection_str(self.project["project name"], self.uic.connectionLabel.text())
+
+        # Save project's destination schema
+        self.save_destination_schema()
+
+        # Open workbench
         self.hide()
         self.navigator.open_workbench()
 
-    def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
-        self.navigator.open_project_management_window()
-        return super().closeEvent(a0)
-
-    def create_table(self):
+    def save_destination_schema(self):
         # Get list of columns and their data type from the table
-        columns = []
+        columns = {}
         for i in range(self.uic.tableWidget.rowCount()):
             column_name = self.uic.tableWidget.takeItem(i, 0).text()
             data_type = self.uic.tableWidget.cellWidget(i, 1).currentText()
-            columns.append((column_name, data_type))
+            columns[column_name] = data_type
         
-        # Create a new table to db
-        project_name = self.project[1]
-        create_table(project_name, columns)
+        # Save destination schema for project
+        project_name = self.project["project name"]
+        project_dao.set_destination_schema(project_name, columns)
+
 
     def test_connection(self):
         msg = QMessageBox(self)
@@ -95,14 +102,14 @@ class InitProject(QWidget):
         msg.show()
 
     def check_connection(self):
-        dest_type = self.project[2]
-        if dest_type in ["Flatfile", "Xml", "Json", "Excel"]:
+        dest_type = self.project['destination type']
+        if dest_type in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON, SourceType.EXCEL]:
             path = self.uic.connectionLabel.text()
             if not os.path.exists(path):
                 return False
-            if re.match('.*\.(csv|txt)', path):
+            if re.match('.*\.(csv|txt|xml|json|xls|xlsx)', path):
                 return True
-        elif dest_type == "MySQL":
+        elif dest_type == SourceType.MySQL:
             try:
                 conn_str = self.uic.connectionLabel.text()
                 host, user, password = conn_str.split(';')
@@ -119,7 +126,7 @@ class InitProject(QWidget):
             except Exception as e:
                 print("Connection string invalid")
                 return False
-        elif dest_type == "SQL Server":
+        elif dest_type == SourceType.MSSQL:
             try:
                 conn_str = self.uic.connectionLabel.text()
                 host, database, user, password = conn_str.split(';')
@@ -137,3 +144,10 @@ class InitProject(QWidget):
             except Exception as e:
                 print("Connection string invalid")
                 return False
+
+    def browse(self):
+        print("Comming soon")
+
+    def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
+        self.navigator.open_project_management_window()
+        return super().closeEvent(a0)

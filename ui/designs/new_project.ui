@@ -73,27 +73,32 @@
    </property>
    <item>
     <property name="text">
-     <string>Flatfile</string>
+     <string>TXT</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>Excel</string>
+     <string>CSV</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>Xml</string>
+     <string>EXCEL</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>Json</string>
+     <string>XML</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>SQL Server</string>
+     <string>JSON</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MS SQL Server</string>
     </property>
    </item>
    <item>
