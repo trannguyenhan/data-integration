@@ -8,7 +8,26 @@
          "destination schema": {
             "AAA": "integer"
          },
-         "data sources": [],
+         "data sources": [
+            {
+               "type": "XML",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "JSON",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "EXCEL",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            }
+         ],
          "id": 702532011787352013
       }
    ]
