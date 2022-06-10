@@ -12,71 +12,36 @@
             {
                "type": "XML",
                "connection string": "",
-               "schema": {},
+               "schema": {
+                  "BBBB": "date",
+                  "AAA": "object",
+                  "Column 3": "object",
+                  "Column 4": "object",
+                  "Column 5": "object"
+               },
                "mapping": {}
             },
             {
                "type": "JSON",
                "connection string": "",
-               "schema": {},
-               "mapping": {}
-            },
-            {
-               "type": "CSV",
-               "connection string": "",
-               "schema": {},
-               "mapping": {}
-            },
-            {
-               "type": "EXCEL",
-               "connection string": "",
-               "schema": {},
-               "mapping": {}
-            },
-            {
-               "type": "MS SQL Server",
-               "connection string": "",
-               "schema": {},
-               "mapping": {}
-            },
-            {
-               "type": "CSV",
-               "connection string": "",
-               "schema": {},
-               "mapping": {}
-            },
-            {
-               "type": "JSON",
-               "connection string": "",
-               "schema": {},
-               "mapping": {}
-            },
-            {
-               "type": "XML",
-               "connection string": "",
-               "schema": {},
-               "mapping": {}
-            },
-            {
-               "type": "CSV",
-               "connection string": "",
-               "schema": {},
-               "mapping": {}
-            },
-            {
-               "type": "MS SQL Server",
-               "connection string": "",
-               "schema": {},
-               "mapping": {}
-            },
-            {
-               "type": "JSON",
-               "connection string": "",
-               "schema": {},
+               "schema": {
+                  "Column 0": "object",
+                  "Column 1": "object",
+                  "Column 2": "object"
+               },
                "mapping": {}
             }
          ],
          "id": 702532011787352013
+      },
+      {
+         "project name": "Test txt",
+         "destination type": "TXT",
+         "connection string": null,
+         "is initialized": false,
+         "destination schema": null,
+         "data sources": [],
+         "id": 253808362936228045
       }
    ]
 }

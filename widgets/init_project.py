@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QMessageBox, QFileDialog
+from PyQt5.QtWidgets import QWidget, QMessageBox, QFileDialog, QTableWidgetItem
 from ui.init_project import Ui_InitProject
 from PyQt5 import QtGui, QtWidgets
 from database import project_dao
@@ -40,6 +40,9 @@ class InitProject(QWidget):
         '''
         rowcount = self.uic.tableWidget.rowCount()
         self.uic.tableWidget.setRowCount(rowcount + 1)
+        item = QTableWidgetItem()
+        item.setText(f"Column {rowcount}")
+        self.uic.tableWidget.setItem(rowcount, 0, item)
         cbx = QtWidgets.QComboBox()
         cbx.addItems(DataType.ALL)
         self.uic.tableWidget.setCellWidget(rowcount, 1, cbx)

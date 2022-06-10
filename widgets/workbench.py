@@ -42,7 +42,7 @@ class Workbench(QWidget):
     def src_btn_clicked(self):
         idx = self.uic.verticalLayout.indexOf(self.sender())
         input_src = Context.project["data sources"][idx]
-        print(input_src)
+        Context.data_source = input_src 
         self.navigator.open_config_file()
 
     def add_input_source_btn(self, input_source):

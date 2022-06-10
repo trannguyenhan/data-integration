@@ -34,7 +34,7 @@
     <rect>
      <x>80</x>
      <y>140</y>
-     <width>201</width>
+     <width>251</width>
      <height>261</height>
     </rect>
    </property>
@@ -57,7 +57,7 @@
     <rect>
      <x>440</x>
      <y>140</y>
-     <width>201</width>
+     <width>261</width>
      <height>261</height>
     </rect>
    </property>
@@ -75,7 +75,7 @@
   <widget class="QPushButton" name="previewButton">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>80</x>
      <y>460</y>
      <width>89</width>
      <height>25</height>
@@ -88,7 +88,7 @@
   <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
-     <x>560</x>
+     <x>610</x>
      <y>460</y>
      <width>89</width>
      <height>25</height>
@@ -96,6 +96,32 @@
    </property>
    <property name="text">
     <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addBtn">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>410</y>
+     <width>89</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="removeBtn">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>410</y>
+     <width>89</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Remove</string>
    </property>
   </widget>
  </widget>
