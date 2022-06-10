@@ -22,7 +22,55 @@
                "mapping": {}
             },
             {
+               "type": "CSV",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
                "type": "EXCEL",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "MS SQL Server",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "CSV",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "JSON",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "XML",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "CSV",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "MS SQL Server",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "JSON",
                "connection string": "",
                "schema": {},
                "mapping": {}

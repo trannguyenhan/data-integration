@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QCoreApplication, QEvent
+from PyQt5.QtCore import QCoreApplication, QEvent, Qt
 from PyQt5.QtGui import QCloseEvent, QPainter
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from ui.workbench import Ui_Workbench
@@ -13,48 +13,43 @@ class Workbench(QWidget):
         super().__init__()
         self.navigator = navigator
         self.uic = Ui_Workbench()
-        self.list_input_source = []
-        self.type_inputs = SourceType.ALL
         self.uic.setupUi(self)
-        self.uic.list_btn_source = []
         self.setup_menu_type()
         self.uic.btn_back.clicked.connect(self.back)
-        self.uic.btn_run.clicked.connect(self.remove_input_source)
-        self.load()
+        self.create_components()
 
-    def load(self):
-        self.setWindowTitle(f"Project \'{Context.project['project name']}\' - Workbench")
+    def create_components(self):
+        '''Read project's info and create corresponding components'''
+        self.setWindowTitle(
+            f"Project \'{Context.project['project name']}\' - Workbench")
 
-        for dsource in Context.project["data sources"]:
-            self.add_input_source(dsource["type"])
+        for input_source in Context.project["data sources"]:
+            self.add_input_source_btn(input_source)
 
     def setup_menu_type(self):
         '''Setup a popup menu to choose source data type'''
         menu = QtWidgets.QMenu()
         menu.triggered.connect(self.menu_item_clicked)
         self.uic.btn_add.setMenu(menu)
-        for type in self.type_inputs:
+        for type in SourceType.ALL:
             action = menu.addAction(type)
             action.setIconVisibleInMenu(False)
 
     def menu_item_clicked(self, item):
-        self.add_input_source(item.text())
         datasource_dao.add(item.text())
+        self.add_input_source_btn(Context.project['data sources'][-1])
 
-    def add_input_source(self, type):
-        self.list_input_source.append(type)
-        self.uic.list_btn_source.append(self.create_btn(type))
+    def src_btn_clicked(self):
+        idx = self.uic.verticalLayout.indexOf(self.sender())
+        input_src = Context.project["data sources"][idx]
+        print(input_src)
+        self.navigator.open_config_file()
 
-    def remove_input_source(self, idx=5):
-        if not self.list_input_source:
-            return
-        self.list_input_source.pop(idx)
-        btn = self.uic.list_btn_source.pop(idx)
-        btn.deleteLater()
-
-    def create_btn(self, text):
-        btn_source = QtWidgets.QPushButton(self.uic.scrollAreaWidgetContents)
-        btn_source.setText(text)
+    def add_input_source_btn(self, input_source):
+        # Create input source button
+        btn_source = QtWidgets.QPushButton(
+            self.uic.scrollAreaWidgetContents)
+        btn_source.setText(input_source["type"])
         count = self.uic.verticalLayout.count()
         self.uic.verticalLayout.insertWidget(count - 1, btn_source)
         sizePolicy = QtWidgets.QSizePolicy(
@@ -63,9 +58,8 @@ class Workbench(QWidget):
         sizePolicy.setVerticalStretch(0)
         btn_source.setSizePolicy(sizePolicy)
         btn_source.setMaximumSize(QtCore.QSize(16777215, 135))
-        btn_source.clicked.connect(self.navigator.open_config_file)
+        btn_source.clicked.connect(self.src_btn_clicked)
         btn_source.installEventFilter(self)
-        return btn_source
 
     def back(self):
         self.hide()
@@ -77,19 +71,26 @@ class Workbench(QWidget):
 
     def eventFilter(self, o, e):
         if e.type() == QEvent.Move:
-            # if o is self.uic.btn_add:
-            #     self.p1 = self.uic.btn_add.pos()
-            # elif o is self.uic.btn_destination:
-            #     self.p2 = self.uic.btn_destination.pos()
             self.update()
+        elif e.type() == QEvent.MouseButtonPress:
+            if e.button() == Qt.RightButton:
+                self.delete_input_source(o)
         return super().eventFilter(o, e)
+
+    def delete_input_source(self, btn):
+        idx = self.uic.verticalLayout.indexOf(btn)
+        datasource_dao.remove_at(idx)
+        self.uic.verticalLayout.removeWidget(btn)
+        btn.deleteLater()
 
     def paintEvent(self, event):
         painter = QPainter(self)
         btn_des = self.uic.btn_destination.geometry()
         x_des = btn_des.x()
         y_des = btn_des.y() + btn_des.height()/2
-        for idx, btn in enumerate(self.uic.list_btn_source):
+        count = self.uic.verticalLayout.count() - 1
+        for i in range(count):
+            btn = self.uic.verticalLayout.itemAt(i)
             btn_source_geo = btn.geometry()
             x_source = btn_source_geo.x() + btn_source_geo.width()
             y_source = btn_source_geo.y() + btn_source_geo.height()

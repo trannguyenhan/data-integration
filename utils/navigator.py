@@ -25,7 +25,7 @@ class Navigator:
         self.workbench = Workbench(self)
         self.workbench.show()
 
-    def open_config_file(self, data):
+    def open_config_file(self):
         self.config_file.show()
 
     def open_preview(self):
