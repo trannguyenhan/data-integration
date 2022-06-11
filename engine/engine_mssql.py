@@ -4,7 +4,7 @@ import pyodbc
 class EngineMssql(EngineMysql): 
     def load_data_source(self):
         self.db = pyodbc.connect(
-            'DRIVER={ODBC Driver 17 for SQL Server},SERVER='
+            'DRIVER={SQL Server Native Client 17.0},SERVER='
                 +self.hostName+';DATABASE='+self.database+';UID='+self.username+';PWD='+ self.password
         )
 

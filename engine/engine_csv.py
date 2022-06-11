@@ -4,12 +4,12 @@ from engine.engine import EngineInterface
 class EngineCsv(EngineInterface): 
 
     # extract header of csv file
-    def extract_header(self):
+    def extract_header(self, is_header = True):
         self.load_data_source()
         if self.file != None: 
             reader = csv.reader(self.file)
             
-            if(self.is_header == True): 
+            if(is_header == True): 
                 self.header = next(reader)
             else: 
                 tmp = next(reader)
