@@ -20,6 +20,27 @@ class EngineMongodb(EngineMysql):
     def dump_data_to_warehouse():
         pass
 
+    @staticmethod
+    def save_data(data, project_name_dest):
+        # this case we will dump data to my warehouse
+        # so, not need user enter them database, we will use our database
+        # and need user enter name of project, we will use project name is name of collection
+        engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)               
+        engine.load_data_source()
+
+        if isinstance(data, list): 
+            # ex: [{"data": 1, "beta": 2}]
+            engine.db.insert_many(data)
+        else: 
+            #ex: {"data": 1, "beta": 2}
+            engine.db.insert_one(data)
+
+    @staticmethod
+    def drop_proj_warehouse(project_name_dest):
+        engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)               
+        engine.load_data_source()
+        engine.db.drop()
+
 if __name__ == "__main__": 
     engine = EngineMongodb("localhost", "", "", "X-news", "news")
     # engine.extract_header()

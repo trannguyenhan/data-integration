@@ -24,6 +24,7 @@ class EngineInterface():
 
     # return dictionary map field name with data type 
     def extract_schema(self):
+        self.extract_header()
         if len(self.header) == 0: 
             self.extract_header()
         

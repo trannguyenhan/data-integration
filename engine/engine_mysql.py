@@ -33,6 +33,7 @@ class EngineMysql(EngineInterface):
             self.data_sample[field_name] = resultSample[cnt]
             cnt += 1
 
+        mcursor.close()
         return self.header
 
     def dump_data_to_warehouse():
