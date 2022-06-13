@@ -1,11 +1,11 @@
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QTableWidgetItem
+from database import datasource_dao, project_dao
 from PyQt5 import QtWidgets
-from ui.config_file import Ui_ConfigFile
-from database import project_dao
 from PyQt5.QtGui import QCloseEvent
+from PyQt5.QtWidgets import QFileDialog, QMainWindow, QTableWidgetItem
+from ui.config_file import Ui_ConfigFile
 from utils import Context
 from utils.constants import DataType
-from database import datasource_dao
+
 
 class ConfigFile(QMainWindow):
     def __init__(self, navigator):
@@ -18,6 +18,9 @@ class ConfigFile(QMainWindow):
         self.uic.previewButton.clicked.connect(self.preview)
         self.uic.addBtn.clicked.connect(self.add)
         self.uic.removeBtn.clicked.connect(self.remove)
+        self.uic.btn_up.clicked.connect(self.moveUp)
+        self.uic.btn_down.clicked.connect(self.moveDown)
+
         self.create_components()
 
     def create_components(self):
@@ -82,3 +85,23 @@ class ConfigFile(QMainWindow):
 
     def preview(self):
         self.navigator.open_preview()
+    def moveDown(self):
+        row = self.uic.tableSourceWidget.currentRow()
+        column = self.uic.tableSourceWidget.currentColumn();
+        if row < self.uic.tableSourceWidget.rowCount()-1:
+            self.uic.tableSourceWidget.insertRow(row+2)
+            for i in range(self.uic.tableSourceWidget.columnCount()):
+               self.uic.tableSourceWidget.setItem(row+2,i,self.uic.tableSourceWidget.takeItem(row,i))
+               self.uic.tableSourceWidget.setCurrentCell(row+2,column)
+            self.uic.tableSourceWidget.removeRow(row)        
+
+
+    def moveUp(self):    
+        row = self.uic.tableSourceWidget.currentRow()
+        column = self.uic.tableSourceWidget.currentColumn();
+        if row > 0:
+            self.uic.tableSourceWidget.insertRow(row-1)
+            for i in range(self.uic.tableSourceWidget.columnCount()):
+               self.uic.tableSourceWidget.setItem(row-1,i,self.uic.tableSourceWidget.takeItem(row+1,i))
+               self.uic.tableSourceWidget.setCurrentCell(row-1,column)
+            self.uic.tableSourceWidget.removeRow(row+1)   
