@@ -19,5 +19,14 @@ def fill_none_value_header(header):
 def standardization_data_type(data_type):
     if data_type in DataType.ALL: 
         return data_type
-
+    elif data_type == "str":
+        return  DataType.STR
+    elif data_type == "float":
+        return DataType.FLOAT
+    elif data_type == "int":
+        return DataType.INT
+    elif data_type == "bool":
+        return DataType.BOOL
+    elif data_type == "datetime.date":
+        return DataType.DATE
     return data_type
