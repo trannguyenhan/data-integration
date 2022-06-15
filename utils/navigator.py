@@ -15,7 +15,7 @@ class Navigator:
     def open_init_project_window(self):
         self.init_project = InitProject(self, Context.project)
         self.init_project.show()
-        self.project_management.hide()
+        # self.project_management.hide()
 
     def open_project_management_window(self):
         self.project_management.show()

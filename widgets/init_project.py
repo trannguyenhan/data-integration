@@ -1,13 +1,16 @@
-from PyQt5.QtWidgets import QWidget, QMessageBox, QFileDialog, QTableWidgetItem
-from ui.init_project import Ui_InitProject
-from PyQt5 import QtGui, QtWidgets
-from database import project_dao
 import os
 import re
-import pyodbc
+
 import mysql
 import mysql.connector
+import pyodbc
+from cv2 import log
+from database import project_dao
+from PyQt5 import QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog, QMessageBox, QTableWidgetItem, QWidget
+from ui.init_project import Ui_InitProject
 from utils.constants import DataType, SourceType
+
 
 class InitProject(QWidget):
     def __init__(self, navigator, project):
@@ -21,31 +24,42 @@ class InitProject(QWidget):
         self.uic.removeBtn.clicked.connect(self.remove)
         self.uic.nextBtn.clicked.connect(self.next)
         self.uic.browseBtn.clicked.connect(self.browse)
-
-        # Set hint text
-        dest_type = project["destination type"]
-        if dest_type in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON, SourceType.EXCEL]:
-            hint = f"Path to destination {dest_type} file"
-        elif dest_type == SourceType.MySQL:
-            hint = "host=localhost; user=root; password=1234"
-        elif dest_type == SourceType.MSSQL:
-            hint = "SERVER=localhost;DATABASE=testdb;UID=sa;PWD=1234"
+        if self.project["is initialized"]:
+            self.uic.connectionLabel.setText(self.project["connection string"])
+            self.load_schema_destination()
         else:
-            raise Exception("Invalid destination type " + dest_type)
-        self.uic.connectionLabel.setText(hint)
+            # Set hint text
+            dest_type = project["destination type"]
+            if dest_type in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON, SourceType.EXCEL]:
+                hint = f"Path to destination {dest_type} file"
+            elif dest_type == SourceType.MySQL:
+                hint = "host=localhost; user=root; password=1234"
+            elif dest_type == SourceType.MSSQL:
+                hint = "SERVER=localhost;DATABASE=testdb;UID=sa;PWD=1234"
+            else:
+                raise Exception("Invalid destination type " + dest_type)
+            self.uic.connectionLabel.setText(hint)
 
-    def add(self):
+    def add(self,column_key="",type=DataType.OBJ):
         '''
         Add a new row to the table
         '''
         rowcount = self.uic.tableWidget.rowCount()
         self.uic.tableWidget.setRowCount(rowcount + 1)
         item = QTableWidgetItem()
-        item.setText(f"Column {rowcount}")
+        key = column_key if column_key else f"Column {rowcount}" 
+        item.setText(key)
         self.uic.tableWidget.setItem(rowcount, 0, item)
         cbx = QtWidgets.QComboBox()
         cbx.addItems(DataType.ALL)
+        cbx.setCurrentText(type)
         self.uic.tableWidget.setCellWidget(rowcount, 1, cbx)
+    def load_schema_destination(self):
+        if self.project["destination schema"] is None:
+            return
+        for column_key, type in self.project["destination schema"].items():
+            print(type)
+            self.add(column_key,type)
 
     def remove(self):
         '''
@@ -55,13 +69,15 @@ class InitProject(QWidget):
         self.uic.tableWidget.removeRow(row)
     
     def next(self):
+        go_to_workbench = False
+        if not self.project["is initialized"]:
+            go_to_workbench = True
         if not self.check_connection():
             self.showError("Failed to connect to destination")
             return
         if self.uic.tableWidget.rowCount() == 0:
             self.showError("Columns list cannot be empty")
             return
-        
         try:
             # Mark project is initialized
             project_dao.update_is_initialized(self.project["project name"], True)
@@ -74,7 +90,8 @@ class InitProject(QWidget):
 
             # Open workbench
             self.hide()
-            self.navigator.open_workbench()
+            if go_to_workbench:
+                self.navigator.open_workbench()
 
         except Exception as e:
             self.showError(str(e))
@@ -152,7 +169,7 @@ class InitProject(QWidget):
             self.uic.connectionLabel.setText(path)
 
     def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
-        self.navigator.open_project_management_window()
+        # self.navigator.open_project_management_window()
         return super().closeEvent(a0)
 
     def showError(self, str):

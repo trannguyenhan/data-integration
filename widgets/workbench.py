@@ -1,11 +1,11 @@
+from database import datasource_dao
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QCoreApplication, QEvent, Qt
 from PyQt5.QtGui import QCloseEvent, QPainter
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from ui.workbench import Ui_Workbench
-from utils.constants import SourceType
 from utils import Context
-from database import datasource_dao
+from utils.constants import SourceType
 
 
 class Workbench(QWidget):
@@ -16,6 +16,7 @@ class Workbench(QWidget):
         self.uic.setupUi(self)
         self.setup_menu_type()
         self.uic.btn_back.clicked.connect(self.back)
+        self.uic.btn_destination.clicked.connect(self.des_btn_clicked) 
         self.create_components()
 
     def create_components(self):
@@ -44,6 +45,8 @@ class Workbench(QWidget):
         input_src = Context.project["data sources"][idx]
         Context.data_source = input_src 
         self.navigator.open_config_file()
+    def des_btn_clicked(self):
+        self.navigator.open_init_project_window()
 
     def add_input_source_btn(self, input_source):
         # Create input source button
