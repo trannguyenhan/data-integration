@@ -2,7 +2,7 @@
 Project "data access object"
 '''
 
-from utils import Context
+from utils.context import Context
 
 from database import db
 

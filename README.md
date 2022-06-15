@@ -32,10 +32,10 @@ pip freeze > requirements.txt
 - SQL Server
 
 ### Công việc tuần tới
-- Anh Hoàng: sqlite3 -> json, tìm cách query file json, support ae
+- Anh Hoàng: support ae
 - Xuân Huy + E Hoàng: Tiếp tục phát triển Workbench, Config, tự liên lạc với nhau làm việc
 - Quang Huy: Tiếp tục phát triển các Engine
-- Deadline: 1 tuần (tối t4 tuần sau)
+- Deadline: 1 tuần (tối t3 tuần sau)
 
 ### Issue
 

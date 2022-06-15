@@ -4,7 +4,7 @@ from PyQt5.QtCore import QCoreApplication, QEvent, Qt
 from PyQt5.QtGui import QCloseEvent, QPainter
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from ui.workbench import Ui_Workbench
-from utils import Context
+from utils.context import Context
 from utils.constants import SourceType
 
 

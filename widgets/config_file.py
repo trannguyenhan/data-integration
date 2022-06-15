@@ -3,14 +3,12 @@ import re
 import mysql
 import mysql.connector
 import pyodbc
-from engine.engine_csv import EngineCsv
-from engine.engine_json import EngineJson
-from engine.engine_xml import EngineXml
+from my_engine import EngineCsv, EngineJson, EngineXml
 from database import datasource_dao
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMainWindow, QTableWidgetItem, QMessageBox
 from ui.config_file import Ui_ConfigFile
-from utils import Context
+from utils.context import Context
 from utils.constants import DataType, SourceType
 
 

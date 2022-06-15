@@ -1,6 +1,6 @@
 # this is file test engine
 
-import engine.engine, engine.engine_csv, engine.engine_json, engine.engine_mssql, engine.engine_mysql, engine.engine_xml, engine.engine_mongodb
+from my_engine import *
 
 # engine = engine.engine_csv.EngineCsv("/home/trannguyenhan/dataset/ign.csv")
 # engine.dump_data_to_warehouse(
@@ -39,7 +39,12 @@ import engine.engine, engine.engine_csv, engine.engine_json, engine.engine_mssql
 # print(schema)
 # engine.save_data({"data": 2, "beta": 2}, "testproject")
 
-engine = engine.engine_xml.EngineXml("/home/trannguyenhan/CodeFolder/tmp/test.xml")
+# engine = engine.engine_xml.EngineXml("/home/trannguyenhan/CodeFolder/tmp/test.xml")
 # engine.extract_header()
 # print(engine.data_sample)
-engine.dump_data_to_warehouse(['rank', 'year', 'gdppc', 'neighbor'], 'proj5')
+# engine.dump_data_to_warehouse(['rank', 'year', 'gdppc', 'neighbor'], 'proj5')
+
+# SERVER=localhost;DATABASE=testdb;UID=sa;PWD=1234
+engine = EngineMssql("localhost", "sa", "1234", "testdb", "test")
+
+engine.extract_header()

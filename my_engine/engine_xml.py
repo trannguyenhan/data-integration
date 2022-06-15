@@ -1,4 +1,4 @@
-from engine.engine import EngineInterface
+from . import EngineInterface
 import xml.etree.ElementTree as ET
 import utils.warehouse
 

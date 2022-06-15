@@ -1,4 +1,4 @@
-from engine.engine_mysql import EngineMysql
+from . import EngineMysql
 import pyodbc
 
 class EngineMssql(EngineMysql): 

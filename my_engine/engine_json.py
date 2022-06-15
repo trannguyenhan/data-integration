@@ -1,4 +1,4 @@
-from engine.engine import EngineInterface
+from . import EngineInterface
 import json
 import utils.warehouse
 

@@ -1,5 +1,5 @@
 import utils.warehouse
-from engine.engine import EngineInterface
+from . import EngineInterface
 import mysql.connector
 
 class EngineMysql(EngineInterface): 
