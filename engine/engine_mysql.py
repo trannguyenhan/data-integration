@@ -1,3 +1,4 @@
+import utils.warehouse
 from engine.engine import EngineInterface
 import mysql.connector
 
@@ -36,8 +37,36 @@ class EngineMysql(EngineInterface):
         mcursor.close()
         return self.header
 
-    def dump_data_to_warehouse():
-        pass
+    def dump_data_to_warehouse(self, header_target, proj_name):
+        self.extract_header()
+        if len(self.header) != len(header_target): # (1)
+            # schema source not fit with schema destination
+            return False
+
+        # load again data source
+        result = []
+
+        self.load_data_source()
+        if self.db != None: 
+            mcursor = self.db.cursor()
+            mcursor.execute("Select * from " + self.tableName)
+            fetchResult = mcursor.fetchall()
+
+            for item in fetchResult: 
+                resultItem = {}
+                cnt = 0
+                
+                for v in item: 
+                    resultItem[self.header[cnt]] = v
+                    cnt += 1
+
+                result.append(resultItem)
+                
+            utils.warehouse.dump(result, proj_name)
+            return True
+        
+        # not connect to resource
+        return False
 
 if __name__ == "__main__": 
     engine = EngineMysql("localhost", "root", "mysql12345", "foodapi", "orders")

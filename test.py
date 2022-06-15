@@ -20,6 +20,8 @@ import engine.engine, engine.engine_csv, engine.engine_json, engine.engine_mssql
 # print(schema)
 
 # engine = engine.engine_mysql.EngineMysql("localhost", "root", "mysql12345", "foodapi", "orders")
+# engine.dump_data_to_warehouse(
+#     ['id', 'user_id', 'food_id', 'address', 'time', 'status', 'code'], "proj4")
 # schema = engine.extract_schema()
 # print(schema)
 # engine.extract_header()
@@ -30,9 +32,14 @@ import engine.engine, engine.engine_csv, engine.engine_json, engine.engine_mssql
 # schema = engine.extract_schema()
 # print(schema)
 
-engine = engine.engine_mongodb.EngineMongodb("localhost", "", "", "datawarehouse", "proj2")
-engine.extract_header()
-print(engine.header)
+# engine = engine.engine_mongodb.EngineMongodb("localhost", "", "", "datawarehouse", "proj2")
+# engine.extract_header()
+# print(engine.header)
 # schema = engine.extract_schema()
 # print(schema)
 # engine.save_data({"data": 2, "beta": 2}, "testproject")
+
+engine = engine.engine_xml.EngineXml("/home/trannguyenhan/CodeFolder/tmp/test.xml")
+# engine.extract_header()
+# print(engine.data_sample)
+engine.dump_data_to_warehouse(['rank', 'year', 'gdppc', 'neighbor'], 'proj5')

@@ -8,8 +8,17 @@ class EngineMssql(EngineMysql):
                 +self.hostName+';DATABASE='+self.database+';UID='+self.username+';PWD='+ self.password
         )
 
-    def dump_data_to_warehouse():
-        pass
+    def dump_data_to_warehouse(self, header_target):
+        self.extract_header()
+        if len(self.header) != len(header_target): # (1)
+            # schema source not fit with schema destination
+            return False
+
+        # load again data source
+        result = []
+
+        self.load_data_source()
+        
 
 if __name__ == "__main__": 
     engine = EngineMssql("localhost", "sa", "Helloworld123", "test_database", "users")
