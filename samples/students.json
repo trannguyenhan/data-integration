@@ -1,0 +1,44 @@
+[
+  {
+    "MSSV": "SV001",
+    "Họ và tên": "Trần Văn Hải",
+    "Ngày sinh": "6/1/1999",
+    "Trường": "?H BKHN",
+    "CPA": 3
+  },
+  {
+    "MSSV": "SV002",
+    "Họ và tên": "Nguyễn Thanh Thuỷ",
+    "Ngày sinh": "8/2/1999",
+    "Trường": "ĐH QGHN",
+    "CPA": 2.5
+  },
+  {
+    "MSSV": "SV003",
+    "Họ và tên": "Bùi Xuân Huấn",
+    "Ngày sinh": "7/3/1999",
+    "Trường": "ĐH BKHN",
+    "CPA": 2.7
+  },
+  {
+    "MSSV": "SV004",
+    "Họ và tên": "Lê Phương Thu",
+    "Ngày sinh": "5/4/2000",
+    "Trường": "?H Thu? L?i",
+    "CPA": 2.8
+  },
+  {
+    "MSSV": "SV005",
+    "Họ và tên": "Ngô Khá Bảnh",
+    "Ngày sinh": "4/10/2000",
+    "Trường": "HV Ngân Hàng",
+    "CPA": 2.9
+  },
+  {
+    "MSSV": "SV006",
+    "Họ và tên": "Trần Việt Long",
+    "Ngày sinh": "3/9/1999",
+    "Trường": "ĐH BKHN",
+    "CPA": 3.1
+  }
+]

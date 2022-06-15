@@ -4,7 +4,6 @@ import re
 import mysql
 import mysql.connector
 import pyodbc
-from cv2 import log
 from database import project_dao
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QTableWidgetItem, QWidget

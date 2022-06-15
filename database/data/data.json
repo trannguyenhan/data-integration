@@ -24,11 +24,31 @@
             {
                "type": "JSON",
                "connection string": "",
-               "schema": {
-                  "Column 0": "object",
-                  "Column 1": "object",
-                  "Column 2": "object"
-               },
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "MySQL",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "JSON",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "EXCEL",
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            },
+            {
+               "type": "CSV",
+               "connection string": "",
+               "schema": {},
                "mapping": {}
             }
          ],

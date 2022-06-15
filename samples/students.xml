@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <row>
+    <MSSV>SV001</MSSV>
+    <Tên>Trần Văn Tú</Tên>
+    <Ngày sinh>6/1/1999</Ngày sinh>
+    <Trường>ĐH BKHN</Trường>
+    <CPA>3</CPA>
+  </row>
+  <row>
+    <MSSV>SV002</MSSV>
+    <Tên>Nguyễn Thành Đô</Tên>
+    <Ngày sinh>8/2/1999</Ngày sinh>
+    <Trường>ĐH QGHN</Trường>
+    <CPA>2.5</CPA>
+  </row>
+  <row>
+    <MSSV>SV003</MSSV>
+    <Tên>Bùi Xuân Huấn</Tên>
+    <Ngày sinh>7/3/1999</Ngày sinh>
+    <Trường>ĐH BKHN</Trường>
+    <CPA>2.7</CPA>
+  </row>
+  <row>
+    <MSSV>SV004</MSSV>
+    <Tên>Lê Phương Thảo</Tên>
+    <Ngày sinh>5/4/2000</Ngày sinh>
+    <Trường>ĐH Thuỷ Lợi</Trường>
+    <CPA>2.8</CPA>
+  </row>
+  <row>
+    <MSSV>SV005</MSSV>
+    <Tên>Nguyễn Khá Bảnh</Tên>
+    <Ngày sinh>4/10/2000</Ngày sinh>
+    <Trường>ĐH Nông Nghiệp</Trường>
+    <CPA>2.9</CPA>
+  </row>
+  <row>
+    <MSSV>SV006</MSSV>
+    <Tên>Trần Việt Long</Tên>
+    <Ngày sinh>3/9/1999</Ngày sinh>
+    <Trường>ĐH BKHN</Trường>
+    <CPA>3.1</CPA>
+  </row>
+  <row>
+    <MSSV>SV007</MSSV>
+    <Tên>Ngô Gia Bảo</Tên>
+    <Ngày sinh>4/7/1999</Ngày sinh>
+    <Trường>ĐH Xây Dựng</Trường>
+    <CPA>2.5</CPA>
+  </row>
+</root>
