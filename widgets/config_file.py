@@ -1,15 +1,18 @@
 import os
 import re
+
 import mysql
 import mysql.connector
 import pyodbc
-from my_engine import EngineCsv, EngineJson, EngineXml
 from database import datasource_dao
+from my_engine import EngineCsv, EngineJson, EngineXml
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QFileDialog, QMainWindow, QTableWidgetItem, QMessageBox
+from PyQt5.QtWidgets import (QErrorMessage, QFileDialog, QMainWindow,
+                             QMessageBox, QTableWidgetItem)
+from sqlalchemy import true
 from ui.config_file import Ui_ConfigFile
-from utils.context import Context
 from utils.constants import DataType, SourceType
+from utils.context import Context
 
 
 class ConfigFile(QMainWindow):
@@ -31,7 +34,8 @@ class ConfigFile(QMainWindow):
 
     def create_components(self):
         self.setWindowTitle(f"Config {Context.data_source['type']} data source")
-
+        self.uic.connectionLabel.setText(Context.data_source["connection string"])
+        self.load_schema_to_des_table()
         # Create source components
         rowcount = len(Context.data_source['schema'])
         self.uic.tableSourceWidget.setRowCount(rowcount)
@@ -67,9 +71,32 @@ class ConfigFile(QMainWindow):
         row = self.uic.tableSourceWidget.currentRow()
         self.uic.tableSourceWidget.removeRow(row)
 
-    def ok_btn_clicked(self):
-        self.navigator.config_file.hide()
+    def mapping_schemas(self):
+        if self.uic.tableSourceWidget.rowCount() != self.uic.tableDestWidget.rowCount() or self.uic.tableSourceWidget.rowCount() <= 0:
+            return False, "Unequal number of columns!"
+        mapping_dict = {}    
+        for i in range(self.uic.tableSourceWidget.rowCount()):
+            s_col_name = self.uic.tableSourceWidget.item(i, 0).text()
+            s_col_dtype = self.uic.tableSourceWidget.cellWidget(i, 1).currentText()
+            d_col_name = self.uic.tableDestWidget.item(i, 0).text()
+            d_col_dtype = self.uic.tableDestWidget.item(i, 1).text()
+            print(d_col_name)
+            print(d_col_dtype)
+            if(s_col_dtype != d_col_dtype):
+                return False, "Data type cannot mapping from column " + s_col_name + " to column " + d_col_name
+            mapping_dict[s_col_name]=d_col_name
+        return True, mapping_dict
 
+    def ok_btn_clicked(self):
+        if not self.check_connection():
+            QErrorMessage(self).showMessage("Load file fail")
+            return
+        can_map, data_map = self.mapping_schemas()
+        if not can_map:
+            QErrorMessage(self).showMessage(data_map)
+            return
+
+        self.navigator.config_file.hide()
         # Save schema
         schema = {}
         for i in range(self.uic.tableSourceWidget.rowCount()):
@@ -77,7 +104,11 @@ class ConfigFile(QMainWindow):
             col_dtype = self.uic.tableSourceWidget.cellWidget(i, 1).currentText()
             schema[col_name] = col_dtype
         Context.data_source['schema'] = schema
+        Context.data_source['is valid'] = True
+        Context.data_source['connection string']  = self.uic.connectionLabel.text()
+        Context.data_source['mapping'] = data_map
         datasource_dao.save()
+        self.navigator.workbench.update_input_source_status()
 
     def browse_file(self):
         filename = QFileDialog.getOpenFileName()
@@ -119,6 +150,18 @@ class ConfigFile(QMainWindow):
             self.uic.tableSourceWidget.setItem(row, 0, item)
             self.uic.tableSourceWidget.setCellWidget(row, 1, cbx)
             row = row + 1
+    def load_schema_to_des_table(self):
+        self.uic.tableDestWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        for column_key, type in Context.project["destination schema"].items():
+            rowcount = self.uic.tableDestWidget.rowCount()
+            self.uic.tableDestWidget.setRowCount(rowcount + 1)
+            item = QTableWidgetItem()
+            item.setText(column_key)
+            data_type = QTableWidgetItem()
+            data_type.setText(type)
+            self.uic.tableDestWidget.setItem(rowcount, 0, item)
+            self.uic.tableDestWidget.setItem(rowcount, 1, data_type)
+
 
     def check_connection(self):
         if Context.data_source['type'] in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON,

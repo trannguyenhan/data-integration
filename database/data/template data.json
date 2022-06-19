@@ -10,6 +10,7 @@
         },
         "data sources:": [{
                 "type": "SQL Server",
+                "is valid": true,
                 "connection string": "host=...;user=...;pwd=...;db=...;table=...",
                 "schema": {
                     "id": "string",
@@ -21,6 +22,7 @@
                 }
             },
             {
+                "is valid": false,
                 "type": "Xml",
                 "connection string": "C:\\User\\hoang\\desktop\\testfile.xml",
                 "schema": {
