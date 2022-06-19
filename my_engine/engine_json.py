@@ -19,6 +19,34 @@ class EngineJson(EngineInterface):
         self.file.close()
         return self.header
 
+    def get_sample_data(self):
+        self.extract_header()
+        if len(self.header) == 0: 
+            return []
+        
+        result = []
+        self.load_data_source()
+        
+        if self.file != None: 
+            reader = json.load(self.file)
+            
+            cnt = 0
+            for item in reader: 
+                if cnt >= self.SIZE_SAMPLE_DATA: 
+                    break
+
+                resultItem = {}
+                for k in item: 
+                    resultItem[k] = item[k]
+                
+                result.append(resultItem)
+                cnt += 1
+            
+            return result
+        
+        # file not found
+        return []
+
     # dump data to warehouse -> mongodb
     def dump_data_to_warehouse(self, header_target, proj_name):
         self.extract_header()

@@ -37,6 +37,40 @@ class EngineMysql(EngineInterface):
         mcursor.close()
         return self.header
 
+    def get_sample_data(self):
+        self.extract_header()
+        if len(self.header) == 0: 
+            return []
+        
+        # when load header file is close
+        # load again data source
+        result = []
+        self.load_data_source()
+        if self.db != None: 
+            mcursor = self.db.cursor()
+            mcursor.execute("Select * from " + self.tableName)
+            fetchResult = mcursor.fetchall()
+
+            cnt = 0
+            for item in fetchResult: 
+                if cnt >= self.SIZE_SAMPLE_DATA: 
+                    break
+
+                resultItem = {}
+                cntItem = 0
+                for v in item: 
+                    resultItem[self.header[cntItem]] = v
+                    cntItem += 1
+
+                result.append(resultItem)
+                cnt += 1
+            
+            return result
+        
+        # resource not found
+        return []
+
+
     def dump_data_to_warehouse(self, header_target, proj_name):
         self.extract_header()
         if len(self.header) != len(header_target): # (1)

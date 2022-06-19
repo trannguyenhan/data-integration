@@ -1,6 +1,8 @@
 from utils.helpers import fill_none_value_header, standardization_data_type
 
 class EngineInterface():
+    SIZE_SAMPLE_DATA = 10
+
     def __init__(self, path_file):
         self.path_file = path_file
         self.data_sample = {}

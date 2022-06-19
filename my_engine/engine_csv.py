@@ -1,3 +1,4 @@
+from asyncore import read
 import csv
 from . import EngineInterface
 import utils.warehouse
@@ -28,6 +29,39 @@ class EngineCsv(EngineInterface):
         
         self.file.close()
         return super().extract_header()
+
+    def get_sample_data(self):
+        self.extract_header()
+        if len(self.header) == 0: 
+            return []
+        
+
+        result = []
+        self.load_data_source()
+        if self.file != None: 
+            reader = csv.reader(self.file)
+
+            line = next(reader) # ignore header
+            line = next(reader)
+
+            cnt = 0
+            while cnt < self.SIZE_SAMPLE_DATA: 
+                resultItem = {}
+
+                lens = len(line)
+                for i in range(0, lens): 
+                    k = self.header[i]
+                    v = line[i]
+                    resultItem[k] = v
+                
+                result.append(resultItem)
+                line = next(reader)
+                cnt += 1
+        
+            return result
+        
+        # file not found
+        return []
 
     # dump data to warehouse -> mongodb
     def dump_data_to_warehouse(self, header_target, proj_name):
