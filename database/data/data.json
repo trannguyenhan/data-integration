@@ -1,1 +1,64 @@
-{"data": [{"project name": "Converting to text file", "destination type": "TXT", "connection string": "C:/Users/dranh/Desktop/Log.txt", "is initialized": true, "destination schema": {"AAA": "integer", "BBB": "float", "Column 2": "string"}, "data sources": [{"type": "CSV", "connection string": "", "schema": {}, "mapping": {}}, {"type": "EXCEL", "connection string": "", "schema": {}, "mapping": {}}, {"type": "CSV", "connection string": "", "schema": {}, "mapping": {}}], "id": 702532011787352013}, {"project name": "Test txt", "destination type": "TXT", "connection string": null, "is initialized": false, "destination schema": null, "data sources": [], "id": 253808362936228045}]}
+{
+   "data": [
+      {
+         "project name": "Converting to text file",
+         "destination type": "TXT",
+         "connection string": "C:/Users/Vhc/Documents/GitHub/data-integration/requirements.txt",
+         "is initialized": true,
+         "destination schema": {
+            "AAA": "date",
+            "BBB": "integer",
+            "Column 2": "object"
+         },
+         "data sources": [
+            {
+               "type": "TXT",
+               "is valid": false,
+               "connection string": "C:/Users/Vhc/Documents/GitHub/data-integration/requirements.txt",
+               "schema": {
+                  "Column 0": "date",
+                  "Column 1": "integer",
+                  "Column 2": "string"
+               },
+               "mapping": {
+                  "Column 0": "AAA",
+                  "Column 1": "BBB",
+                  "Column 2": "Column 2"
+               }
+            },
+            {
+               "type": "CSV",
+               "is valid": false,
+               "connection string": "C:/Users/Vhc/Downloads/districts.csv",
+               "schema": {
+                  "Date": "date",
+                  "State": "integer",
+                  "District": "string"
+               },
+               "mapping": {
+                  "Date": "AAA",
+                  "State": "BBB",
+                  "District": "Column 2"
+               }
+            },
+            {
+               "type": "CSV",
+               "is valid": false,
+               "connection string": "",
+               "schema": {},
+               "mapping": {}
+            }
+         ],
+         "id": 702532011787352013
+      },
+      {
+         "project name": "Test txt",
+         "destination type": "TXT",
+         "connection string": null,
+         "is initialized": false,
+         "destination schema": null,
+         "data sources": [],
+         "id": 253808362936228045
+      }
+   ]
+}

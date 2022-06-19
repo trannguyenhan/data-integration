@@ -4,11 +4,12 @@ import re
 import mysql
 import mysql.connector
 import pyodbc
-from database import project_dao
+from database import datasource_dao, project_dao
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QTableWidgetItem, QWidget
 from ui.init_project import Ui_InitProject
 from utils.constants import DataType, SourceType
+from utils.context import Context
 
 
 class InitProject(QWidget):
@@ -85,13 +86,15 @@ class InitProject(QWidget):
             project_dao.set_connection_str(self.project["project name"], self.uic.connectionLabel.text())
 
             # Save project's destination schema
-            self.save_destination_schema()
+            is_schema_changed = self.save_destination_schema()
 
             # Open workbench
             self.hide()
             if go_to_workbench:
                 self.navigator.open_workbench()
-
+            if is_schema_changed:
+                datasource_dao.reset_all_valid()
+                self.navigator.workbench.update_input_source_status()
         except Exception as e:
             self.showError(str(e))
 
@@ -102,10 +105,13 @@ class InitProject(QWidget):
             column_name = self.uic.tableWidget.takeItem(i, 0).text()
             data_type = self.uic.tableWidget.cellWidget(i, 1).currentText()
             columns[column_name] = data_type
-        
+    
+        #check change destination schema:
+        is_schema_changed = columns != Context.project["destination schema"]
         # Save destination schema for project
         project_name = self.project["project name"]
         project_dao.set_destination_schema(project_name, columns)
+        return is_schema_changed
 
 
     def test_connection(self):

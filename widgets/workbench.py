@@ -1,11 +1,11 @@
 from database import datasource_dao
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QCoreApplication, QEvent, Qt
-from PyQt5.QtGui import QCloseEvent, QPainter
+from PyQt5.QtGui import QCloseEvent, QIcon, QPainter
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from ui.workbench import Ui_Workbench
-from utils.context import Context
 from utils.constants import SourceType
+from utils.context import Context
 
 
 class Workbench(QWidget):
@@ -62,6 +62,7 @@ class Workbench(QWidget):
         btn_source.setSizePolicy(sizePolicy)
         btn_source.setMaximumSize(QtCore.QSize(16777215, 135))
         btn_source.clicked.connect(self.src_btn_clicked)
+        btn_source.setIcon(QIcon('././assets/icons-green.png') if input_source["is valid"] else QIcon('././assets/icons-warning.png'))
         btn_source.installEventFilter(self)
 
     def back(self):
@@ -85,7 +86,9 @@ class Workbench(QWidget):
         datasource_dao.remove_at(idx)
         self.uic.verticalLayout.removeWidget(btn)
         btn.deleteLater()
-
+    def update_input_source_status(self):
+        for indx,input_source in enumerate(Context.project["data sources"]):
+            self.uic.verticalLayout.itemAt(indx).widget().setIcon(QIcon('././assets/icons-green.png') if input_source["is valid"] else QIcon('././assets/icons-warning.png'))
     def paintEvent(self, event):
         painter = QPainter(self)
         btn_des = self.uic.btn_destination.geometry()
