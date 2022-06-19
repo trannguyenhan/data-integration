@@ -71,10 +71,9 @@ class EngineMysql(EngineInterface):
         return []
 
 
-    def dump_data_to_warehouse(self, header_target, proj_name):
+    def dump_data_to_warehouse(self, mapping_target, proj_name):
         self.extract_header()
-        if len(self.header) != len(header_target): # (1)
-            # schema source not fit with schema destination
+        if len(mapping_target) == 0:
             return False
 
         # load again data source
@@ -91,7 +90,9 @@ class EngineMysql(EngineInterface):
                 cnt = 0
                 
                 for v in item: 
-                    resultItem[self.header[cnt]] = v
+                    k = self.header[cnt]
+                    if k in mapping_target: 
+                        resultItem[mapping_target[k]] = v
                     cnt += 1
 
                 result.append(resultItem)

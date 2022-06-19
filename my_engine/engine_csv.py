@@ -64,10 +64,9 @@ class EngineCsv(EngineInterface):
         return []
 
     # dump data to warehouse -> mongodb
-    def dump_data_to_warehouse(self, header_target, proj_name):
+    def dump_data_to_warehouse(self, mapping_target, proj_name):
         self.extract_header()
-        if len(self.header) != len(header_target): # (1)
-            # schema source not fit with schema destination
+        if len(mapping_target) == 0:
             return False
         
         # load again data source
@@ -89,9 +88,10 @@ class EngineCsv(EngineInterface):
                 # len(line) and len(header_target) is same (check in (1))
                 lens = len(line)
                 for i in range(0, lens): 
-                    k = header_target[i]    # get key from header target
-                    v = line[i]             # get value from each line csv reader
-                    resultItem[k] = v
+                    k = self.header[i]    # get key from header
+                    if k in mapping_target: # check header in header mapping
+                        v = line[i]             # get value from each line csv reader
+                        resultItem[mapping_target[k]] = v
 
                 result.append(resultItem)
                 line = next(reader, None)

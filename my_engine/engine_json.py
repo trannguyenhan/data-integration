@@ -48,10 +48,9 @@ class EngineJson(EngineInterface):
         return []
 
     # dump data to warehouse -> mongodb
-    def dump_data_to_warehouse(self, header_target, proj_name):
+    def dump_data_to_warehouse(self, mapping_target, proj_name):
         self.extract_header()
-        if len(self.header) != len(header_target): # (1)
-            # schema source not fit with schema destination
+        if len(mapping_target) == 0: 
             return False
 
         # load again data source
@@ -64,13 +63,13 @@ class EngineJson(EngineInterface):
             for item in reader: 
                 resultItem = {}
 
-                cnt = 0
                 # item is dict = (k,v)
                 # replace new key -> header_target[i]
-                for k in item: 
-                    resultItem[header_target[cnt]] = item[k]
-                    cnt += 1
-                
+                for k in item:
+                    if k in mapping_target:  # check header in header mapping
+                        resultItem[mapping_target[k]] = item[k]
+                    # only map header in mapping target and dump it to mongodb
+
                 result.append(resultItem)
             
             utils.warehouse.dump(result, proj_name)

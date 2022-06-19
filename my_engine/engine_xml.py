@@ -54,10 +54,9 @@ class EngineXml(EngineInterface):
         # resource not found
         return []
 
-    def dump_data_to_warehouse(self, header_target, proj_name):
+    def dump_data_to_warehouse(self, mapping_target, proj_name):
         self.extract_header()
-        if len(self.header) != len(header_target): # (1)
-            # schema source not fit with schema destination
+        if len(mapping_target) == 0:
             return False
 
         # load again data source
@@ -74,7 +73,8 @@ class EngineXml(EngineInterface):
                 for element in elements: 
                     tag = element.tag
                     value = element.text
-                    resultItem[tag] = value
+                    if tag in mapping_target:
+                        resultItem[mapping_target[tag]] = value
                     cnt += 1
 
                 result.append(resultItem)

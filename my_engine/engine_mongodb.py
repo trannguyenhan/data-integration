@@ -1,7 +1,17 @@
-from . import EngineMysql
+from . import EngineInterface
 from pymongo import mongo_client
 
-class EngineMongodb(EngineMysql): 
+class EngineMongodb(EngineInterface): 
+    def __init__(self, host_name, username, password, database, table_name):
+        self.hostName = host_name
+        self.username = username
+        self.password = password
+        self.database = database
+        self.tableName = table_name
+
+        self.db = None
+        super().__init__(None)
+        
     def load_data_source(self):
         client = mongo_client.MongoClient(self.hostName, 27017)
         self.db = client[self.database][self.tableName]
