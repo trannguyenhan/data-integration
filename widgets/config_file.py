@@ -1,6 +1,5 @@
 import os
 import re
-
 import mysql
 import mysql.connector
 import pyodbc
@@ -23,7 +22,7 @@ class ConfigFile(QMainWindow):
         self.uic.setupUi(self)
         self.uic.okButton.clicked.connect(self.ok_btn_clicked)
         self.uic.browseFileButton.clicked.connect(self.browse_file)
-        self.uic.previewButton.clicked.connect(self.preview)
+        self.uic.previewButton.clicked.connect(self.open_preview)
         self.uic.addBtn.clicked.connect(self.add)
         self.uic.removeBtn.clicked.connect(self.remove)
         self.uic.btn_up.clicked.connect(self.move_up)
@@ -82,7 +81,7 @@ class ConfigFile(QMainWindow):
             d_col_dtype = self.uic.tableDestWidget.item(i, 1).text()
             print(d_col_name)
             print(d_col_dtype)
-            if(s_col_dtype != d_col_dtype):
+            if s_col_dtype != d_col_dtype:
                 return False, "Data type cannot mapping from column " + s_col_name + " to column " + d_col_name
             mapping_dict[s_col_name]=d_col_name
         return True, mapping_dict
@@ -121,7 +120,6 @@ class ConfigFile(QMainWindow):
         msg.setWindowTitle("Info")
         if self.check_connection():
             path = self.uic.connectionLabel.text()
-            msg.setText("Success")
             file_to_load = [
                 [SourceType.JSON, 'json', EngineJson(self.uic.connectionLabel.text())],
                 [SourceType.CSV, 'csv', EngineCsv(self.uic.connectionLabel.text())],
@@ -136,6 +134,10 @@ class ConfigFile(QMainWindow):
         msg.show()
 
     def load_schema_to_source_table(self, engine):
+        keys = engine.extract_header()
+        Context.data_source['keys'] = keys[:]
+        sample_datas = engine.get_sample_data()
+        Context.data_source['sample_datas'] = sample_datas
         datas = engine.extract_schema()
         while self.uic.tableSourceWidget.rowCount() > 0:
             self.uic.tableSourceWidget.removeRow(0)
@@ -150,6 +152,10 @@ class ConfigFile(QMainWindow):
             self.uic.tableSourceWidget.setItem(row, 0, item)
             self.uic.tableSourceWidget.setCellWidget(row, 1, cbx)
             row = row + 1
+
+    def open_preview(self):
+        self.navigator.open_preview(Context.data_source['keys'], Context.data_source['sample_datas'])
+
     def load_schema_to_des_table(self):
         self.uic.tableDestWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         for column_key, type in Context.project["destination schema"].items():
@@ -161,7 +167,6 @@ class ConfigFile(QMainWindow):
             data_type.setText(type)
             self.uic.tableDestWidget.setItem(rowcount, 0, item)
             self.uic.tableDestWidget.setItem(rowcount, 1, data_type)
-
 
     def check_connection(self):
         if Context.data_source['type'] in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON,
@@ -207,9 +212,6 @@ class ConfigFile(QMainWindow):
             except Exception as e:
                 print("Connection string invalid")
                 return False
-
-    def preview(self):
-        self.navigator.open_preview()
 
     def move_down(self):
         row = self.uic.tableSourceWidget.currentRow()

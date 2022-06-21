@@ -55,7 +55,10 @@ class EngineCsv(EngineInterface):
                     resultItem[k] = v
                 
                 result.append(resultItem)
-                line = next(reader)
+                try:
+                    line = next(reader)
+                except:
+                    return result
                 cnt += 1
         
             return result

@@ -10,7 +10,7 @@ class Navigator:
         self.project_management = ProjectManagement(self)
         self.workbench = None
         self.config_file = None
-        self.preview = Preview(self)
+        self.preview = None
 
     def open_init_project_window(self):
         self.init_project = InitProject(self, Context.project)
@@ -29,5 +29,7 @@ class Navigator:
         self.config_file = ConfigFile(self)
         self.config_file.show()
 
-    def open_preview(self):
+    def open_preview(self, keys, datas):
+        self.preview = Preview(self)
+        self.preview.show_preview(keys=keys, datas=datas)
         self.preview.show()
