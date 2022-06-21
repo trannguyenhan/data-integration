@@ -1,64 +1,244 @@
 {
    "data": [
       {
-         "project name": "Converting to text file",
-         "destination type": "TXT",
-         "connection string": "C:/Users/Vhc/Documents/GitHub/data-integration/requirements.txt",
+         "project name": "To MS SQL",
+         "destination type": "MS SQL Server",
+         "connection string": "SERVER=localhost;DATABASE=testdb;UID=sa;PWD=1234",
          "is initialized": true,
          "destination schema": {
-            "AAA": "date",
-            "BBB": "integer",
-            "Column 2": "object"
+            "ID": "string",
+            "Name": "string",
+            "Dob": "date",
+            "CPA": "float"
          },
          "data sources": [
             {
-               "type": "TXT",
-               "is valid": false,
-               "connection string": "C:/Users/Vhc/Documents/GitHub/data-integration/requirements.txt",
+               "type": "XML",
+               "is valid": true,
+               "connection string": "C:/Users/dranh/Documents/GitHub/data-integration/samples/english/student in Augustana College.xml",
                "schema": {
-                  "Column 0": "date",
-                  "Column 1": "integer",
-                  "Column 2": "string"
+                  "Student_ID": "string",
+                  "Student_name": "string",
+                  "Date_of_birth": "date",
+                  "CPA": "float"
                },
                "mapping": {
-                  "Column 0": "AAA",
-                  "Column 1": "BBB",
-                  "Column 2": "Column 2"
-               }
+                  "Student_ID": "ID",
+                  "Student_name": "Name",
+                  "Date_of_birth": "Dob",
+                  "CPA": "CPA"
+               },
+               "keys": [
+                  "Student_ID",
+                  "Student_name",
+                  "Date_of_birth",
+                  "University",
+                  "CPA"
+               ],
+               "sample_datas": [
+                  {
+                     "Student_ID": "SV001",
+                     "Student_name": "Hyun D Baxter",
+                     "Date_of_birth": "6/1/1999",
+                     "University": "Augustana College",
+                     "CPA": "3"
+                  },
+                  {
+                     "Student_ID": "SV002",
+                     "Student_name": "Marshall M Dudley",
+                     "Date_of_birth": "8/2/1999",
+                     "University": "Augustana College",
+                     "CPA": "2.5"
+                  },
+                  {
+                     "Student_ID": "SV003",
+                     "Student_name": "David M Barnett",
+                     "Date_of_birth": "7/3/1999",
+                     "University": "Augustana College",
+                     "CPA": "2.7"
+                  },
+                  {
+                     "Student_ID": "SV004",
+                     "Student_name": "Walter J Rojas",
+                     "Date_of_birth": "5/4/2000",
+                     "University": "Augustana College",
+                     "CPA": "2.8"
+                  },
+                  {
+                     "Student_ID": "SV005",
+                     "Student_name": "Nathaniel E Pettit",
+                     "Date_of_birth": "4/10/2000",
+                     "University": "Augustana College",
+                     "CPA": "2.9"
+                  },
+                  {
+                     "Student_ID": "SV006",
+                     "Student_name": "Lynette H McNamara",
+                     "Date_of_birth": "3/9/1999",
+                     "University": "Augustana College",
+                     "CPA": "3.1"
+                  },
+                  {
+                     "Student_ID": "SV007",
+                     "Student_name": "Harvey J Dobbins",
+                     "Date_of_birth": "4/7/1999",
+                     "University": "Augustana College",
+                     "CPA": "2.5"
+                  }
+               ]
+            },
+            {
+               "type": "JSON",
+               "is valid": true,
+               "connection string": "C:/Users/dranh/Documents/GitHub/data-integration/samples/english/student in University of Chicago.json",
+               "schema": {
+                  "ID": "string",
+                  "Name": "string",
+                  "Dob": "date",
+                  "CPA": "float"
+               },
+               "mapping": {
+                  "ID": "ID",
+                  "Name": "Name",
+                  "Dob": "Dob",
+                  "CPA": "CPA"
+               },
+               "keys": [
+                  "CPA",
+                  "ID",
+                  "Dob",
+                  "Name",
+                  "University"
+               ],
+               "sample_datas": [
+                  {
+                     "ID": "SV008",
+                     "Name": "Lila R Collings",
+                     "Dob": "6/1/1999",
+                     "University": "University of Chicago",
+                     "CPA": 3
+                  },
+                  {
+                     "ID": "SV009",
+                     "Name": "Lillian M Fairbank",
+                     "Dob": "8/2/1999",
+                     "University": "University of Chicago",
+                     "CPA": 2.5
+                  },
+                  {
+                     "ID": "SV010",
+                     "Name": "Sydney J Dominick",
+                     "Dob": "7/3/1999",
+                     "University": "University of Chicago",
+                     "CPA": 2.7
+                  },
+                  {
+                     "ID": "SV011",
+                     "Name": "Carl F Sheets",
+                     "Dob": "5/4/2000",
+                     "University": "University of Chicago",
+                     "CPA": 2.8
+                  },
+                  {
+                     "ID": "SV012",
+                     "Name": "Juanita B Thompson",
+                     "Dob": "4/10/2000",
+                     "University": "University of Chicago",
+                     "CPA": 2.9
+                  },
+                  {
+                     "ID": "SV013",
+                     "Name": "Ilene R Chambless",
+                     "Dob": "3/9/1999",
+                     "University": "University of Chicago",
+                     "CPA": 3.1
+                  }
+               ]
             },
             {
                "type": "CSV",
-               "is valid": false,
-               "connection string": "C:/Users/Vhc/Downloads/districts.csv",
+               "is valid": true,
+               "connection string": "C:/Users/dranh/Documents/GitHub/data-integration/samples/english/students in DePaul University.csv",
                "schema": {
-                  "Date": "date",
-                  "State": "integer",
-                  "District": "string"
+                  "ï»¿ID": "string",
+                  "Name": "string",
+                  "Birth": "date",
+                  "CPA": "float"
                },
                "mapping": {
-                  "Date": "AAA",
-                  "State": "BBB",
-                  "District": "Column 2"
-               }
+                  "ï»¿ID": "ID",
+                  "Name": "Name",
+                  "Birth": "Dob",
+                  "CPA": "CPA"
+               },
+               "keys": [
+                  "ï»¿ID",
+                  "Name",
+                  "Birth",
+                  "School",
+                  "CPA"
+               ],
+               "sample_datas": [
+                  {
+                     "ï»¿ID": "SV019",
+                     "Name": "Dillon C Betancourt",
+                     "Birth": "6/1/1999",
+                     "School": "DePaul University",
+                     "CPA": "3"
+                  },
+                  {
+                     "ï»¿ID": "SV020",
+                     "Name": "Deborah B Turner",
+                     "Birth": "8/2/1999",
+                     "School": "DePaul University",
+                     "CPA": "2.5"
+                  },
+                  {
+                     "ï»¿ID": "SV021",
+                     "Name": "Marcellus J Sikes",
+                     "Birth": "7/3/1999",
+                     "School": "DePaul University",
+                     "CPA": "2.7"
+                  },
+                  {
+                     "ï»¿ID": "SV022",
+                     "Name": "Frederic C Deleon",
+                     "Birth": "5/4/2000",
+                     "School": "DePaul University",
+                     "CPA": "2.8"
+                  },
+                  {
+                     "ï»¿ID": "SV023",
+                     "Name": "Nicholas A Adams",
+                     "Birth": "4/10/2000",
+                     "School": "DePaul University",
+                     "CPA": "2.9"
+                  },
+                  {
+                     "ï»¿ID": "SV024",
+                     "Name": "Alton B Levi",
+                     "Birth": "3/9/1999",
+                     "School": "DePaul University",
+                     "CPA": "3.1"
+                  },
+                  {
+                     "ï»¿ID": "SV025",
+                     "Name": "Jeffrey M Waters",
+                     "Birth": "4/7/1999",
+                     "School": "DePaul University",
+                     "CPA": "2.5"
+                  }
+               ]
             },
             {
-               "type": "CSV",
+               "type": "MySQL",
                "is valid": false,
                "connection string": "",
                "schema": {},
                "mapping": {}
             }
          ],
-         "id": 702532011787352013
-      },
-      {
-         "project name": "Test txt",
-         "destination type": "TXT",
-         "connection string": null,
-         "is initialized": false,
-         "destination schema": null,
-         "data sources": [],
-         "id": 253808362936228045
+         "id": 305391929190556392
       }
    ]
 }
