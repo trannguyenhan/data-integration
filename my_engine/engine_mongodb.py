@@ -1,5 +1,9 @@
+import json
+from pydoc import doc
 from . import EngineInterface
 from pymongo import mongo_client
+import xml.etree.ElementTree as ET
+import csv
 
 class EngineMongodb(EngineInterface): 
     def __init__(self, host_name, username, password, database, table_name):
@@ -50,6 +54,84 @@ class EngineMongodb(EngineInterface):
         engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)               
         engine.load_data_source()
         engine.db.drop()
+
+    @staticmethod
+    def to_csv(project_name_dest, schema_dest):
+        engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)
+        engine.load_data_source()
+        cursor = engine.db.find({})
+
+        csv_output_file = open(project_name_dest + ".csv", "w")
+        csv_writer = csv.writer(csv_output_file)
+        headers = []
+
+        cnt = 0
+        for document in cursor: 
+            line = []
+            if cnt == 0: 
+                for item in document: 
+                    if item in schema_dest: 
+                        headers.append(item)
+                        line.append(document[item])
+                
+                        if cnt == 0: 
+                            csv_writer.writerow(headers)
+                        csv_writer.writerow(line)
+            else: 
+                for item in document: 
+                    if item in schema_dest: 
+                        line.append(document[item])
+                        csv_writer.writerow(line)
+            
+            cnt += 1
+
+        csv_output_file.close()
+
+    @staticmethod
+    def to_json(project_name_dest, schema_dest):
+        engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)
+        engine.load_data_source()
+        cursor = engine.db.find({})
+
+        result = []
+        for document in cursor: 
+            newDocument = {}
+            for item in document: 
+                if item in schema_dest:
+                    newDocument[item] = document[item]
+            
+            result.append(newDocument)
+
+        json_object = json.dumps(result)
+        with open(project_name_dest + ".json", "w") as output_file: 
+            output_file.write(json_object)
+    
+    @staticmethod
+    def to_xml(project_name_dest, schema_dest):
+        engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)
+        engine.load_data_source()
+        cursor = engine.db.find({})
+
+        tree = ET.ElementTree("tree")
+
+        root = ET.Element('data')
+        for document in cursor: 
+            subRoot = ET.SubElement(root, "sub-root")
+            for item in document: 
+                if item in schema_dest:
+                    xmlItem = ET.SubElement(subRoot, item)
+                    xmlItem.text = document[item]
+        
+        tree._setroot(root)
+        tree.write(project_name_dest + ".xml", encoding="utf-8", xml_declaration=True)
+
+    @staticmethod
+    def to_mysql(project_name_dest, schema_dest):
+        engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)
+        engine.load_data_source()
+        cursor = engine.db.find({})
+
+        
 
 if __name__ == "__main__": 
     engine = EngineMongodb("localhost", "", "", "X-news", "news")
