@@ -1,12 +1,19 @@
+from threading import Timer
+
 from database import datasource_dao
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QCoreApplication, QEvent, Qt
-from PyQt5.QtGui import QCloseEvent, QIcon, QPainter
+from PyQt5.QtGui import QCloseEvent, QIcon, QMovie, QPainter
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from ui.workbench import Ui_Workbench
 from utils.constants import SourceType
 from utils.context import Context
 
+
+def setTimeout(fn, ms, *args, **kwargs): 
+    t = Timer(ms / 1000., fn, args=args, kwargs=kwargs) 
+    t.start() 
+    return t 
 
 class Workbench(QWidget):
     def __init__(self, navigator):
@@ -17,12 +24,18 @@ class Workbench(QWidget):
         self.setup_menu_type()
         self.uic.btn_back.clicked.connect(self.back)
         self.uic.btn_destination.clicked.connect(self.des_btn_clicked) 
+        self.uic.btn_run.clicked.connect(self.run_btn_click) 
+        self.loading = QMovie("././assets/loading.gif")
+        self.uic.loading_label.setMovie(self.loading)
+        self.uic.loading_label.setHidden(True)
+        self.loading.start()
         self.create_components()
 
     def create_components(self):
         '''Read project's info and create corresponding components'''
         self.setWindowTitle(
             f"Project \'{Context.project['project name']}\' - Workbench")
+        # Loading the GIF
 
         for input_source in Context.project["data sources"]:
             self.add_input_source_btn(input_source)
@@ -40,6 +53,14 @@ class Workbench(QWidget):
         datasource_dao.add(item.text())
         self.add_input_source_btn(Context.project['data sources'][-1])
 
+    def end_process(self):
+        self.uic.loading_label.setHidden(True)
+        self.uic.btn_run.setEnabled(True)
+    def run_btn_click(self):
+        self.uic.loading_label.setHidden(False)
+        self.uic.btn_run.setEnabled(False)
+        setTimeout(self.end_process,2500)
+    
     def src_btn_clicked(self):
         idx = self.uic.verticalLayout.indexOf(self.sender())
         input_src = Context.project["data sources"][idx]

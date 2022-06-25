@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <row>
+    <Student_ID>SV001</Student_ID>
+    <Student_name>Hyun D Baxter</Student_name>
+    <Date_of_birth>6/1/1999</Date_of_birth>
+    <University>Augustana College</University>
+    <CPA>3</CPA>
+  </row>
+  <row>
+    <Student_ID>SV002</Student_ID>
+    <Student_name>Marshall M Dudley</Student_name>
+    <Date_of_birth>8/2/1999</Date_of_birth>
+    <University>Augustana College</University>
+    <CPA>2.5</CPA>
+  </row>
+  <row>
+    <Student_ID>SV003</Student_ID>
+    <Student_name>David M Barnett</Student_name>
+    <Date_of_birth>7/3/1999</Date_of_birth>
+    <University>Augustana College</University>
+    <CPA>2.7</CPA>
+  </row>
+  <row>
+    <Student_ID>SV004</Student_ID>
+    <Student_name>Walter J Rojas</Student_name>
+    <Date_of_birth>5/4/2000</Date_of_birth>
+    <University>Augustana College</University>
+    <CPA>2.8</CPA>
+  </row>
+  <row>
+    <Student_ID>SV005</Student_ID>
+    <Student_name>Nathaniel E Pettit</Student_name>
+    <Date_of_birth>4/10/2000</Date_of_birth>
+    <University>Augustana College</University>
+    <CPA>2.9</CPA>
+  </row>
+  <row>
+    <Student_ID>SV006</Student_ID>
+    <Student_name>Lynette H McNamara</Student_name>
+    <Date_of_birth>3/9/1999</Date_of_birth>
+    <University>Augustana College</University>
+    <CPA>3.1</CPA>
+  </row>
+  <row>
+    <Student_ID>SV007</Student_ID>
+    <Student_name>Harvey J Dobbins</Student_name>
+    <Date_of_birth>4/7/1999</Date_of_birth>
+    <University>Augustana College</University>
+    <CPA>2.5</CPA>
+  </row>
+</root>
