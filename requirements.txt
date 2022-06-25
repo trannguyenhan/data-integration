@@ -6,3 +6,4 @@ pyodbc==4.0.32
 python-dateutil==2.8.2
 pytz==2022.1
 six==1.16.0
+recordlinkage==0.15
