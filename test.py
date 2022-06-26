@@ -2,6 +2,8 @@
 
 from my_engine import *
 import my_engine
+from utils.warehouse import dump_with_engine
+from utils.constants import SourceType
 
 # engine = engine_csv.EngineCsv("/home/trannguyenhan/dataset/ign.csv")
 # engine.dump_data_to_warehouse(
@@ -50,4 +52,28 @@ import my_engine
 
 # engine.extract_header()
 
-my_engine.engine_mongodb.EngineMongodb.to_xml("proj5", ["RANK", "YEAR"])
+# my_engine.engine_mongodb.EngineMongodb.to_xml("proj5", ["RANK", "YEAR"])
+
+engineCsv = engine_csv.EngineCsv("/home/trannguyenhan/dataset/ign.csv")
+engineMySql = engine_mysql.EngineMysql("localhost", "root", "mysql12345", "foodapi", "orders")
+engineXml = engine_xml.EngineXml("/home/trannguyenhan/CodeFolder/tmp/test.xml")
+engineJson = engine_json.EngineJson("/home/trannguyenhan/dataset/alonhadat/house_price_prediction.json")
+
+dump_with_engine([
+    {
+        "engine": engineCsv,
+        "mapping_target": {'number': 'column1', 'score_phrase': 'column2'}
+    },
+    {
+        "engine": engineMySql,
+        "mapping_target": {'id': 'column1', 'user_id': 'column2'}
+    },
+    {
+        "engine": engineXml,
+        "mapping_target": {'rank': 'column1', 'year': 'column2'}
+    },
+    {
+        "engine": engineJson,
+        "mapping_target": {'type': 'column1', 'bedroom_number': 'column2'}
+    }
+], "proj7", SourceType.XML)
