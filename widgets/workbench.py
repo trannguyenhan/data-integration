@@ -1,13 +1,16 @@
 from threading import Timer
 
 from database import datasource_dao
+from my_engine import *
+from my_engine import EngineCsv, EngineJson, EngineXml
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QCoreApplication, QEvent, Qt
 from PyQt5.QtGui import QCloseEvent, QIcon, QMovie, QPainter
-from PyQt5.QtWidgets import QMainWindow, QWidget
+from PyQt5.QtWidgets import QErrorMessage, QMainWindow, QWidget
 from ui.workbench import Ui_Workbench
-from utils.constants import SourceType
+from utils.constants import DataType, SourceType
 from utils.context import Context
+from utils.warehouse import dump_with_engine
 
 
 def setTimeout(fn, ms, *args, **kwargs): 
@@ -28,6 +31,12 @@ class Workbench(QWidget):
         self.loading = QMovie("././assets/loading.gif")
         self.uic.loading_label.setMovie(self.loading)
         self.uic.loading_label.setHidden(True)
+        self.dict_engine ={
+            "XML":  engine_xml.EngineXml,
+            "JSON": engine_json.EngineJson,
+            "CSV": engine_csv.EngineCsv,
+            "MySQL": engine_json.EngineJson,
+        }
         self.loading.start()
         self.create_components()
 
@@ -56,11 +65,26 @@ class Workbench(QWidget):
     def end_process(self):
         self.uic.loading_label.setHidden(True)
         self.uic.btn_run.setEnabled(True)
+    
     def run_btn_click(self):
+        for input_source in Context.project["data sources"]:
+            if not input_source["is valid"]:
+                QErrorMessage(self).showMessage("Input source config is invalid!")
+                return
         self.uic.loading_label.setHidden(False)
         self.uic.btn_run.setEnabled(False)
-        setTimeout(self.end_process,2500)
-    
+        lst = []
+        for input_source in Context.project["data sources"]:
+            engine = self.dict_engine[input_source["type"]]
+            lst.append({
+                "engine": engine(input_source["connection string"]),
+                "mapping_target": input_source["mapping"]
+            })
+        # setTimeout(self.end_process,2500)
+        dump_with_engine(lst,Context.project["project name"],Context.project["destination type"])
+        self.end_process()
+        QErrorMessage(self).showMessage("Success!")
+
     def src_btn_clicked(self):
         idx = self.uic.verticalLayout.indexOf(self.sender())
         input_src = Context.project["data sources"][idx]
