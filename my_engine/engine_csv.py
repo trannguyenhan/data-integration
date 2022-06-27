@@ -2,14 +2,27 @@ from asyncore import read
 import csv
 from . import EngineInterface
 import utils.warehouse
+from utils.constants import SourceType
+import pandas as pd
 
 class EngineCsv(EngineInterface): 
+    def __init__(self, path_file, delimiter = ",", type_file = SourceType.CSV):
+        self.delimiter = delimiter
+        self.typeFile = type_file
+
+        if self.typeFile == SourceType.EXCEL:
+            file_excel_tmp = pd.read_excel(path_file)
+            new_csv_file_name = path_file + ".csv" # example file name is test.xlsx.csv
+            file_excel_tmp.to_csv(new_csv_file_name, index=None, header=True)
+            path_file = new_csv_file_name
+            
+        super().__init__(path_file)
 
     # extract header of csv file
     def extract_header(self, is_header = True):
         self.load_data_source()
         if self.file != None: 
-            reader = csv.reader(self.file)
+            reader = csv.reader(self.file, delimiter=self.delimiter)
             
             if(is_header == True): 
                 self.header = next(reader)
@@ -39,7 +52,7 @@ class EngineCsv(EngineInterface):
         result = []
         self.load_data_source()
         if self.file != None: 
-            reader = csv.reader(self.file)
+            reader = csv.reader(self.file, delimiter=self.delimiter)
 
             line = next(reader) # ignore header
             line = next(reader)
@@ -77,7 +90,7 @@ class EngineCsv(EngineInterface):
 
         self.load_data_source()
         if self.file != None: 
-            reader = csv.reader(self.file)
+            reader = csv.reader(self.file, delimiter=self.delimiter)
             
             line = next(reader) # ignore header
             line = next(reader)

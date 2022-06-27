@@ -120,7 +120,8 @@ class EngineMongodb(EngineInterface):
             for item in document: 
                 if item in schema_dest:
                     xmlItem = ET.SubElement(subRoot, item)
-                    xmlItem.text = document[item]
+                    # all value element xml is string -> convert to string
+                    xmlItem.text = str(document[item]) 
         
         tree._setroot(root)
         tree.write(project_name_dest + ".xml", encoding="utf-8", xml_declaration=True)

@@ -1,5 +1,7 @@
 greenlet==1.1.2
 mysql-connector-python==8.0.29
+numpy==1.23.0
+pandas==1.4.3
 protobuf==4.21.1
 pymongo==4.1.1
 pyodbc==4.0.32
