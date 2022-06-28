@@ -2,14 +2,16 @@ from threading import Timer
 
 from database import datasource_dao
 from my_engine import *
-from my_engine import EngineCsv, EngineJson, EngineXml
+from my_engine import EngineCsv, EngineJson, EngineMysql, EngineXml
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QCoreApplication, QEvent, Qt
 from PyQt5.QtGui import QCloseEvent, QIcon, QMovie, QPainter
-from PyQt5.QtWidgets import QErrorMessage, QMainWindow, QWidget
+from PyQt5.QtWidgets import (QErrorMessage, QInputDialog, QMainWindow,
+                             QPushButton, QWidget)
 from ui.workbench import Ui_Workbench
 from utils.constants import DataType, SourceType
 from utils.context import Context
+from utils.helpers import get_mysql_connection
 from utils.warehouse import dump_with_engine
 
 
@@ -32,10 +34,9 @@ class Workbench(QWidget):
         self.uic.loading_label.setMovie(self.loading)
         self.uic.loading_label.setHidden(True)
         self.dict_engine ={
-            "XML":  engine_xml.EngineXml,
-            "JSON": engine_json.EngineJson,
-            "CSV": engine_csv.EngineCsv,
-            "MySQL": engine_json.EngineJson,
+            "XML":  EngineXml,
+            "JSON": EngineJson,
+            "CSV": EngineCsv,
         }
         self.loading.start()
         self.create_components()
@@ -71,17 +72,39 @@ class Workbench(QWidget):
             if not input_source["is valid"]:
                 QErrorMessage(self).showMessage("Input source config is invalid!")
                 return
+        
         self.uic.loading_label.setHidden(False)
         self.uic.btn_run.setEnabled(False)
+
         lst = []
         for input_source in Context.project["data sources"]:
-            engine = self.dict_engine[input_source["type"]]
-            lst.append({
-                "engine": engine(input_source["connection string"]),
-                "mapping_target": input_source["mapping"]
-            })
+            if (input_source["type"] in self.dict_engine):
+                engine = self.dict_engine[input_source["type"]]
+                lst.append({
+                    "engine": engine(input_source["connection string"]),
+                    "mapping_target": input_source["mapping"]
+                })
+            elif input_source["type"] == "EXCEL":
+                engine = EngineCsv(
+                    input_source["connection string"], 
+                    delimiter=",", 
+                    type_file=SourceType.EXCEL
+                ) 
+                lst.append({
+                    "engine": engine,
+                    "mapping_target": input_source["mapping"]
+                })
+            elif input_source["type"] == "MYSQL":
+                host, user, password, database, table_name = get_mysql_connection(input_source["connection string"])
+                engine = EngineMysql(host,user,password,database,table_name ) 
+                lst.append({
+                    "engine": engine,
+                    "mapping_target": input_source["mapping"]
+                })
+
         # setTimeout(self.end_process,2500)
         dump_with_engine(lst,Context.project["project name"],Context.project["destination type"])
+
         self.end_process()
         QErrorMessage(self).showMessage("Success!")
 

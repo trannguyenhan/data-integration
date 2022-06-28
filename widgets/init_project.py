@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox, QTableWidgetItem, QWidget
 from ui.init_project import Ui_InitProject
 from utils.constants import DataType, SourceType
 from utils.context import Context
+from utils.helpers import get_mysql_connection
 
 
 class InitProject(QWidget):
@@ -33,7 +34,7 @@ class InitProject(QWidget):
             if dest_type in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON, SourceType.EXCEL]:
                 hint = f"Path to destination {dest_type} file"
             elif dest_type == SourceType.MySQL:
-                hint = "host=localhost; user=root; password=1234"
+                hint = "host=localhost; user=root; password=1234; database=testdb; table_name=test_table"
             elif dest_type == SourceType.MSSQL:
                 hint = "SERVER=localhost;DATABASE=testdb;UID=sa;PWD=1234"
             else:
@@ -134,10 +135,7 @@ class InitProject(QWidget):
         elif dest_type == SourceType.MySQL:
             try:
                 conn_str = self.uic.connectionLabel.text()
-                host, user, password = conn_str.split(';')
-                host = host.split("=")[1].strip()
-                user = user.split("=")[1].strip()
-                password = password.split("=")[1].strip()
+                host, user, password, database, table_name = get_mysql_connection(conn_str)
                 try:
                     con = mysql.connector.connect(host=host, user=user, password=password)
                     con.disconnect()

@@ -1,5 +1,6 @@
 from utils.constants import DataType
 
+
 def fill_none_value_header(header):
     cnt = 1
 
@@ -13,8 +14,16 @@ def fill_none_value_header(header):
         new_header.append(new_item)
     
     return new_header
-
+def get_mysql_connection(con_string):
+    host, user, password, database, table = con_string.split(';')
+    host = host.split("=")[1].strip()
+    user = user.split("=")[1].strip()
+    password = password.split("=")[1].strip()
+    database =  database.split("=")[1].strip()
+    table = table.split("=")[1].strip()
+    return host, user, password, database, table
 # convert data type from everything to list data type standardization
+
 # include: object, string, integer, float, date, boolean
 def standardization_data_type(data_type):
     if data_type in DataType.ALL: 
@@ -27,6 +36,6 @@ def standardization_data_type(data_type):
         return DataType.INT
     elif data_type == "bool":
         return DataType.BOOL
-    elif data_type == "datetime.date":
+    elif data_type == "datetime.date" or data_type == "datetime":
         return DataType.DATE
-    return data_type
+    return DataType.STR

@@ -1,10 +1,13 @@
+import json
 import os
 import re
+
 import mysql
 import mysql.connector
 import pyodbc
 from database import datasource_dao
-from my_engine import EngineCsv, EngineJson, EngineXml, EngineMysql, EngineMssql
+from my_engine import (EngineCsv, EngineJson, EngineMssql, EngineMysql,
+                       EngineXml)
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import (QErrorMessage, QFileDialog, QMainWindow,
                              QMessageBox, QTableWidgetItem)
@@ -12,6 +15,7 @@ from sqlalchemy import true
 from ui.config_file import Ui_ConfigFile
 from utils.constants import DataType, SourceType
 from utils.context import Context
+from utils.helpers import get_mysql_connection
 
 
 class ConfigFile(QMainWindow):
@@ -109,6 +113,7 @@ class ConfigFile(QMainWindow):
         Context.data_source['is valid'] = True
         Context.data_source['connection string']  = self.uic.connectionLabel.text()
         Context.data_source['mapping'] = data_map
+
         datasource_dao.save()
         self.navigator.workbench.update_input_source_status()
 
@@ -135,12 +140,7 @@ class ConfigFile(QMainWindow):
                         engine = file[2]
                         self.load_schema_to_source_table(engine)
             elif Context.data_source['type'] in [SourceType.MySQL, SourceType.MSSQL]:
-                host, user, password, database, table_name = path.split(';')
-                host = host.split("=")[1].strip()
-                user = user.split("=")[1].strip()
-                database = database.split("=")[1].strip()
-                password = password.split("=")[1].strip()
-                table_name = table_name.split("=")[1].strip()
+                host, user, password, database, table_name = get_mysql_connection(path)
                 engines = [
                     EngineMysql(host, user, password, database, table_name),
                     EngineMssql(host, user, password, database, table_name)
@@ -156,7 +156,7 @@ class ConfigFile(QMainWindow):
         keys = engine.extract_header()
         Context.data_source['keys'] = keys[:]
         sample_datas = engine.get_sample_data()
-        Context.data_source['sample_datas'] = sample_datas
+        Context.data_source['sample_datas'] = json.dumps(sample_datas,default=str) 
         datas = engine.extract_schema()
         while self.uic.tableSourceWidget.rowCount() > 0:
             self.uic.tableSourceWidget.removeRow(0)
@@ -173,7 +173,7 @@ class ConfigFile(QMainWindow):
             row = row + 1
 
     def open_preview(self):
-        self.navigator.open_preview(Context.data_source['keys'], Context.data_source['sample_datas'])
+        self.navigator.open_preview(Context.data_source['keys'], json.loads(Context.data_source['sample_datas']))
 
     def load_schema_to_des_table(self):
         self.uic.tableDestWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -198,10 +198,7 @@ class ConfigFile(QMainWindow):
         elif Context.data_source['type'] == SourceType.MySQL:
             try:
                 conn_str = self.uic.connectionLabel.text()
-                host, user, password, database, table_name = conn_str.split(';')
-                host = host.split("=")[1].strip()
-                user = user.split("=")[1].strip()
-                password = password.split("=")[1].strip()
+                host, user, password, database, table_name = get_mysql_connection(conn_str)
                 print(host,user,password)
                 try:
                     con = mysql.connector.connect(host=host, user=user, password=password)
