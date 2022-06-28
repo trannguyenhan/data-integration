@@ -42,9 +42,9 @@ class ConfigFile(QMainWindow):
             if data_source_type in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON, SourceType.EXCEL]:
                 hint = f"Path to destination {data_source_type} file"
             elif data_source_type == SourceType.MySQL:
-                hint = "host=localhost; user=root; password=1234"
+                hint = "host=localhost; user=root; password=1234; database=testdb; table_name=test_table"
             elif data_source_type == SourceType.MSSQL:
-                hint = "SERVER=localhost;DATABASE=testdb;UID=sa;PWD=1234"
+                hint = "SERVER=localhost;UID=sa;PWD=1234;DATABASE=testdb;TABLE=test_table"
             else:
                 raise Exception("Invalid destination type " + data_source_type)
             self.uic.connectionLabel.setText(hint)
@@ -193,10 +193,11 @@ class ConfigFile(QMainWindow):
         elif Context.data_source['type'] == SourceType.MySQL:
             try:
                 conn_str = self.uic.connectionLabel.text()
-                host, user, password = conn_str.split(';')
+                host, user, password, database, table_name = conn_str.split(';')
                 host = host.split("=")[1].strip()
                 user = user.split("=")[1].strip()
                 password = password.split("=")[1].strip()
+                print(host,user,password)
                 try:
                     con = mysql.connector.connect(host=host, user=user, password=password)
                     con.disconnect()
@@ -210,7 +211,7 @@ class ConfigFile(QMainWindow):
         elif Context.data_source['type'] == SourceType.MSSQL:
             try:
                 conn_str = self.uic.connectionLabel.text()
-                host, database, user, password = conn_str.split(';')
+                host, user, password, database, table_name = conn_str.split(';')
                 host = host.split("=")[1].strip()
                 user = user.split("=")[1].strip()
                 database = database.split("=")[1].strip()
