@@ -136,6 +136,11 @@ class ConfigFile(QMainWindow):
                         self.load_schema_to_source_table(engine)
             elif Context.data_source['type'] in [SourceType.MySQL, SourceType.MSSQL]:
                 host, user, password, database, table_name = path.split(';')
+                host = host.split("=")[1].strip()
+                user = user.split("=")[1].strip()
+                database = database.split("=")[1].strip()
+                password = password.split("=")[1].strip()
+                table_name = table_name.split("=")[1].strip()
                 engines = [
                     EngineMysql(host, user, password, database, table_name),
                     EngineMssql(host, user, password, database, table_name)
