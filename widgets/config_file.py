@@ -4,7 +4,7 @@ import mysql
 import mysql.connector
 import pyodbc
 from database import datasource_dao
-from my_engine import EngineCsv, EngineJson, EngineXml
+from my_engine import EngineCsv, EngineJson, EngineXml, EngineMysql, EngineMssql
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import (QErrorMessage, QFileDialog, QMainWindow,
                              QMessageBox, QTableWidgetItem)
@@ -20,10 +20,13 @@ class ConfigFile(QMainWindow):
         self.navigator = navigator
         self.uic = Ui_ConfigFile()
         self.uic.setupUi(self)
+        self.uic.tableSourceWidget.setColumnWidth(0, 180)
+        self.uic.tableSourceWidget.setColumnWidth(1, 105)
+        self.uic.tableDestWidget.setColumnWidth(0, 180)
+        self.uic.tableDestWidget.setColumnWidth(1, 105)
         self.uic.okButton.clicked.connect(self.ok_btn_clicked)
         self.uic.browseFileButton.clicked.connect(self.browse_file)
         self.uic.previewButton.clicked.connect(self.open_preview)
-        self.uic.addBtn.clicked.connect(self.add)
         self.uic.removeBtn.clicked.connect(self.remove)
         self.uic.btn_up.clicked.connect(self.move_up)
         self.uic.btn_down.clicked.connect(self.move_down)
@@ -32,8 +35,20 @@ class ConfigFile(QMainWindow):
         self.create_components()
 
     def create_components(self):
+        if Context.data_source["connection string"] != "":
+            self.uic.connectionLabel.setText(Context.data_source["connection string"])
+        else:
+            data_source_type = Context.data_source['type']
+            if data_source_type in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON, SourceType.EXCEL]:
+                hint = f"Path to destination {data_source_type} file"
+            elif data_source_type == SourceType.MySQL:
+                hint = "host=localhost; user=root; password=1234"
+            elif data_source_type == SourceType.MSSQL:
+                hint = "SERVER=localhost;DATABASE=testdb;UID=sa;PWD=1234"
+            else:
+                raise Exception("Invalid destination type " + data_source_type)
+            self.uic.connectionLabel.setText(hint)
         self.setWindowTitle(f"Config {Context.data_source['type']} data source")
-        self.uic.connectionLabel.setText(Context.data_source["connection string"])
         self.load_schema_to_des_table()
         # Create source components
         rowcount = len(Context.data_source['schema'])
@@ -50,18 +65,6 @@ class ConfigFile(QMainWindow):
 
         # TODO: create dest components
 
-    def add(self):
-        '''
-        Add a new row to the table
-        '''
-        rowcount = self.uic.tableSourceWidget.rowCount()
-        self.uic.tableSourceWidget.setRowCount(rowcount + 1)
-        item = QTableWidgetItem()
-        item.setText(f"Column {rowcount}")
-        self.uic.tableSourceWidget.setItem(rowcount, 0, item)
-        cbx = QtWidgets.QComboBox()
-        cbx.addItems(DataType.ALL)
-        self.uic.tableSourceWidget.setCellWidget(rowcount, 1, cbx)
 
     def remove(self):
         '''
@@ -118,19 +121,30 @@ class ConfigFile(QMainWindow):
     def load_source_file(self):
         msg = QMessageBox(self)
         msg.setWindowTitle("Info")
+        path = self.uic.connectionLabel.text()
         if self.check_connection():
-            path = self.uic.connectionLabel.text()
-            file_to_load = [
-                [SourceType.JSON, 'json', EngineJson(self.uic.connectionLabel.text())],
-                [SourceType.CSV, 'csv', EngineCsv(self.uic.connectionLabel.text())],
-                [SourceType.XML, 'xml', EngineXml(self.uic.connectionLabel.text())],
-            ]
-            for file in file_to_load:
-                if check_file_is_valid(file[0], file[1], path, msg, file[2]):
-                    engine = file[2]
-                    self.load_schema_to_source_table(engine)
+            if Context.data_source['type'] in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON,
+                                           SourceType.EXCEL]:
+                file_to_load = [
+                    [SourceType.JSON, 'json', EngineJson(self.uic.connectionLabel.text())],
+                    [SourceType.CSV, 'csv', EngineCsv(self.uic.connectionLabel.text())],
+                    [SourceType.XML, 'xml', EngineXml(self.uic.connectionLabel.text())],
+                ]
+                for file in file_to_load:
+                    if check_file_is_valid(file[0], file[1], path, msg, file[2]):
+                        engine = file[2]
+                        self.load_schema_to_source_table(engine)
+            elif Context.data_source['type'] in [SourceType.MySQL, SourceType.MSSQL]:
+                host, user, password, database, table_name = path.split(';')
+                engines = [
+                    EngineMysql(host, user, password, database, table_name),
+                    EngineMssql(host, user, password, database, table_name)
+                           ]
+                engine = engines[0] if Context.data_source['type'] == SourceType.MySQL else engines[1]
+                self.load_schema_to_source_table(engine)
+
         else:
-            msg.setText("Load file fail")
+            msg.setText("Load schema fail")
         msg.show()
 
     def load_schema_to_source_table(self, engine):

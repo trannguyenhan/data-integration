@@ -14,6 +14,8 @@ class Preview(QMainWindow):
         print(keys)
         row_count = 10 if len(datas) >= 10 else len(datas)
         self.uic.tableWidget.setColumnCount(len(keys))
+        for i in range(len(keys)):
+            self.uic.tableWidget.setColumnWidth(i, 153)
         self.uic.tableWidget.setRowCount(row_count)
         print("======================")
         print(keys)
