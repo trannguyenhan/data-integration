@@ -1,9 +1,13 @@
-import json
-from pydoc import doc
-from . import EngineInterface
-from pymongo import mongo_client
-import xml.etree.ElementTree as ET
 import csv
+import json
+import xml.etree.ElementTree as ET
+from pydoc import doc
+
+from pymongo import mongo_client
+from utils.deduplicate_mongo import find_duplicate
+
+from . import EngineInterface
+
 
 class EngineMongodb(EngineInterface): 
     def __init__(self, host_name, username, password, database, table_name):
@@ -86,7 +90,14 @@ class EngineMongodb(EngineInterface):
             cnt += 1
 
         csv_output_file.close()
-
+    @staticmethod
+    def remove_duplicate(project_name_dest):
+        engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)
+        engine.load_data_source()
+        list_ids_dup = find_duplicate(engine.db)
+        result = engine.db.delete_many({"_id": {'$in': list_ids_dup}})
+        print(result)
+    
     @staticmethod
     def to_json(project_name_dest, schema_dest):
         engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)

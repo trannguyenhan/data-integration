@@ -1,5 +1,7 @@
 from my_engine.engine_mongodb import EngineMongodb
+
 from utils.constants import SourceType
+
 
 # dump data to warehouse
 # when dump to warehouse, identify of each proj is proj_name
@@ -24,10 +26,11 @@ def delete(proj_name):
         }
     proj_name: proj5
 '''
-def dump_with_engine(lst, proj_name, dest_type):
+def dump_with_engine(lst, proj_name, dest_type,deduplicate):
     schema_dest = []
 
     cnt = 0
+
     for item in lst: 
         engine = item['engine']
         mapping_target = item['mapping_target']
@@ -37,7 +40,8 @@ def dump_with_engine(lst, proj_name, dest_type):
             for mapping_item in mapping_target: 
                 schema_dest.append(mapping_target[mapping_item])
         cnt += 1
-    
+    if deduplicate:
+        EngineMongodb.remove_duplicate(proj_name)
     if dest_type == SourceType.XML: 
         EngineMongodb.to_xml(proj_name, schema_dest)
     elif dest_type == SourceType.CSV: 

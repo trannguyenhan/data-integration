@@ -7,7 +7,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QCoreApplication, QEvent, Qt
 from PyQt5.QtGui import QCloseEvent, QIcon, QMovie, QPainter
 from PyQt5.QtWidgets import (QErrorMessage, QInputDialog, QMainWindow,
-                             QPushButton, QWidget)
+                             QMessageBox, QPushButton, QWidget)
 from ui.workbench import Ui_Workbench
 from utils.constants import DataType, SourceType
 from utils.context import Context
@@ -34,9 +34,9 @@ class Workbench(QWidget):
         self.uic.loading_label.setMovie(self.loading)
         self.uic.loading_label.setHidden(True)
         self.dict_engine ={
-            "XML":  EngineXml,
-            "JSON": EngineJson,
-            "CSV": EngineCsv,
+            SourceType.XML:  EngineXml,
+            SourceType.JSON: EngineJson,
+            SourceType.CSV: EngineCsv,
         }
         self.loading.start()
         self.create_components()
@@ -67,7 +67,7 @@ class Workbench(QWidget):
         self.uic.loading_label.setHidden(True)
         self.uic.btn_run.setEnabled(True)
     
-    def run_btn_click(self):
+    def run_btn_click(self):        
         for input_source in Context.project["data sources"]:
             if not input_source["is valid"]:
                 QErrorMessage(self).showMessage("Input source config is invalid!")
@@ -84,7 +84,7 @@ class Workbench(QWidget):
                     "engine": engine(input_source["connection string"]),
                     "mapping_target": input_source["mapping"]
                 })
-            elif input_source["type"] == "EXCEL":
+            elif input_source["type"] == SourceType.EXCEL:
                 engine = EngineCsv(
                     input_source["connection string"], 
                     delimiter=",", 
@@ -94,16 +94,27 @@ class Workbench(QWidget):
                     "engine": engine,
                     "mapping_target": input_source["mapping"]
                 })
-            elif input_source["type"] == "MYSQL":
+            elif input_source["type"] == SourceType.MySQL:
                 host, user, password, database, table_name = get_mysql_connection(input_source["connection string"])
                 engine = EngineMysql(host,user,password,database,table_name ) 
                 lst.append({
                     "engine": engine,
                     "mapping_target": input_source["mapping"]
                 })
+                
+        dlg = QMessageBox(self)
+        dlg.setWindowTitle("Duplicate Check!")
+        dlg.setText("Do you want to automatically remove duplicate?")
+        dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        dlg.setIcon(QMessageBox.Question)
+        button = dlg.exec()
+
+        if button == QMessageBox.Yes:
+            dump_with_engine(lst,Context.project["project name"],Context.project["destination type"], True)
+        else:
+            dump_with_engine(lst,Context.project["project name"],Context.project["destination type"], False)
 
         # setTimeout(self.end_process,2500)
-        dump_with_engine(lst,Context.project["project name"],Context.project["destination type"])
 
         self.end_process()
         QErrorMessage(self).showMessage("Success!")
