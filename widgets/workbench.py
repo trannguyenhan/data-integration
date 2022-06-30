@@ -84,6 +84,15 @@ class Workbench(QWidget):
                     "engine": engine(input_source["connection string"]),
                     "mapping_target": input_source["mapping"]
                 })
+            elif input_source["type"] == SourceType.TXT:
+                engine = EngineCsv(
+                    input_source["connection string"], 
+                    delimiter="\t", 
+                ) 
+                lst.append({
+                    "engine": engine,
+                    "mapping_target": input_source["mapping"]
+                })
             elif input_source["type"] == SourceType.EXCEL:
                 engine = EngineCsv(
                     input_source["connection string"], 

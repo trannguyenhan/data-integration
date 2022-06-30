@@ -128,9 +128,9 @@ class ConfigFile(QMainWindow):
         msg.setWindowTitle("Info")
         path = self.uic.connectionLabel.text()
         if self.check_connection():
-            if Context.data_source['type'] in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON,
-                                           SourceType.EXCEL]:
+            if Context.data_source['type'] in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON]:
                 file_to_load = [
+                    [SourceType.TXT, 'txt', EngineCsv(self.uic.connectionLabel.text(),  delimiter="\t")],
                     [SourceType.JSON, 'json', EngineJson(self.uic.connectionLabel.text())],
                     [SourceType.CSV, 'csv', EngineCsv(self.uic.connectionLabel.text())],
                     [SourceType.XML, 'xml', EngineXml(self.uic.connectionLabel.text())],
@@ -139,6 +139,9 @@ class ConfigFile(QMainWindow):
                     if check_file_is_valid(file[0], file[1], path, msg, file[2]):
                         engine = file[2]
                         self.load_schema_to_source_table(engine)
+            elif Context.data_source['type'] ==  SourceType.EXCEL:
+                engine = EngineCsv(self.uic.connectionLabel.text(), delimiter="," , type_file=SourceType.EXCEL)
+                self.load_schema_to_source_table(engine)
             elif Context.data_source['type'] in [SourceType.MySQL, SourceType.MSSQL]:
                 host, user, password, database, table_name = get_mysql_connection(path)
                 engines = [
@@ -253,6 +256,8 @@ class ConfigFile(QMainWindow):
 
 def check_file_is_valid(file_type, file_extension, path, msg, engine_type):
     source_type = Context.data_source['type']
+    print(source_type)
+    print(file_type)
     if source_type == file_type:
         if not re.match(f'.*\.{file_extension}', path):
             msg.setText(f"Not a {file_extension} file")
