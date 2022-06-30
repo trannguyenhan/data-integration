@@ -26,7 +26,8 @@ def delete(proj_name):
         }
     proj_name: proj5
 '''
-def dump_with_engine(lst, proj_name, dest_type,deduplicate):
+def dump_with_engine(lst, proj_name, dest_type, deduplicate, path_name = None, \
+                        host = None, username = None, password = None, database = None, tableName = None):
     schema_dest = []
 
     cnt = 0
@@ -40,11 +41,15 @@ def dump_with_engine(lst, proj_name, dest_type,deduplicate):
             for mapping_item in mapping_target: 
                 schema_dest.append(mapping_target[mapping_item])
         cnt += 1
+
     if deduplicate:
         EngineMongodb.remove_duplicate(proj_name)
+
     if dest_type == SourceType.XML: 
-        EngineMongodb.to_xml(proj_name, schema_dest)
+        EngineMongodb.to_xml(proj_name, schema_dest, path_name)
     elif dest_type == SourceType.CSV: 
-        EngineMongodb.to_csv(proj_name, schema_dest)
+        EngineMongodb.to_csv(proj_name, schema_dest, path_name)
     elif dest_type == SourceType.JSON: 
-        EngineMongodb.to_json(proj_name, schema_dest)
+        EngineMongodb.to_json(proj_name, schema_dest, path_name)
+    elif dest_type == SourceType.MySQL: 
+        EngineMongodb.to_mysql(proj_name, schema_dest, host, username, password, database, tableName)

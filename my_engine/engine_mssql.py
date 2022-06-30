@@ -1,5 +1,6 @@
 from . import EngineInterface
 import pyodbc
+import utils.warehouse
 
 class EngineMssql(EngineInterface): 
     def __init__(self, host_name, username, password, database, table_name):
@@ -34,17 +35,70 @@ class EngineMssql(EngineInterface):
         mcursor.close()
         return self.header
     
-    def dump_data_to_warehouse(self, header_target):
+    def dump_data_to_warehouse(self, mapping_target, proj_name):
         self.extract_header()
-        if len(self.header) != len(header_target): # (1)
-            # schema source not fit with schema destination
+        if len(mapping_target) == 0:
             return False
 
         # load again data source
         result = []
 
         self.load_data_source()
+        if self.db != None: 
+            mcursor = self.db.cursor()
+            mcursor.execute("Select * from " + self.tableName)
+            fetchResult = mcursor.fetchall()
+
+            for item in fetchResult: 
+                resultItem = {}
+                cnt = 0
+                
+                for v in item: 
+                    k = self.header[cnt]
+                    if k in mapping_target: 
+                        resultItem[mapping_target[k]] = v
+                    cnt += 1
+
+                result.append(resultItem)
+                
+            utils.warehouse.dump(result, proj_name)
+            return True
         
+        # not connect to resource
+        return False
+        
+    def get_sample_data(self):
+        self.extract_header()
+        if len(self.header) == 0: 
+            return []
+        
+        # when load header file is close
+        # load again data source
+        result = []
+        self.load_data_source()
+        if self.db != None: 
+            mcursor = self.db.cursor()
+            mcursor.execute("Select * from " + self.tableName)
+            fetchResult = mcursor.fetchall()
+
+            cnt = 0
+            for item in fetchResult: 
+                if cnt >= self.SIZE_SAMPLE_DATA: 
+                    break
+
+                resultItem = {}
+                cntItem = 0
+                for v in item: 
+                    resultItem[self.header[cntItem]] = v
+                    cntItem += 1
+
+                result.append(resultItem)
+                cnt += 1
+            
+            return result
+        
+        # resource not found
+        return []
 
 if __name__ == "__main__": 
     engine = EngineMssql("localhost", "sa", "Helloworld123", "test_database", "users")

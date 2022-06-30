@@ -1,7 +1,7 @@
 import csv
 import json
 import xml.etree.ElementTree as ET
-from pydoc import doc
+import mysql.connector
 
 from pymongo import mongo_client
 from utils.deduplicate_mongo import find_duplicate
@@ -60,12 +60,15 @@ class EngineMongodb(EngineInterface):
         engine.db.drop()
 
     @staticmethod
-    def to_csv(project_name_dest, schema_dest):
+    def to_csv(project_name_dest, schema_dest, path_name = None):
+        if path_name == None: 
+            path_name = project_name_dest + ".csv"
+        
         engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)
         engine.load_data_source()
         cursor = engine.db.find({})
 
-        csv_output_file = open(project_name_dest + ".csv", "w")
+        csv_output_file = open(path_name, "w")
         csv_writer = csv.writer(csv_output_file)
         headers = []
 
@@ -90,6 +93,7 @@ class EngineMongodb(EngineInterface):
             cnt += 1
 
         csv_output_file.close()
+
     @staticmethod
     def remove_duplicate(project_name_dest):
         engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)
@@ -99,7 +103,10 @@ class EngineMongodb(EngineInterface):
         print(result)
     
     @staticmethod
-    def to_json(project_name_dest, schema_dest):
+    def to_json(project_name_dest, schema_dest, path_name = None):
+        if path_name == None: 
+            path_name = project_name_dest + ".json"
+
         engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)
         engine.load_data_source()
         cursor = engine.db.find({})
@@ -114,11 +121,14 @@ class EngineMongodb(EngineInterface):
             result.append(newDocument)
 
         json_object = json.dumps(result)
-        with open(project_name_dest + ".json", "w") as output_file: 
+        with open(path_name, "w") as output_file: 
             output_file.write(json_object)
     
     @staticmethod
-    def to_xml(project_name_dest, schema_dest):
+    def to_xml(project_name_dest, schema_dest, path_name = None):
+        if path_name == None: 
+            path_name = project_name_dest + ".xml"
+
         engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)
         engine.load_data_source()
         cursor = engine.db.find({})
@@ -135,15 +145,65 @@ class EngineMongodb(EngineInterface):
                     xmlItem.text = str(document[item]) 
         
         tree._setroot(root)
-        tree.write(project_name_dest + ".xml", encoding="utf-8", xml_declaration=True)
+        tree.write(path_name, encoding="utf-8", xml_declaration=True)
 
     @staticmethod
-    def to_mysql(project_name_dest, schema_dest):
+    def to_mysql(project_name_dest, schema_dest, host, username, password, database, table):
         engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)
         engine.load_data_source()
         cursor = engine.db.find({})
 
+        headers = []
+        records = []
+
+        cnt = 0
+        for document in cursor: 
+            record = []
+            if cnt == 0: 
+                for item in document: 
+                    if item in schema_dest: 
+                        headers.append(item)
+                        record.append(str(document[item]))
+            else: 
+                for item in document: 
+                    if item in schema_dest: 
+                        record.append(str(document[item]))
+            cnt += 1
+            records.append(record)
+            
+        sqlText = "insert into {} ".format(table)
+        textFields = "("
+        valueFields = "("
+        tableFields = "( id int primary key auto_increment, "
+        cnt = 0
+        for header in headers: 
+            cnt += 1
+            if cnt == len(headers): 
+                break
+            textFields += header + ","
+            valueFields += "%s" + ","
+            tableFields += header + " text, "
+
+        textFields += headers[cnt - 1] + ")"
+        valueFields += "%s" + ")"
+        tableFields += headers[cnt - 1] + " text)"
+
+        sqlText += textFields + " VALUES " + valueFields
+
+        db = mysql.connector.connect(
+            host = host,
+            user = username,
+            password = password,
+            database = database
+        )
+
+        sqlTable = "CREATE TABLE IF NOT EXISTS {} {}".format(table, tableFields)
+        cursor = db.cursor()
+
+        cursor.execute(sqlTable)
+        cursor.executemany(sqlText, records)
         
+        db.commit()
 
 if __name__ == "__main__": 
     engine = EngineMongodb("localhost", "", "", "X-news", "news")

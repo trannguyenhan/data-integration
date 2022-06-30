@@ -1,5 +1,7 @@
 et-xmlfile==1.1.0
 greenlet==1.1.2
+jellyfish==0.9.0
+joblib==1.1.0
 mysql-connector-python==8.0.29
 numpy==1.23.0
 openpyxl==3.0.10
@@ -9,4 +11,8 @@ pymongo==4.1.1
 pyodbc==4.0.32
 python-dateutil==2.8.2
 pytz==2022.1
+recordlinkage==0.15
+scikit-learn==1.1.1
+scipy==1.8.1
 six==1.16.0
+threadpoolctl==3.1.0
