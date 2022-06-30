@@ -11,15 +11,13 @@ class Preview(QMainWindow):
         self.uic.okButton.clicked.connect(self.ok_btn_clicked)
 
     def show_preview(self, keys, datas):
-        print(keys)
         row_count = 10 if len(datas) >= 10 else len(datas)
         self.uic.tableWidget.setColumnCount(len(keys))
         for i in range(len(keys)):
             self.uic.tableWidget.setColumnWidth(i, 153)
         self.uic.tableWidget.setRowCount(row_count)
         print("======================")
-        print(keys)
-        self.uic.tableWidget.setHorizontalHeaderLabels(keys)
+        self.uic.tableWidget.setHorizontalHeaderLabels(list(datas[0].keys()))
         i=0
         for data in datas:
             print(data)
