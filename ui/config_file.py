@@ -1,25 +1,23 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'config_file.ui'
+# Form implementation generated from reading ui file 'ui/designs/config_file.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.1
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_ConfigFile(object):
     def setupUi(self, ConfigFile):
         ConfigFile.setObjectName("ConfigFile")
-        ConfigFile.resize(807, 509)
+        ConfigFile.resize(912, 509)
         self.browseFileButton = QtWidgets.QPushButton(ConfigFile)
-        self.browseFileButton.setGeometry(QtCore.QRect(470, 50, 121, 31))
+        self.browseFileButton.setGeometry(QtCore.QRect(640, 50, 121, 31))
         self.browseFileButton.setObjectName("browseFileButton")
         self.tableSourceWidget = QtWidgets.QTableWidget(ConfigFile)
         self.tableSourceWidget.setEnabled(True)
-        self.tableSourceWidget.setGeometry(QtCore.QRect(90, 140, 300, 261))
+        self.tableSourceWidget.setGeometry(QtCore.QRect(90, 140, 361, 261))
         self.tableSourceWidget.setTabletTracking(False)
         self.tableSourceWidget.setObjectName("tableSourceWidget")
         self.tableSourceWidget.setColumnCount(2)
@@ -28,8 +26,10 @@ class Ui_ConfigFile(object):
         self.tableSourceWidget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableSourceWidget.setHorizontalHeaderItem(1, item)
+        self.tableSourceWidget.horizontalHeader().setDefaultSectionSize(180)
+        self.tableSourceWidget.horizontalHeader().setMinimumSectionSize(100)
         self.tableDestWidget = QtWidgets.QTableWidget(ConfigFile)
-        self.tableDestWidget.setGeometry(QtCore.QRect(440, 140, 300, 261))
+        self.tableDestWidget.setGeometry(QtCore.QRect(519, 140, 361, 261))
         self.tableDestWidget.setObjectName("tableDestWidget")
         self.tableDestWidget.setColumnCount(2)
         self.tableDestWidget.setRowCount(0)
@@ -37,14 +37,16 @@ class Ui_ConfigFile(object):
         self.tableDestWidget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableDestWidget.setHorizontalHeaderItem(1, item)
+        self.tableDestWidget.horizontalHeader().setDefaultSectionSize(180)
+        self.tableDestWidget.horizontalHeader().setMinimumSectionSize(100)
         self.previewButton = QtWidgets.QPushButton(ConfigFile)
-        self.previewButton.setGeometry(QtCore.QRect(80, 460, 101, 25))
+        self.previewButton.setGeometry(QtCore.QRect(90, 450, 101, 25))
         self.previewButton.setObjectName("previewButton")
         self.okButton = QtWidgets.QPushButton(ConfigFile)
-        self.okButton.setGeometry(QtCore.QRect(570, 460, 89, 25))
+        self.okButton.setGeometry(QtCore.QRect(790, 460, 89, 25))
         self.okButton.setObjectName("okButton")
         self.removeBtn = QtWidgets.QPushButton(ConfigFile)
-        self.removeBtn.setGeometry(QtCore.QRect(240, 410, 141, 25))
+        self.removeBtn.setGeometry(QtCore.QRect(350, 410, 141, 25))
         self.removeBtn.setObjectName("removeBtn")
         self.btn_up = QtWidgets.QPushButton(ConfigFile)
         self.btn_up.setGeometry(QtCore.QRect(20, 220, 51, 41))
@@ -56,10 +58,10 @@ class Ui_ConfigFile(object):
         self.label_4.setGeometry(QtCore.QRect(20, 60, 81, 16))
         self.label_4.setObjectName("label_4")
         self.connectionLabel = QtWidgets.QLineEdit(ConfigFile)
-        self.connectionLabel.setGeometry(QtCore.QRect(110, 50, 311, 31))
+        self.connectionLabel.setGeometry(QtCore.QRect(110, 50, 511, 31))
         self.connectionLabel.setObjectName("connectionLabel")
         self.loadBtn = QtWidgets.QPushButton(ConfigFile)
-        self.loadBtn.setGeometry(QtCore.QRect(630, 50, 111, 31))
+        self.loadBtn.setGeometry(QtCore.QRect(780, 50, 111, 31))
         self.loadBtn.setObjectName("loadBtn")
 
         self.retranslateUi(ConfigFile)
@@ -85,12 +87,3 @@ class Ui_ConfigFile(object):
         self.label_4.setText(_translate("ConfigFile", "Connection"))
         self.loadBtn.setText(_translate("ConfigFile", "Connect/Load"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    ConfigFile = QtWidgets.QWidget()
-    ui = Ui_ConfigFile()
-    ui.setupUi(ConfigFile)
-    ConfigFile.show()
-    sys.exit(app.exec_())

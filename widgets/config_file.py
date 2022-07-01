@@ -1,10 +1,4 @@
 import json
-import os
-import re
-
-import mysql
-import mysql.connector
-import pyodbc
 from database import datasource_dao
 from my_engine import (EngineCsv, EngineJson, EngineMssql, EngineMysql,
                        EngineXml)
@@ -15,7 +9,7 @@ from sqlalchemy import true
 from ui.config_file import Ui_ConfigFile
 from utils.constants import DataType, SourceType
 from utils.context import Context
-from utils.helpers import get_mysql_connection
+from utils.helpers import get_db_connection, check_connection
 
 
 class ConfigFile(QMainWindow):
@@ -24,10 +18,6 @@ class ConfigFile(QMainWindow):
         self.navigator = navigator
         self.uic = Ui_ConfigFile()
         self.uic.setupUi(self)
-        self.uic.tableSourceWidget.setColumnWidth(0, 180)
-        self.uic.tableSourceWidget.setColumnWidth(1, 105)
-        self.uic.tableDestWidget.setColumnWidth(0, 180)
-        self.uic.tableDestWidget.setColumnWidth(1, 105)
         self.uic.okButton.clicked.connect(self.ok_btn_clicked)
         self.uic.browseFileButton.clicked.connect(self.browse_file)
         self.uic.previewButton.clicked.connect(self.open_preview)
@@ -39,11 +29,14 @@ class ConfigFile(QMainWindow):
         self.create_components()
 
     def create_components(self):
+        self.setWindowTitle(f"Config {Context.data_source['type']} data source")
+
+        # Setup and display connection string
         if Context.data_source["connection string"] != "":
             self.uic.connectionLabel.setText(Context.data_source["connection string"])
         else:
             data_source_type = Context.data_source['type']
-            if data_source_type in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON, SourceType.EXCEL]:
+            if data_source_type in SourceType.FILE:
                 hint = f"Path to destination {data_source_type} file"
             elif data_source_type == SourceType.MySQL:
                 hint = "host=localhost; user=root; password=1234; database=testdb; table_name=test_table"
@@ -52,9 +45,8 @@ class ConfigFile(QMainWindow):
             else:
                 raise Exception("Invalid destination type " + data_source_type)
             self.uic.connectionLabel.setText(hint)
-        self.setWindowTitle(f"Config {Context.data_source['type']} data source")
-        self.load_schema_to_des_table()
-        # Create source components
+
+        # Load source table
         rowcount = len(Context.data_source['schema'])
         self.uic.tableSourceWidget.setRowCount(rowcount)
         schema = Context.data_source['schema']
@@ -67,8 +59,17 @@ class ConfigFile(QMainWindow):
             self.uic.tableSourceWidget.setItem(i, 0, item)
             self.uic.tableSourceWidget.setCellWidget(i, 1, cbx)
 
-        # TODO: create dest components
-
+        # Load dest table
+        self.uic.tableDestWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        for column_key, type in Context.project["destination schema"].items():
+            rowcount = self.uic.tableDestWidget.rowCount()
+            self.uic.tableDestWidget.setRowCount(rowcount + 1)
+            item = QTableWidgetItem()
+            item.setText(column_key)
+            data_type = QTableWidgetItem()
+            data_type.setText(type)
+            self.uic.tableDestWidget.setItem(rowcount, 0, item)
+            self.uic.tableDestWidget.setItem(rowcount, 1, data_type)
 
     def remove(self):
         '''
@@ -86,17 +87,12 @@ class ConfigFile(QMainWindow):
             s_col_dtype = self.uic.tableSourceWidget.cellWidget(i, 1).currentText()
             d_col_name = self.uic.tableDestWidget.item(i, 0).text()
             d_col_dtype = self.uic.tableDestWidget.item(i, 1).text()
-            print(d_col_name)
-            print(d_col_dtype)
             if s_col_dtype != d_col_dtype:
                 return False, "Data type cannot mapping from column " + s_col_name + " to column " + d_col_name
             mapping_dict[s_col_name]=d_col_name
         return True, mapping_dict
 
     def ok_btn_clicked(self):
-        if not self.check_connection():
-            QErrorMessage(self).showMessage("Load file fail")
-            return
         can_map, data_map = self.mapping_schemas()
         if not can_map:
             QErrorMessage(self).showMessage(data_map)
@@ -124,36 +120,28 @@ class ConfigFile(QMainWindow):
             self.uic.connectionLabel.setText(path)
 
     def load_source_file(self):
-        msg = QMessageBox(self)
-        msg.setWindowTitle("Info")
         path = self.uic.connectionLabel.text()
-        if self.check_connection():
-            if Context.data_source['type'] in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON]:
-                file_to_load = [
-                    [SourceType.TXT, 'txt', EngineCsv(self.uic.connectionLabel.text(),  delimiter="\t")],
-                    [SourceType.JSON, 'json', EngineJson(self.uic.connectionLabel.text())],
-                    [SourceType.CSV, 'csv', EngineCsv(self.uic.connectionLabel.text())],
-                    [SourceType.XML, 'xml', EngineXml(self.uic.connectionLabel.text())],
-                ]
-                for file in file_to_load:
-                    if check_file_is_valid(file[0], file[1], path, msg, file[2]):
-                        engine = file[2]
-                        self.load_schema_to_source_table(engine)
-            elif Context.data_source['type'] ==  SourceType.EXCEL:
+        input_src_type = Context.data_source['type']
+        try:
+            if input_src_type == SourceType.TXT:
+                engine = EngineCsv(self.uic.connectionLabel.text(),  delimiter="\t")
+            elif input_src_type == SourceType.CSV:
+                engine = EngineCsv(self.uic.connectionLabel.text())
+            elif input_src_type == SourceType.XML:
+                engine = EngineXml(self.uic.connectionLabel.text())
+            elif input_src_type == SourceType.JSON:
+                engine = EngineJson(self.uic.connectionLabel.text())
+            elif input_src_type ==  SourceType.EXCEL:
                 engine = EngineCsv(self.uic.connectionLabel.text(), delimiter="," , type_file=SourceType.EXCEL)
-                self.load_schema_to_source_table(engine)
-            elif Context.data_source['type'] in [SourceType.MySQL, SourceType.MSSQL]:
-                host, user, password, database, table_name = get_mysql_connection(path)
-                engines = [
-                    EngineMysql(host, user, password, database, table_name),
-                    EngineMssql(host, user, password, database, table_name)
-                           ]
-                engine = engines[0] if Context.data_source['type'] == SourceType.MySQL else engines[1]
-                self.load_schema_to_source_table(engine)
-
-        else:
-            msg.setText("Load schema fail")
-        msg.show()
+            elif input_src_type == SourceType.MySQL:
+                host, user, password, database, table_name = get_db_connection(path)
+                engine = EngineMysql(host, user, password, database, table_name)
+            elif input_src_type == SourceType.MSSQL:
+                host, user, password, database, table_name = get_db_connection(path)
+                engine = EngineMssql(host, user, password, database, table_name)
+            self.load_schema_to_source_table(engine)
+        except Exception as e:
+            QErrorMessage(self).showMessage(f"Error when loading: {str(e)}")
 
     def load_schema_to_source_table(self, engine):
         keys = engine.extract_header()
@@ -178,61 +166,6 @@ class ConfigFile(QMainWindow):
     def open_preview(self):
         self.navigator.open_preview(Context.data_source['keys'], json.loads(Context.data_source['sample_datas']))
 
-    def load_schema_to_des_table(self):
-        self.uic.tableDestWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        for column_key, type in Context.project["destination schema"].items():
-            rowcount = self.uic.tableDestWidget.rowCount()
-            self.uic.tableDestWidget.setRowCount(rowcount + 1)
-            item = QTableWidgetItem()
-            item.setText(column_key)
-            data_type = QTableWidgetItem()
-            data_type.setText(type)
-            self.uic.tableDestWidget.setItem(rowcount, 0, item)
-            self.uic.tableDestWidget.setItem(rowcount, 1, data_type)
-
-    def check_connection(self):
-        if Context.data_source['type'] in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON,
-                                           SourceType.EXCEL]:
-            path = self.uic.connectionLabel.text()
-            if not os.path.exists(path):
-                return False
-            if re.match('.*\.(csv|txt|xml|json|xls|xlsx)', path):
-                return True
-        elif Context.data_source['type'] == SourceType.MySQL:
-            try:
-                conn_str = self.uic.connectionLabel.text()
-                host, user, password, database, table_name = get_mysql_connection(conn_str)
-                print(host,user,password)
-                try:
-                    con = mysql.connector.connect(host=host, user=user, password=password)
-                    con.disconnect()
-                    return True
-                except Exception as e:
-                    print(e)
-                    return False
-            except Exception as e:
-                print("Connection string invalid")
-                return False
-        elif Context.data_source['type'] == SourceType.MSSQL:
-            try:
-                conn_str = self.uic.connectionLabel.text()
-                host, user, password, database, table_name = conn_str.split(';')
-                host = host.split("=")[1].strip()
-                user = user.split("=")[1].strip()
-                database = database.split("=")[1].strip()
-                password = password.split("=")[1].strip()
-                try:
-                    con = pyodbc.connect(
-                        f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host};DATABASE={database};UID={user};PWD={password}")
-                    con.close()
-                    return True
-                except Exception as e:
-                    print(e)
-                    return False
-            except Exception as e:
-                print("Connection string invalid")
-                return False
-
     def move_down(self):
         row = self.uic.tableSourceWidget.currentRow()
         column = self.uic.tableSourceWidget.currentColumn();
@@ -252,15 +185,3 @@ class ConfigFile(QMainWindow):
             self.uic.tableSourceWidget.setCellWidget(row - 1, 1, self.uic.tableSourceWidget.cellWidget(row + 1, 1))
             self.uic.tableSourceWidget.setCurrentCell(row - 1, column)
             self.uic.tableSourceWidget.removeRow(row + 1)
-
-
-def check_file_is_valid(file_type, file_extension, path, msg, engine_type):
-    source_type = Context.data_source['type']
-    print(source_type)
-    print(file_type)
-    if source_type == file_type:
-        if not re.match(f'.*\.{file_extension}', path):
-            msg.setText(f"Not a {file_extension} file")
-            return False
-        else:
-            return True

@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import (QErrorMessage, QInputDialog, QMainWindow,
 from ui.workbench import Ui_Workbench
 from utils.constants import DataType, SourceType
 from utils.context import Context
-from utils.helpers import get_mysql_connection
+from utils.helpers import get_db_connection
 from utils.warehouse import dump_with_engine
 
 
@@ -104,7 +104,7 @@ class Workbench(QWidget):
                     "mapping_target": input_source["mapping"]
                 })
             elif input_source["type"] == SourceType.MySQL:
-                host, user, password, database, table_name = get_mysql_connection(input_source["connection string"])
+                host, user, password, database, table_name = get_db_connection(input_source["connection string"])
                 engine = EngineMysql(host,user,password,database,table_name ) 
                 lst.append({
                     "engine": engine,
@@ -118,15 +118,26 @@ class Workbench(QWidget):
         dlg.setIcon(QMessageBox.Question)
         button = dlg.exec()
 
+        check_duplicate = False
         if button == QMessageBox.Yes:
-            dump_with_engine(lst,Context.project["project name"],Context.project["destination type"], True)
-        else:
-            dump_with_engine(lst,Context.project["project name"],Context.project["destination type"], False)
+            check_duplicate = True
+
+        dump_with_engine(
+            lst,
+            Context.project["project name"],
+            Context.project["destination type"], 
+            check_duplicate, 
+            path_name=Context.project["connection string"])
 
         # setTimeout(self.end_process,2500)
 
         self.end_process()
-        QErrorMessage(self).showMessage("Success!")
+        if Context.project["destination type"] in SourceType.FILE:
+            QErrorMessage(self).showMessage(f"Write successfully to {Context.project['connection string']}")
+        else:
+            # TODO: only show database + table name instead of connection string
+            QErrorMessage(self).showMessage(f"Write successfully to {Context.project['connection string']}")
+
 
     def src_btn_clicked(self):
         idx = self.uic.verticalLayout.indexOf(self.sender())

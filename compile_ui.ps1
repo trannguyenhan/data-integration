@@ -1,7 +1,7 @@
 # Powershell script 
 # Compile .ui file into .py file
 
-$filenames = @("new_project", "project_management", "init_project", "workbench", "config_file")
+$filenames = @("new_project", "project_management", "init_project", "workbench", "config_file", "preview")
 
 foreach ($element in $filenames) {
     pyuic5 ui/designs/$element.ui -o ui/$element.py

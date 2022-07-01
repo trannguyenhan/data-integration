@@ -14,16 +14,14 @@ class EngineMssql(EngineInterface):
         super().__init__(None)
 
     def load_data_source(self):
-        self.db = pyodbc.connect(
-            'DRIVER={SQL Server Native Client 17.0},SERVER='
-                +self.hostName+';DATABASE='+self.database+';UID='+self.username+';PWD='+ self.password
-        )
+        con_str = f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={self.hostName};DATABASE={self.database};UID={self.username};PWD={self.password}"
+        self.db = pyodbc.connect(con_str)
     
     def extract_header(self):
         self.load_data_source()
 
         mcursor = self.db.cursor()
-        mcursor.execute("Select * from " + self.tableName + " limit 1")
+        mcursor.execute("Select top 1 * from " + self.tableName)
         resultSample = mcursor.fetchone()
 
         self.header = [i[0] for i in mcursor.description]

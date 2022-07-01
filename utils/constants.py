@@ -19,3 +19,5 @@ class SourceType:
     MSSQL = "MS SQL Server"
 
     ALL = [XML, TXT, JSON, EXCEL, CSV, MySQL, MSSQL]
+    FILE = [XML, TXT, JSON, EXCEL, CSV]
+    DATABASE = [MySQL, MSSQL]

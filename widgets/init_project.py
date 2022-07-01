@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox, QTableWidgetItem, QWidget
 from ui.init_project import Ui_InitProject
 from utils.constants import DataType, SourceType
 from utils.context import Context
-from utils.helpers import get_mysql_connection
+from utils.helpers import check_connection, get_db_connection
 
 
 class InitProject(QWidget):
@@ -20,7 +20,7 @@ class InitProject(QWidget):
         self.project = project
         self.uic = Ui_InitProject()
         self.uic.setupUi(self)
-        self.uic.testBtn.clicked.connect(self.test_connection)
+        self.uic.testBtn.clicked.connect(self.test_clicked)
         self.uic.addBtn.clicked.connect(self.add)
         self.uic.removeBtn.clicked.connect(self.remove)
         self.uic.nextBtn.clicked.connect(self.next)
@@ -36,7 +36,7 @@ class InitProject(QWidget):
             elif dest_type == SourceType.MySQL:
                 hint = "host=localhost; user=root; password=1234; database=testdb; table_name=test_table"
             elif dest_type == SourceType.MSSQL:
-                hint = "SERVER=localhost;DATABASE=testdb;UID=sa;PWD=1234"
+                hint = "host=localhost; user=sa; password=1234; database=testdb; table_name=test_table"
             else:
                 raise Exception("Invalid destination type " + dest_type)
             self.uic.connectionLabel.setText(hint)
@@ -115,55 +115,14 @@ class InitProject(QWidget):
         return is_schema_changed
 
 
-    def test_connection(self):
+    def test_clicked(self):
         msg = QMessageBox(self)
         msg.setWindowTitle("Info")
-        if self.check_connection():
-            msg.setText("Test ok")
-        else:
-            msg.setText("Test fail")
-        msg.show()
-
-    def check_connection(self):
         dest_type = self.project['destination type']
-        if dest_type in [SourceType.TXT, SourceType.CSV, SourceType.XML, SourceType.JSON, SourceType.EXCEL]:
-            path = self.uic.connectionLabel.text()
-            if not os.path.exists(path):
-                return False
-            if re.match('.*\.(csv|txt|xml|json|xls|xlsx)', path):
-                return True
-        elif dest_type == SourceType.MySQL:
-            try:
-                conn_str = self.uic.connectionLabel.text()
-                host, user, password, database, table_name = get_mysql_connection(conn_str)
-                try:
-                    con = mysql.connector.connect(host=host, user=user, password=password)
-                    con.disconnect()
-                    return True
-                except Exception as e:
-                    print(e)
-                    return False
-            except Exception as e:
-                print("Connection string invalid")
-                return False
-        elif dest_type == SourceType.MSSQL:
-            try:
-                conn_str = self.uic.connectionLabel.text()
-                host, database, user, password = conn_str.split(';')
-                host = host.split("=")[1].strip()
-                user = user.split("=")[1].strip()
-                database = database.split("=")[1].strip()
-                password = password.split("=")[1].strip()
-                try:
-                    con = pyodbc.connect(f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host};DATABASE={database};UID={user};PWD={password}")
-                    con.close()
-                    return True
-                except Exception as e:
-                    print(e)
-                    return False
-            except Exception as e:
-                print("Connection string invalid")
-                return False
+        check, message = check_connection(dest_type, self.uic.connectionLabel.text())
+        msg.setText(message)
+        msg.show()
+        
 
     def browse(self):
         filename = QFileDialog.getOpenFileName()
@@ -172,7 +131,6 @@ class InitProject(QWidget):
             self.uic.connectionLabel.setText(path)
 
     def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
-        # self.navigator.open_project_management_window()
         return super().closeEvent(a0)
 
     def showError(self, str):

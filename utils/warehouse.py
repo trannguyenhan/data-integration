@@ -53,3 +53,5 @@ def dump_with_engine(lst, proj_name, dest_type, deduplicate, path_name = None, \
         EngineMongodb.to_json(proj_name, schema_dest, path_name)
     elif dest_type == SourceType.MySQL: 
         EngineMongodb.to_mysql(proj_name, schema_dest, host, username, password, database, tableName)
+    else:
+        raise Exception(f"Dest type {dest_type} not supported yet")

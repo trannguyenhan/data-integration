@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'preview.ui'
+# Form implementation generated from reading ui file 'ui/designs/preview.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.1
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_Preview(object):
     def setupUi(self, Preview):
@@ -91,12 +89,3 @@ class Ui_Preview(object):
         item.setText(_translate("Preview", "Column5"))
         self.okButton.setText(_translate("Preview", "OK"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Preview = QtWidgets.QWidget()
-    ui = Ui_Preview()
-    ui.setupUi(Preview)
-    Preview.show()
-    sys.exit(app.exec_())
