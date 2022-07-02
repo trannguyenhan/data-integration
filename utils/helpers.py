@@ -3,7 +3,9 @@ import os
 import re
 import mysql
 import pyodbc
-
+from dateutil.parser import parse
+import itertools
+import operator
 
 def fill_none_value_header(header):
     cnt = 1
@@ -48,6 +50,39 @@ def standardization_data_type(data_type):
         return DataType.DATE
     return DataType.STR
 
+def pre_convert(params):
+    if type(params) == str: 
+        if params.isdigit(): 
+            return int(params)
+
+        if re.search("\d+\.\d+", params): 
+            return float(params)
+        
+        try: 
+            date_str = parse(params, fuzzy=True)
+            return date_str
+        except: 
+            return params
+
+# get most element is frequent in list
+def most_common(L):
+  # get an iterable of (item, iterable) pairs
+  SL = sorted((x, i) for i, x in enumerate(L))
+  
+  groups = itertools.groupby(SL, key=operator.itemgetter(0))
+  # auxiliary function to get "quality" for an item
+  
+  def _auxfun(g):
+    item, iterable = g
+    count = 0
+    min_index = len(L)
+    for _, where in iterable:
+      count += 1
+      min_index = min(min_index, where)
+    return count, -min_index
+  
+  # pick the highest-count/earliest item
+  return max(groups, key=_auxfun)[0]
 
 def check_connection(source_type, connection_string):
     '''

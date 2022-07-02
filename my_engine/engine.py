@@ -1,4 +1,4 @@
-from utils.helpers import fill_none_value_header, standardization_data_type
+from utils.helpers import fill_none_value_header, standardization_data_type, pre_convert, most_common
 
 class EngineInterface():
     SIZE_SAMPLE_DATA = 10
@@ -36,3 +36,28 @@ class EngineInterface():
             schema[k] = standardization_data_type(type(v).__name__)
 
         return schema
+    
+    def get_sample_data(self):
+        self.extract_header()
+        return [self.data_sample]
+
+    def extract_schema_v2(self):
+        data = self.get_sample_data()
+        
+        schema = {}
+        for item in data: 
+            for k in item: 
+                v = item[k]
+                if k not in schema: 
+                    schema[k] = []
+                else: 
+                    vtemp = pre_convert(v)
+                    schema[k].append(standardization_data_type(type(vtemp).__name__))
+
+        newSchema = {}
+        for item in schema: 
+            value = schema[item]
+            newValue = most_common(value)
+            newSchema[item] = newValue
+        
+        return newSchema

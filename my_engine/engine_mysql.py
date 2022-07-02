@@ -31,7 +31,8 @@ class EngineMysql(EngineInterface):
         self.header = [i[0] for i in mcursor.description]
         cnt = 0
         for field_name in self.header: 
-            self.data_sample[field_name] = resultSample[cnt]
+            if resultSample != None:
+                self.data_sample[field_name] = resultSample[cnt]
             cnt += 1
 
         mcursor.close()
@@ -50,6 +51,9 @@ class EngineMysql(EngineInterface):
             mcursor = self.db.cursor()
             mcursor.execute("Select * from " + self.tableName)
             fetchResult = mcursor.fetchall()
+            
+            if(fetchResult == None):
+                return []
 
             cnt = 0
             for item in fetchResult: 

@@ -6,7 +6,7 @@ from utils.warehouse import dump_with_engine
 from utils.constants import SourceType
 
 # engine = engine_csv.EngineCsv("/home/trannguyenhan/dataset/ign.csv")
-# engine = engine_csv.EngineCsv("/home/trannguyenhan/Downloads/yelp_data_1.csv", delimiter="\t") #flat file
+# engine = engine_csv.EngineCsv("samples/english/students in Dominican University.txt", delimiter="\t") #flat file
 # engine = engine_csv.EngineCsv(
 #         "/home/trannguyenhan/Downloads/danh_sach_survey_1046_20220621160436.xlsx", 
 #         delimiter=",", 
@@ -14,7 +14,7 @@ from utils.constants import SourceType
 #     ) #excel file
 # engine.dump_data_to_warehouse(
 #     {'number': 'number_t', 'score_phrase': 'score_phrase_t', 'title': 'title_t', 'url': 'url_t'}, "proj2")
-# print(engine.get_sample_data())
+# print(engine.extract_schema_v2())
 
 # engine = engine_json.EngineJson("/home/trannguyenhan/dataset/alonhadat/house_price_prediction.json")
 # result = engine.dump_data_to_warehouse(
@@ -26,14 +26,14 @@ from utils.constants import SourceType
 
 # print(schema)
 
-# engine = engine_mysql.EngineMysql("localhost", "root", "mysql12345", "foodapi", "orders")
+engine = engine_mysql.EngineMysql("localhost", "root", "mysql12345", "foodapi", "orders")
 # engine.dump_data_to_warehouse(
 #     {'id': 'sid', 'user_id': 'userId', 'food_id': 'foodId'}, "proj4")
 # schema = engine.extract_schema()
 # print(schema)
 # engine.extract_header()
 # print(engine.header)
-# print(engine.get_sample_data())
+print(engine.get_sample_data())
 
 
 # engine = engine.engine_mssql.EngineMssql("localhost", "sa", "Helloworld123", "test_database", "users")
