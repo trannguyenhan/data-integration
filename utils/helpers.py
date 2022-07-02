@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from utils.constants import DataType, SourceType
 import os
 import re
@@ -55,7 +56,7 @@ def pre_convert(params):
         if params.isdigit(): 
             return int(params)
 
-        if re.search("\d+\.\d+", params): 
+        if re.search("^\d+\.\d+", params): 
             return float(params)
         
         try: 
@@ -63,6 +64,16 @@ def pre_convert(params):
             return date_str
         except: 
             return params
+    
+    # if not string: float, int, boolean
+    return params
+
+def after_convert(params):
+    params = pre_convert(params)
+    
+    if type(params) == datetime: 
+        params = params.strftime("%Y-%m-%d")
+    
     return params
 
 # get most element is frequent in list

@@ -1,6 +1,7 @@
 import utils.warehouse
 from . import EngineInterface
 import mysql.connector
+import utils.helpers
 
 class EngineMysql(EngineInterface): 
     def __init__(self, host_name, username, password, database, table_name):
@@ -96,7 +97,7 @@ class EngineMysql(EngineInterface):
                 for v in item: 
                     k = self.header[cnt]
                     if k in mapping_target: 
-                        resultItem[mapping_target[k]] = v
+                        resultItem[mapping_target[k]] = utils.helpers.after_convert(v)
                     cnt += 1
 
                 result.append(resultItem)

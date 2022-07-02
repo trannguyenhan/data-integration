@@ -1,6 +1,7 @@
 from my_engine.engine_mongodb import EngineMongodb
 
 from utils.constants import SourceType
+from utils.helpers import get_db_connection
 
 
 # dump data to warehouse
@@ -26,8 +27,7 @@ def delete(proj_name):
         }
     proj_name: proj5
 '''
-def dump_with_engine(lst, proj_name, dest_type, deduplicate, path_name = None, \
-                        host = None, username = None, password = None, database = None, tableName = None):
+def dump_with_engine(lst, proj_name, dest_type, deduplicate, conn_string):
     schema_dest = []
 
     cnt = 0
@@ -46,12 +46,13 @@ def dump_with_engine(lst, proj_name, dest_type, deduplicate, path_name = None, \
         EngineMongodb.remove_duplicate(proj_name)
 
     if dest_type == SourceType.XML: 
-        EngineMongodb.to_xml(proj_name, schema_dest, path_name)
+        EngineMongodb.to_xml(proj_name, schema_dest, conn_string)
     elif dest_type == SourceType.CSV: 
-        EngineMongodb.to_csv(proj_name, schema_dest, path_name)
+        EngineMongodb.to_csv(proj_name, schema_dest, conn_string)
     elif dest_type == SourceType.JSON: 
-        EngineMongodb.to_json(proj_name, schema_dest, path_name)
+        EngineMongodb.to_json(proj_name, schema_dest, conn_string)
     elif dest_type == SourceType.MySQL: 
+        host, username, password, database, tableName = get_db_connection(conn_string)
         EngineMongodb.to_mysql(proj_name, schema_dest, host, username, password, database, tableName)
     else:
         raise Exception(f"Dest type {dest_type} not supported yet")

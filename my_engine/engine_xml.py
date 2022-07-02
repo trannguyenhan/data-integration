@@ -1,6 +1,7 @@
 from . import EngineInterface
 import xml.etree.ElementTree as ET
 import utils.warehouse
+import utils.helpers
 
 class EngineXml(EngineInterface): 
 
@@ -74,7 +75,7 @@ class EngineXml(EngineInterface):
                     tag = element.tag
                     value = element.text
                     if tag in mapping_target:
-                        resultItem[mapping_target[tag]] = value
+                        resultItem[mapping_target[tag]] = utils.helpers.after_convert(value)
                     cnt += 1
 
                 result.append(resultItem)

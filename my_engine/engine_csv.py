@@ -4,6 +4,7 @@ from . import EngineInterface
 import utils.warehouse
 from utils.constants import SourceType
 import pandas as pd
+import utils.helpers
 
 class EngineCsv(EngineInterface): 
     def __init__(self, path_file, delimiter = ",", type_file = SourceType.CSV):
@@ -107,7 +108,7 @@ class EngineCsv(EngineInterface):
                     k = self.header[i]    # get key from header
                     if k in mapping_target: # check header in header mapping
                         v = line[i]             # get value from each line csv reader
-                        resultItem[mapping_target[k]] = v
+                        resultItem[mapping_target[k]] = utils.helpers.after_convert(v)
 
                 result.append(resultItem)
                 line = next(reader, None)

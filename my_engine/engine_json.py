@@ -1,6 +1,7 @@
 from . import EngineInterface
 import json
 import utils.warehouse
+import utils.helpers
 
 class EngineJson(EngineInterface):
     def extract_header(self):
@@ -67,7 +68,7 @@ class EngineJson(EngineInterface):
                 # replace new key -> header_target[i]
                 for k in item:
                     if k in mapping_target:  # check header in header mapping
-                        resultItem[mapping_target[k]] = item[k]
+                        resultItem[mapping_target[k]] = utils.helpers.after_convert(item[k])
                     # only map header in mapping target and dump it to mongodb
 
                 result.append(resultItem)

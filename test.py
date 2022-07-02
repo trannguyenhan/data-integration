@@ -26,9 +26,9 @@ from utils.constants import SourceType
 
 # print(schema)
 
-engine = engine_mysql.EngineMysql("localhost", "root", "mysql12345", "samar_web", "products")
-engine.dump_data_to_warehouse(
-    {'id': 'sid', 'user_id': 'userId', 'food_id': 'foodId', 'created_at': "date"}, "mt")
+# engine = engine_mysql.EngineMysql("localhost", "root", "mysql12345", "samar_web", "products")
+# engine.dump_data_to_warehouse(
+#     {'id': 'sid', 'user_id': 'userId', 'food_id': 'foodId', 'created_at': "date"}, "mt")
 # schema = engine.extract_schema()
 # print(schema)
 # engine.extract_header()
@@ -60,28 +60,28 @@ engine.dump_data_to_warehouse(
 
 # my_engine.engine_mongodb.EngineMongodb.to_xml("proj5", ["RANK", "YEAR"])
 
-# engineCsv = engine_csv.EngineCsv("/home/trannguyenhan/dataset/ign.csv")
-# engineMySql = engine_mysql.EngineMysql("localhost", "root", "mysql12345", "foodapi", "orders")
-# engineXml = engine_xml.EngineXml("/home/trannguyenhan/CodeFolder/tmp/test.xml")
-# engineJson = engine_json.EngineJson("/home/trannguyenhan/dataset/alonhadat/house_price_prediction.json")
+engineCsv = engine_csv.EngineCsv("/home/trannguyenhan/dataset/ign.csv")
+engineMySql = engine_mysql.EngineMysql("localhost", "root", "mysql12345", "foodapi", "orders")
+engineXml = engine_xml.EngineXml("/home/trannguyenhan/CodeFolder/tmp/test.xml")
+engineJson = engine_json.EngineJson("/home/trannguyenhan/dataset/alonhadat/house_price_prediction.json")
 
-# dump_with_engine([
-#     {
-#         "engine": engineCsv,
-#         "mapping_target": {'number': 'column1', 'score_phrase': 'column2'}
-#     },
-#     {
-#         "engine": engineMySql,
-#         "mapping_target": {'id': 'column1', 'user_id': 'column2'}
-#     },
-#     {
-#         "engine": engineXml,
-#         "mapping_target": {'rank': 'column1', 'year': 'column2'}
-#     },
-#     {
-#         "engine": engineJson,
-#         "mapping_target": {'type': 'column1', 'bedroom_number': 'column2'}
-#     }
-# ], "proj7", SourceType.CSV, None, "/home/trannguyenhan/test.csv", "localhost", "root", "mysql12345", "laravel", "temp")
+dump_with_engine([
+    {
+        "engine": engineCsv,
+        "mapping_target": {'number': 'column1', 'score_phrase': 'column2'}
+    },
+    {
+        "engine": engineMySql,
+        "mapping_target": {'id': 'column1', 'user_id': 'column2'}
+    },
+    {
+        "engine": engineXml,
+        "mapping_target": {'rank': 'column1', 'year': 'column2'}
+    },
+    {
+        "engine": engineJson,
+        "mapping_target": {'type': 'column1', 'bedroom_number': 'column2'}
+    }
+], "proj7", SourceType.CSV, None, "/home/trannguyenhan/test.csv")
 
 # EngineMongodb.to_mysql("proj7", ["column1", "column2"], "localhost", "root", "mysql12345", "laravel", "temp")
