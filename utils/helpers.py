@@ -59,7 +59,7 @@ def pre_convert(params):
             return float(params)
         
         try: 
-            date_str = parse(params, fuzzy=True)
+            date_str = parse(params, fuzzy=False)
             return date_str
         except: 
             return params
