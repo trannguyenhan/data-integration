@@ -63,6 +63,7 @@ def pre_convert(params):
             return date_str
         except: 
             return params
+    return params
 
 # get most element is frequent in list
 def most_common(L):

@@ -26,14 +26,14 @@ from utils.constants import SourceType
 
 # print(schema)
 
-engine = engine_mysql.EngineMysql("localhost", "root", "mysql12345", "foodapi", "orders")
-# engine.dump_data_to_warehouse(
-#     {'id': 'sid', 'user_id': 'userId', 'food_id': 'foodId'}, "proj4")
+engine = engine_mysql.EngineMysql("localhost", "root", "mysql12345", "samar_web", "products")
+engine.dump_data_to_warehouse(
+    {'id': 'sid', 'user_id': 'userId', 'food_id': 'foodId', 'created_at': "date"}, "mt")
 # schema = engine.extract_schema()
 # print(schema)
 # engine.extract_header()
 # print(engine.header)
-print(engine.get_sample_data())
+# print(engine.get_sample_data())
 
 
 # engine = engine.engine_mssql.EngineMssql("localhost", "sa", "Helloworld123", "test_database", "users")
