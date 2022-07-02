@@ -1,4 +1,5 @@
 import json
+
 from database import datasource_dao
 from my_engine import (EngineCsv, EngineJson, EngineMssql, EngineMysql,
                        EngineXml)
@@ -9,7 +10,7 @@ from sqlalchemy import true
 from ui.config_file import Ui_ConfigFile
 from utils.constants import DataType, SourceType
 from utils.context import Context
-from utils.helpers import get_db_connection, check_connection
+from utils.helpers import check_connection, get_db_connection
 
 
 class ConfigFile(QMainWindow):
@@ -122,6 +123,10 @@ class ConfigFile(QMainWindow):
     def load_source_file(self):
         path = self.uic.connectionLabel.text()
         input_src_type = Context.data_source['type']
+        check, message = check_connection(input_src_type,path)
+        if not check:
+            QErrorMessage(self).showMessage(message)
+            return
         try:
             if input_src_type == SourceType.TXT:
                 engine = EngineCsv(self.uic.connectionLabel.text(),  delimiter="\t")
@@ -148,7 +153,7 @@ class ConfigFile(QMainWindow):
         Context.data_source['keys'] = keys[:]
         sample_datas = engine.get_sample_data()
         Context.data_source['sample_datas'] = json.dumps(sample_datas,default=str) 
-        datas = engine.extract_schema()
+        datas = engine.extract_schema_v2()
         while self.uic.tableSourceWidget.rowCount() > 0:
             self.uic.tableSourceWidget.removeRow(0)
         row = 0

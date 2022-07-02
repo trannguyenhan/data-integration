@@ -127,7 +127,7 @@ class Workbench(QWidget):
             Context.project["project name"],
             Context.project["destination type"], 
             check_duplicate, 
-            path_name=Context.project["connection string"])
+            conn_string=Context.project["connection string"])
 
         # setTimeout(self.end_process,2500)
 

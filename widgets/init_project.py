@@ -71,10 +71,12 @@ class InitProject(QWidget):
     
     def next(self):
         go_to_workbench = False
+        dest_type = self.project['destination type']
+        check, message = check_connection(dest_type, self.uic.connectionLabel.text())
         if not self.project["is initialized"]:
             go_to_workbench = True
-        if not self.check_connection():
-            self.showError("Failed to connect to destination")
+        if not check:
+            self.showError(message)
             return
         if self.uic.tableWidget.rowCount() == 0:
             self.showError("Columns list cannot be empty")
