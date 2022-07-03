@@ -1,4 +1,4 @@
-item_id,item_url,item_brand_name,item_price,item_tikinow,item_discount_rate,item_rating_average,item_review_count,item_quantity
+item_id,item_url,brand_name,item_price,item_tikinow,item_discount_rate,item_rating_average,item_review_count,item_quantity
 51354076,router-wi-fi-bang-tan-kep-gigabit-ac1200-totolink-a3002ru-v2-hang-chinh-hang-p51354076.html?spid=51354077,TOTOLINK,900000,false,0,4.8,5,0
 56105692,man-chieu-treo-tuong-100-inch-70x70-1-78mx1-78m-p70ws-dalite-p56105692.html?spid=59411829,Dalite,529000,false,4,5,11,0
 79267421,o-cu-ng-ssd-samsung-980-pro-pcie-gen-4-0-x4-nvme-v-nand-m-2-2280-500gb-ha-ng-nha-p-kha-u-p79267421.html?spid=79267422,Samsung,2490000,true,0,5,6,7

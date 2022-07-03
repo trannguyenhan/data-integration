@@ -1,4 +1,4 @@
- item_id	item_url	item_brand_name	item_price	item_tikinow	item_discount_rate	item_rating_average	item_review_count	item_quantity
+ item_id	item_url	item_brand_name	total_price	item_tikinow	discount_rate	item_rating_average	item_review_count	product_quantity
 708026	bo-phat-wifi-tp-link-archer-c50-bang-tan-kep-ac1200-hang-chinh-hang-p708026.html?spid=710679	TP-Link	514000	true	20	4.5	668	34
 50608552	man-hinh-may-tinh-lg-22mn430-22-full-hd-1920x1080-5ms-75hz-ips-freesync-hang-chinh-hang-p50608552.html?spid=95218594	LG	2980000	false	0	5	10	0
 171869909	day-mang-bam-san-chuan-cat7-kingmaster-hang-chinh-hang-p171869909.html?spid=171869911	Kingmaster	90000	true	0	5	7	4

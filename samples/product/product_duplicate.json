@@ -1,6 +1,6 @@
 [
   {
-    "item_id": 74573141,
+    "id": 74573141,
     "item_url": "bo-phat-wifi-tp-link-archer-ax10-wifi-6-1500mbps-hang-chinh-hang-p74573141.html?spid=74573142",
     "item_brand_name": "TP-Link",
     "item_price": 1349000,
@@ -11,7 +11,7 @@
     "item_quantity": 102
   },
   {
-    "item_id": 38323087,
+    "id": 38323087,
     "item_url": "o-cung-di-dong-wd-my-passport-model-2019-hang-nhap-khau-p38323087.html?spid=53442379",
     "item_brand_name": "WD",
     "item_price": 1400000,
@@ -22,7 +22,7 @@
     "item_quantity": 14
   },
   {
-    "item_id": 134561311,
+    "id": 134561311,
     "item_url": "usb-3-0-sandisk-ultra-flair-cz73-64gb-hang-nhap-khau-p134561311.html?spid=973916",
     "item_brand_name": "SanDisk",
     "item_price": 135000,
@@ -33,7 +33,7 @@
     "item_quantity": 56
   },
   {
-    "item_id": 138481685,
+    "id": 138481685,
     "item_url": "phan-mem-microsoft-365-family-english-apac-em-subscr-1yr-medialess-p8-6gq-01555-hang-chinh-hang-p138481685.html?spid=138481687",
     "item_brand_name": "Microsoft",
     "item_price": 1380000,
@@ -44,7 +44,7 @@
     "item_quantity": 112
   },
   {
-    "item_id": 176059702,
+    "id": 176059702,
     "item_url": "laptop-hp-pavilion-14-46l92pa-i3-1125g4-4g-256g-ssd-14-fhd-wl-bt-windows-11-silver-p176059702.html?spid=176059703",
     "item_brand_name": "HP",
     "item_price": 13990000,
@@ -55,7 +55,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 76181490,
+    "id": 76181490,
     "item_url": "phan-mem-diet-virus-bkav-profressional-1-pc-12-thang-hang-chinh-hang-p76181490.html?spid=3054371",
     "item_brand_name": "Bkav",
     "item_price": 205000,
@@ -66,7 +66,7 @@
     "item_quantity": 133
   },
   {
-    "item_id": 51354076,
+    "id": 51354076,
     "item_url": "router-wi-fi-bang-tan-kep-gigabit-ac1200-totolink-a3002ru-v2-hang-chinh-hang-p51354076.html?spid=51354077",
     "item_brand_name": "TOTOLINK",
     "item_price": 900000,
@@ -77,7 +77,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 56105692,
+    "id": 56105692,
     "item_url": "man-chieu-treo-tuong-100-inch-70x70-1-78mx1-78m-p70ws-dalite-p56105692.html?spid=59411829",
     "item_brand_name": "Dalite",
     "item_price": 529000,
@@ -88,7 +88,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 79267421,
+    "id": 79267421,
     "item_url": "o-cu-ng-ssd-samsung-980-pro-pcie-gen-4-0-x4-nvme-v-nand-m-2-2280-500gb-ha-ng-nha-p-kha-u-p79267421.html?spid=79267422",
     "item_brand_name": "Samsung",
     "item_price": 2490000,
@@ -99,7 +99,7 @@
     "item_quantity": 7
   },
   {
-    "item_id": 51354076,
+    "id": 51354076,
     "item_url": "router-wi-fi-bang-tan-kep-gigabit-ac1200-totolink-a3002ru-v2-hang-chinh-hang-p51354076.html?spid=51354077",
     "item_brand_name": "TOTOLINK",
     "item_price": 900000,
@@ -110,7 +110,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 56105692,
+    "id": 56105692,
     "item_url": "man-chieu-treo-tuong-100-inch-70x70-1-78mx1-78m-p70ws-dalite-p56105692.html?spid=59411829",
     "item_brand_name": "Dalite",
     "item_price": 529000,
@@ -121,7 +121,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 79267421,
+    "id": 79267421,
     "item_url": "o-cu-ng-ssd-samsung-980-pro-pcie-gen-4-0-x4-nvme-v-nand-m-2-2280-500gb-ha-ng-nha-p-kha-u-p79267421.html?spid=79267422",
     "item_brand_name": "Samsung",
     "item_price": 2490000,
@@ -132,7 +132,7 @@
     "item_quantity": 7
   },
   {
-    "item_id": 68514241,
+    "id": 68514241,
     "item_url": "vi-tru-lanh-ledger-nano-s-chinh-hang-ledger-phap-nguyen-seal-moi-100-firmware-moi-nhat-p68514241.html?spid=76179985",
     "item_brand_name": "Ledger",
     "item_price": 1490000,
@@ -143,7 +143,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 107058325,
+    "id": 107058325,
     "item_url": "may-cham-cong-quet-van-tay-deli-mau-den-e3960-p107058325.html?spid=107058326",
     "item_brand_name": "Deli",
     "item_price": 799000,
@@ -154,7 +154,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 456500,
+    "id": 456500,
     "item_url": "tp-link-tl-sg1008d-switch-de-ban-8-cong-hang-chinh-hang-p456500.html?spid=993586",
     "item_brand_name": "TP-Link",
     "item_price": 499000,
@@ -165,7 +165,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 511960,
+    "id": 511960,
     "item_url": "bo-kich-song-wifi-repeater-300mbps-tp-link-tl-wa855re-hang-chinh-hang-p511960.html?spid=229132",
     "item_brand_name": "TP-Link",
     "item_price": 311000,
@@ -176,7 +176,7 @@
     "item_quantity": 27
   },
   {
-    "item_id": 124697966,
+    "id": 124697966,
     "item_url": "box-chuyen-ssd-m2-sata-sang-o-cung-di-dong-ssk-she-c320-chuan-usb-3-0-5gbps-m-2-hang-chinh-hang-bao-hanh-6-thang-p124697966.html?spid=171612091",
     "item_brand_name": null,
     "item_price": 320000,
@@ -187,7 +187,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 11864859,
+    "id": 11864859,
     "item_url": "may-chieu-mini-yg-300-smart-led-do-phan-giai-1920-1080-p11864859.html?spid=12527943",
     "item_brand_name": "OEM",
     "item_price": 784000,
@@ -198,7 +198,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 50230796,
+    "id": 50230796,
     "item_url": "o-cung-di-dong-samsung-portable-ssd-t7-touch-2tb-mu-pc2t0-hang-chinh-hang-p50230796.html?spid=50230798",
     "item_brand_name": "Samsung",
     "item_price": 9700000,
@@ -209,7 +209,7 @@
     "item_quantity": 48
   },
   {
-    "item_id": 10001351,
+    "id": 10001351,
     "item_url": "ram-laptop-samsung-8gb-ddr4-2400mhz-sodimm-hang-nhap-khau-p10001351.html?spid=11601782",
     "item_brand_name": "Samsung",
     "item_price": 750000,
@@ -220,7 +220,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 3831591,
+    "id": 3831591,
     "item_url": "o-cung-hdd-box-orico-usb3-0-2-5-2577u3-hang-chinh-hang-p3831591.html?spid=3831593",
     "item_brand_name": "Orico ",
     "item_price": 121000,
@@ -231,7 +231,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 70782229,
+    "id": 70782229,
     "item_url": "muc-do-rpt-da-nang-dung-cho-may-in-canon-2900-3300-3050-3100-121-151-251-hp-1010-1320-2015-2035-3055-1005-1102-1536-p70782229.html?spid=134464301",
     "item_brand_name": "OEM",
     "item_price": 25000,
@@ -242,7 +242,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 708026,
+    "id": 708026,
     "item_url": "bo-phat-wifi-tp-link-archer-c50-bang-tan-kep-ac1200-hang-chinh-hang-p708026.html?spid=710679",
     "item_brand_name": "TP-Link",
     "item_price": 514000,
@@ -253,7 +253,7 @@
     "item_quantity": 34
   },
   {
-    "item_id": 50608552,
+    "id": 50608552,
     "item_url": "man-hinh-may-tinh-lg-22mn430-22-full-hd-1920x1080-5ms-75hz-ips-freesync-hang-chinh-hang-p50608552.html?spid=95218594",
     "item_brand_name": "LG",
     "item_price": 2980000,
@@ -264,7 +264,7 @@
     "item_quantity": 0
   },
   {
-    "item_id": 171869909,
+    "id": 171869909,
     "item_url": "day-mang-bam-san-chuan-cat7-kingmaster-hang-chinh-hang-p171869909.html?spid=171869911",
     "item_brand_name": "Kingmaster",
     "item_price": 90000,
@@ -275,7 +275,7 @@
     "item_quantity": 4
   },
   {
-    "item_id": 754249,
+    "id": 754249,
     "item_url": "bo-kich-song-wifi-repeater-mercusys-mw300re-300mbps-hang-chinh-hang-p754249.html?spid=8704358",
     "item_brand_name": "Mercusys",
     "item_price": 183000,
@@ -286,7 +286,7 @@
     "item_quantity": 15
   },
   {
-    "item_id": 15356062,
+    "id": 15356062,
     "item_url": "hop-muc-in-05a-cho-may-in-hp-laserjet-p2035-p2055d-p2055x-p2035n-p15356062.html?spid=26090371",
     "item_brand_name": "OEM",
     "item_price": 155000,
