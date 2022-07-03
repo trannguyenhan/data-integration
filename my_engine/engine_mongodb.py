@@ -1,9 +1,10 @@
 import csv
+import datetime
 import json
 import xml.etree.ElementTree as ET
-import mysql.connector
-import datetime
 
+import mysql.connector
+import pandas as pd
 from pymongo import mongo_client
 from utils.deduplicate_mongo import find_duplicate
 
@@ -109,6 +110,8 @@ class EngineMongodb(EngineInterface):
         engine = EngineMongodb("localhost", "", "", "datawarehouse", project_name_dest)
         engine.load_data_source()
         list_ids_dup = find_duplicate(engine.db)
+        data_drop = pd.DataFrame(list(engine.db.find({"_id": {'$in': list_ids_dup}}))) 
+        data_drop.to_csv("data_drop.csv")
         result = engine.db.delete_many({"_id": {'$in': list_ids_dup}})
         print(result)
     
