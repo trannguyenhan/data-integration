@@ -2,6 +2,7 @@ import csv
 import json
 import xml.etree.ElementTree as ET
 import mysql.connector
+import datetime
 
 from pymongo import mongo_client
 from utils.deduplicate_mongo import find_duplicate
@@ -48,9 +49,18 @@ class EngineMongodb(EngineInterface):
 
         if isinstance(data, list): 
             # ex: [{"data": 1, "beta": 2}]
+            for record in data:
+                for key in record:
+                    if isinstance(record[key], datetime.date):
+                        record[key] = str(record[key])
+            
             engine.db.insert_many(data)
         else: 
             #ex: {"data": 1, "beta": 2}
+            record = data
+            for key in record:
+                    if isinstance(record[key], datetime.date):
+                        record[key] = str(record[key])
             engine.db.insert_one(data)
 
     @staticmethod
