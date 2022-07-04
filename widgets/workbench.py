@@ -12,7 +12,7 @@ from ui.workbench import Ui_Workbench
 from utils.constants import DataType, SourceType
 from utils.context import Context
 from utils.helpers import get_db_connection
-from utils.warehouse import dump_with_engine
+from utils.warehouse import delete, dump_with_engine
 
 
 def setTimeout(fn, ms, *args, **kwargs): 
@@ -132,12 +132,22 @@ class Workbench(QWidget):
         # setTimeout(self.end_process,2500)
 
         self.end_process()
+        msgBox = QMessageBox();
+        msgBox.setWindowTitle("Successfully!")
         if Context.project["destination type"] in SourceType.FILE:
-            QErrorMessage(self).showMessage(f"Write successfully to {Context.project['connection string']}")
+            QMessageBox.information(self,"Successfully!",f"Write successfully to {Context.project['connection string']}");
         else:
             # TODO: only show database + table name instead of connection string
-            QErrorMessage(self).showMessage(f"Write successfully to {Context.project['connection string']}")
-
+            _, _, _, database, table_name = get_db_connection(Context.project["connection string"])
+            QMessageBox.information(self, "Successfully!",f"Write successfully to:  \ndatabase: {database} \ntable: {table_name}")
+        msg2 = QMessageBox(self)
+        msg2.setWindowTitle("Delete!")
+        msg2.setText("Do you want to delete temporary data?")
+        msg2.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msg2.setIcon(QMessageBox.Question)
+        btn2 = msg2.exec()
+        if btn2 == QMessageBox.Yes:
+            delete(Context.project["project name"])
 
     def src_btn_clicked(self):
         idx = self.uic.verticalLayout.indexOf(self.sender())
