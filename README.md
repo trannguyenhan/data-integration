@@ -31,12 +31,6 @@ pip freeze > requirements.txt
 - MySQL
 - SQL Server
 
-### Công việc tuần tới
-- Anh Hoàng: support ae
-- Xuân Huy + E Hoàng: Tiếp tục phát triển Workbench, Config, tự liên lạc với nhau làm việc
-- Quang Huy: Tiếp tục phát triển các Engine
-- Deadline: 1 tuần (tối t3 tuần sau)
-
 ### Issue
 
 if fail when install `pyodbc` in ubuntu, install package with command: 
